@@ -44,9 +44,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which two purchasing models are available for Azure SQL Database? (Choose two.)",
-    o: ["DTU-based", "vCore-based", "Request unit (RU)-based", "Capacity unit (CU)-based"],
+    o: ["DTU-based", "vCore-based", "Request unit (RU)-based", "Capacity unit (CU)-based", "Per-user licensing"],
     a: [0, 1],
-    e: "Azure SQL Database offers the DTU model (a bundled measure of compute, storage and I/O) and the vCore model (choose cores, memory and storage independently, with options like Azure Hybrid Benefit). Request units are the throughput currency of Azure Cosmos DB, and capacity units are used by Microsoft Fabric."
+    e: "Azure SQL Database offers the DTU model (a bundled measure of compute, storage and I/O) and the vCore model (choose cores, memory and storage independently, with options like Azure Hybrid Benefit). Request units are the throughput currency of Azure Cosmos DB, and capacity units are used by Microsoft Fabric. Per-user licensing is used by products such as Power BI Pro, not Azure SQL Database."
   },
   {
     q: "Which statement about the vCore purchasing model for Azure SQL Database is correct?",
@@ -55,10 +55,10 @@ DP900.add(2, 'rel-', [
     e: "The vCore model lets you size compute (cores and memory) and storage separately, select hardware generation, and use Azure Hybrid Benefit for licence savings. The DTU model is the bundled measure."
   },
   {
-    q: "Which three statements describe PaaS database services such as Azure SQL Database? (Choose three.)",
-    o: ["Microsoft manages operating system patching", "Backups are performed automatically", "Built-in high availability is included", "You can log in to the host operating system with Remote Desktop"],
-    a: [0, 1, 2],
-    e: "With PaaS, the platform handles OS and engine patching, automated backups and built-in high availability. You do not have access to the host OS; that level of control requires IaaS (SQL Server on Azure VMs)."
+    q: "Which two statements describe PaaS database services such as Azure SQL Database? (Choose two.)",
+    o: ["Microsoft manages operating system patching", "Built-in high availability is included", "You can log in to the host operating system with Remote Desktop", "You must install SQL Server cumulative updates yourself", "You must configure the storage hardware RAID yourself"],
+    a: [0, 1],
+    e: "With PaaS, the platform handles OS and engine patching, automated backups and built-in high availability. You have no access to the host OS, you never install engine updates yourself, and you never configure hardware. That level of control requires IaaS (SQL Server on Azure VMs)."
   },
   {
     q: "Which Azure SQL option is best when an application depends on a specific older version of SQL Server or on third-party software that must be installed on the database server?",
@@ -68,9 +68,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which Azure services provide fully managed open-source relational database engines? (Choose two.)",
-    o: ["Azure Database for PostgreSQL", "Azure Database for MySQL", "Azure Cosmos DB for NoSQL", "Azure Table storage"],
+    o: ["Azure Database for PostgreSQL", "Azure Database for MySQL", "Azure Cosmos DB for NoSQL", "Azure Table storage", "Azure SQL Managed Instance"],
     a: [0, 1],
-    e: "Azure Database for PostgreSQL and Azure Database for MySQL (flexible server) are managed PaaS versions of these open-source relational engines. Cosmos DB for NoSQL and Table storage are non-relational services."
+    e: "Azure Database for PostgreSQL and Azure Database for MySQL (flexible server) are managed PaaS versions of these open-source relational engines. Cosmos DB for NoSQL and Table storage are non-relational services. Azure SQL Managed Instance is relational but runs Microsoft's SQL Server engine, which is not open source."
   },
   {
     q: "A company runs a PHP web application that uses a LAMP stack with a MySQL database. They want to move it to Azure with minimal code changes and no server management. Which database service should they use?",
@@ -164,9 +164,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which tools can you use to connect to Azure SQL Database and run T-SQL queries? (Choose two.)",
-    o: ["SQL Server Management Studio (SSMS)", "The query editor in the Azure portal", "Azure Storage Explorer", "Power Automate"],
+    o: ["SQL Server Management Studio (SSMS)", "The query editor in the Azure portal", "Azure Storage Explorer", "Power Automate", "AzCopy"],
     a: [0, 1],
-    e: "SSMS is the full-featured SQL Server management tool, and the Azure portal includes a browser-based query editor for quick queries. Visual Studio Code with the MSSQL extension and sqlcmd also work. Storage Explorer manages Azure Storage accounts, not SQL databases."
+    e: "SSMS is the full-featured SQL Server management tool, and the Azure portal includes a browser-based query editor for quick queries. Visual Studio Code with the MSSQL extension and sqlcmd also work. Storage Explorer manages Azure Storage accounts, not SQL databases. AzCopy copies files to and from Azure Storage and cannot run queries."
   },
   {
     q: "Which tool would a database administrator typically use to manage Azure SQL Managed Instance, including configuring SQL Server Agent jobs?",
@@ -290,9 +290,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO of the following are valid reasons to use Azure SQL Database elastic pools? (Choose two.)",
-    o: ["You host many databases with low average usage but occasional unpredictable spikes", "You want to manage cost across a set of databases by sharing resources", "You need a single database larger than 100 TB", "You need to install software on the database server"],
+    o: ["You host many databases with low average usage but occasional unpredictable spikes", "You want to manage cost across a set of databases by sharing resources", "You need a single database larger than 100 TB", "You need to install software on the database server", "You have a single database with constant, predictable high usage"],
     a: [0, 1],
-    e: "Elastic pools are ideal for many databases with varied usage, sharing resources to reduce total cost. Very large single databases fit Hyperscale, and installing software requires a VM."
+    e: "Elastic pools are ideal for many databases with varied usage, sharing resources to reduce total cost. Very large single databases fit Hyperscale, and installing software requires a VM. A single database with steady load gains nothing from sharing a pool."
   },
   {
     q: "Which is a typical use of Azure SQL Database read scale-out?",
@@ -308,9 +308,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO features are provided by Azure Database for PostgreSQL flexible server? (Choose two.)",
-    o: ["Automated backups with point-in-time restore", "Zone-redundant high availability", "SQL Server Agent jobs", "T-SQL compatibility"],
+    o: ["Automated backups with point-in-time restore", "Zone-redundant high availability", "SQL Server Agent jobs", "T-SQL compatibility", "Azure SQL Database elastic pools"],
     a: [0, 1],
-    e: "Azure Database for PostgreSQL flexible server includes automated backups, point-in-time restore and optional zone-redundant HA. SQL Server Agent and T-SQL belong to Microsoft SQL Server."
+    e: "Azure Database for PostgreSQL flexible server includes automated backups, point-in-time restore and optional zone-redundant HA. SQL Server Agent and T-SQL belong to Microsoft SQL Server. Elastic pools are an Azure SQL Database feature."
   },
   {
     q: "What is Azure SQL Edge?",
@@ -332,9 +332,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO tasks are the customer's responsibility when using Azure SQL Database? (Choose two.)",
-    o: ["Designing the schema and indexes", "Managing user access and permissions", "Patching the underlying operating system", "Replacing failed hardware"],
+    o: ["Designing the schema and indexes", "Managing user access and permissions", "Patching the underlying operating system", "Replacing failed hardware", "Upgrading the database engine to new versions"],
     a: [0, 1],
-    e: "Even in PaaS, customers own their data, schema, query design, indexing and access control. Microsoft handles OS patching, hardware and the underlying infrastructure."
+    e: "Even in PaaS, customers own their data, schema, query design, indexing and access control. Microsoft handles OS patching, hardware and the underlying infrastructure. Microsoft keeps the Azure SQL Database engine up to date, so there are no version upgrades for you to run."
   },
   {
     q: "Which statement about Azure SQL Database and SQL Server on-premises is correct?",
@@ -362,9 +362,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO scenarios are good candidates for Azure SQL Database serverless? (Choose two.)",
-    o: ["A development database used only during business hours", "A new application with unknown and intermittent usage", "A mission-critical database with constant high CPU usage 24/7", "A database that needs SQL Server Agent jobs"],
+    o: ["A development database used only during business hours", "A new application with unknown and intermittent usage", "A mission-critical database with constant high CPU usage 24/7", "A database that needs SQL Server Agent jobs", "A large data warehouse needing massively parallel processing across many nodes"],
     a: [0, 1],
-    e: "Serverless suits intermittent, unpredictable usage, because it auto-scales and auto-pauses when idle. Constant heavy workloads are cheaper on provisioned compute, and SQL Agent requires Managed Instance or a VM."
+    e: "Serverless suits intermittent, unpredictable usage, because it auto-scales and auto-pauses when idle. Constant heavy workloads are cheaper on provisioned compute, and SQL Agent requires Managed Instance or a VM. MPP data warehousing is the job of Fabric Warehouse or Synapse dedicated SQL pools."
   },
   {
     q: "Which is NOT a relational database service on Azure?",
@@ -410,9 +410,9 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO are benefits of PaaS relational databases over IaaS? (Choose two.)",
-    o: ["Lower administrative overhead", "Built-in high availability and automated backups", "Full control over the operating system", "Ability to choose any SQL Server version, including very old ones"],
+    o: ["Lower administrative overhead", "Built-in high availability and automated backups", "Full control over the operating system", "Ability to choose any SQL Server version, including very old ones", "Ability to install third-party agents on the database server"],
     a: [0, 1],
-    e: "PaaS reduces management effort and includes HA and backups by default. OS control and arbitrary versions are IaaS advantages."
+    e: "PaaS reduces management effort and includes HA and backups by default. OS control and arbitrary versions are IaaS advantages. Installing software on the server is only possible with IaaS."
   },
   {
     q: "Which tool can be used from a command line to run T-SQL scripts against Azure SQL Database?",
@@ -479,5 +479,86 @@ DP900.add(2, 'rel-', [
     o: ["Azure SQL Database", "SQL Server on Azure Virtual Machines", "Azure SQL Managed Instance", "Azure Arc-enabled SQL Server"],
     a: [0],
     e: "Azure SQL Database is the most fully managed option and is aimed at new cloud-native applications. Managed Instance is aimed at migrations needing instance-level compatibility, and VMs at workloads needing OS control."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure SQL Database lets you sign in to the host server's operating system.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Azure SQL Database is PaaS, and Microsoft manages the host operating system. If you need OS access, use SQL Server on Azure Virtual Machines."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure SQL Managed Instance supports SQL Server Agent jobs.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Managed Instance provides instance-level features, including SQL Server Agent, cross-database queries, Database Mail and linked servers. That is why it suits lift-and-shift migrations."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Database for PostgreSQL uses T-SQL as its query language.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Azure Database for PostgreSQL runs the open-source PostgreSQL engine and uses PostgreSQL's SQL dialect (with PL/pgSQL for procedural code). T-SQL is used by SQL Server and Azure SQL."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure SQL Database automatically backs up databases and supports point-in-time restore.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Azure SQL Database takes automated full, differential and log backups, with point-in-time restore retention of 7 days by default (configurable from 1 to 35 days)."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nYou are responsible for patching the operating system of SQL Server running on an Azure virtual machine.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. SQL Server on Azure VMs is IaaS, so the guest OS and SQL Server installation are the customer's responsibility. Azure provides tools to automate patching, but the responsibility remains yours."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nTransparent data encryption (TDE) prevents database administrators from viewing sensitive column values in query results.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. TDE encrypts data files and backups at rest, but the engine decrypts data when it is read, so administrators can still query it. To hide values from administrators, use Always Encrypted."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAn Azure SQL Database elastic pool lets several databases share a set of compute resources.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Databases in an elastic pool share eDTUs or vCores. This is cost-effective when the databases peak at different times."
+  },
+  {
+    q: "A company needs a relational database service with near-100% compatibility with on-premises SQL Server and no OS management. Which service type is this?",
+    o: ["Platform as a service (PaaS)", "Infrastructure as a service (IaaS)", "Software as a service (SaaS)"],
+    a: [0],
+    k: 1,
+    e: "Azure SQL Managed Instance is PaaS: Microsoft manages the OS and engine while you manage databases. IaaS (SQL Server on a VM) requires OS management, and SaaS delivers a complete application rather than a database engine."
+  },
+  {
+    q: "SQL Server running on an Azure virtual machine is an example of which cloud service model?",
+    o: ["Infrastructure as a service (IaaS)", "Platform as a service (PaaS)", "Software as a service (SaaS)"],
+    a: [0],
+    k: 1,
+    e: "With a VM you rent infrastructure and manage the OS and software yourself, which is IaaS. Azure SQL Database and Managed Instance are PaaS."
+  },
+  {
+    q: "Which Azure SQL option is MOST suitable for a brand-new cloud application that needs one database and the least administration?",
+    o: ["Azure SQL Database", "Azure SQL Managed Instance", "SQL Server on Azure Virtual Machines"],
+    a: [0],
+    e: "Azure SQL Database is the most fully managed choice and is built for modern cloud apps. Managed Instance is aimed at migrations needing instance-level features, and VMs at workloads needing OS control."
+  },
+  {
+    q: "Which type of join returns only rows that have matching values in both tables?",
+    o: ["INNER JOIN", "LEFT OUTER JOIN", "FULL OUTER JOIN"],
+    a: [0],
+    e: "INNER JOIN returns only matching rows. LEFT OUTER JOIN also keeps unmatched rows from the left table, and FULL OUTER JOIN keeps unmatched rows from both tables."
+  },
+  {
+    q: "Which Azure SQL Database feature shows non-privileged users a partially hidden value, such as XXX-XX-1234, while the stored data stays unchanged?",
+    o: ["Dynamic data masking", "Transparent data encryption", "Row-level security"],
+    a: [0],
+    e: "Dynamic data masking hides values in query results for non-privileged users. TDE encrypts data at rest, and row-level security controls which rows a user can see."
   }
 ]);

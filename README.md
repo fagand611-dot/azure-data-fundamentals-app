@@ -4,17 +4,20 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 
 ## Features
 
-- **337 exam-style questions** across all four skill areas, weighted like the real exam:
+- **385 exam-style questions** across all four skill areas, weighted like the real exam:
   | Skill area | Exam weight | Questions |
   |---|---|---|
-  | Describe core data concepts | 25–30% | 86 |
-  | Relational data on Azure | 20–25% | 80 |
-  | Non-relational data on Azure | 15–20% | 67 |
-  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 104 |
+  | Describe core data concepts | 25–30% | 98 |
+  | Relational data on Azure | 20–25% | 92 |
+  | Non-relational data on Azure | 15–20% | 79 |
+  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 116 |
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
 - **Practice mode**: choose skill areas, question source (all, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
 - **Explanations for every question** cover why the right answer is right and why the distractors are wrong.
-- Single-answer and multiple-answer ("Choose two") questions. Answer order is shuffled each time.
+- Question formats match the exam:
+  - **Single answer:** 2, 3 or 4 options with one correct answer (2-option questions are Yes/No statements).
+  - **Multiple answer:** 5 options with two correct answers ("Choose two"). You must pick both to get the mark.
+- Answer order is shuffled each time (Yes/No and ordered lists keep their order).
 - Progress tracking per skill area, exam history, "retry missed", and saved questions. Everything is stored on your device.
 - Light and dark mode, large tap targets, works offline after the first visit.
 
@@ -55,15 +58,18 @@ scripts/validate.js     Checks the question bank (run: node scripts/validate.js)
 
 ## Adding questions
 
-Append objects to the list in the matching `data/q-*.js` file:
+Append objects to the list in the matching `data/q-*.js` file. Single-answer questions have 2–4 options and one answer; multiple-answer questions have exactly 5 options, two answers, and end with "(Choose two.)". The validator enforces this.
 
 ```js
 {
-  q: "Which Azure service ...? (Choose two.)",
-  o: ["Option A", "Option B", "Option C", "Option D"],
+  q: "Which Azure services ...? (Choose two.)",
+  o: ["Option A", "Option B", "Option C", "Option D", "Option E"],
   a: [0, 2],                 // indexes of the correct options
-  e: "Why A and C are right, and why B and D are not."
+  e: "Why A and C are right, and why B, D and E are not."
 }
+
+// Yes/No statement: keep option order fixed with k: 1
+{ q: "Select Yes if the statement is true. Otherwise, select No.\n\n...", o: ["Yes", "No"], a: [1], k: 1, e: "..." }
 ```
 
 Append to the end of a list so existing progress stays linked to the right question. Run `node scripts/validate.js`, then bump `VERSION` in `sw.js` so installed copies pick up the change.

@@ -32,8 +32,12 @@
   }
   // Drop anything that no longer exists in the bank.
   store.saved = store.saved.filter(function (id) { return BY_ID[id]; });
-  if (store.session && !store.session.items.every(function (it) { return BY_ID[it.id]; })) store.session = null;
-  if (store.last && !store.last.items.every(function (it) { return BY_ID[it.id]; })) store.last = null;
+  // Also drop sessions whose questions changed shape (e.g. an option was added) since they were started.
+  function intact(sess) {
+    return sess.items.every(function (it) { return BY_ID[it.id] && it.order.length === BY_ID[it.id].o.length; });
+  }
+  if (store.session && !intact(store.session)) store.session = null;
+  if (store.last && !intact(store.last)) store.last = null;
 
   // ---------- helpers ----------
   var app = document.getElementById('app');
@@ -664,7 +668,7 @@
       '</div>';
 
     h += '<h2 class="qtext">' + fmt(q.q) + '</h2>';
-    h += '<p class="hint">' + (multi ? 'Select ' + q.a.length + ' answers. Each correct selection is part of the answer.' : 'Select one answer.') + '</p>';
+    h += '<p class="hint">' + (multi ? 'Select ' + q.a.length + ' answers.' : 'Select one answer.') + '</p>';
     h += optionsHtml(q, it.order, chosen, revealed);
     if (revealed) h += explainHtml(q, it.order, chosen);
 

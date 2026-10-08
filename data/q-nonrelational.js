@@ -74,9 +74,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO are benefits of enabling the hierarchical namespace in Azure Data Lake Storage Gen2? (Choose two.)",
-    o: ["Directory operations such as rename and delete are atomic and fast", "POSIX-compliant access control lists can be set on directories and files", "Data is automatically converted to relational tables", "Blobs are automatically replicated to every Azure region"],
+    o: ["Directory operations such as rename and delete are atomic and fast", "POSIX-compliant access control lists can be set on directories and files", "Data is automatically converted to relational tables", "Blobs are automatically replicated to every Azure region", "Every file is automatically indexed for full-text search"],
     a: [0, 1],
-    e: "With a hierarchical namespace, renaming a directory is a single metadata operation rather than copying every blob, and you can apply POSIX ACLs at directory and file level. It does not convert data to tables or replicate globally."
+    e: "With a hierarchical namespace, renaming a directory is a single metadata operation rather than copying every blob, and you can apply POSIX ACLs at directory and file level. It does not convert data to tables or replicate globally. The hierarchical namespace does not add full-text search."
   },
   {
     q: "Which Azure service provides fully managed file shares that can be mounted by Windows, Linux and macOS using the SMB protocol?",
@@ -92,9 +92,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO protocols can be used to access Azure Files shares? (Choose two.)",
-    o: ["SMB (Server Message Block)", "NFS (Network File System)", "FTP only", "MQTT"],
+    o: ["SMB (Server Message Block)", "NFS (Network File System)", "FTP only", "MQTT", "RDP (Remote Desktop Protocol)"],
     a: [0, 1],
-    e: "Azure Files supports SMB (all tiers) and NFS (premium file shares). FTP is not a native Azure Files protocol, and MQTT is a messaging protocol used in IoT."
+    e: "Azure Files supports SMB (all tiers) and NFS (premium file shares). FTP is not a native Azure Files protocol, and MQTT is a messaging protocol used in IoT. RDP is for remote desktop sessions, not file access."
   },
   {
     q: "Azure Table storage stores data as:",
@@ -104,9 +104,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "In Azure Table storage, which two properties together uniquely identify an entity? (Choose two.)",
-    o: ["PartitionKey", "RowKey", "Timestamp", "ETag"],
+    o: ["PartitionKey", "RowKey", "Timestamp", "ETag", "Content-MD5"],
     a: [0, 1],
-    e: "PartitionKey and RowKey form the entity's unique primary key. The partition key also determines how data is distributed across storage nodes. Timestamp is maintained by the system, and ETag is used for optimistic concurrency."
+    e: "PartitionKey and RowKey form the entity's unique primary key. The partition key also determines how data is distributed across storage nodes. Timestamp is maintained by the system, and ETag is used for optimistic concurrency. Content-MD5 is a blob property used to check content integrity; it is not part of a table entity's key."
   },
   {
     q: "Why is the choice of partition key important in Azure Table storage and Azure Cosmos DB?",
@@ -188,9 +188,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO capacity modes are available for Azure Cosmos DB throughput? (Choose two.)",
-    o: ["Provisioned throughput (standard or autoscale)", "Serverless", "DTU-based", "Elastic pool"],
+    o: ["Provisioned throughput (standard or autoscale)", "Serverless", "DTU-based", "Elastic pool", "Capacity units (F SKUs)"],
     a: [0, 1],
-    e: "Cosmos DB supports provisioned throughput (fixed RU/s or autoscale between a minimum and maximum) and serverless (pay per RU consumed). DTUs and elastic pools are Azure SQL Database concepts."
+    e: "Cosmos DB supports provisioned throughput (fixed RU/s or autoscale between a minimum and maximum) and serverless (pay per RU consumed). DTUs and elastic pools are Azure SQL Database concepts. Capacity units and F SKUs belong to Microsoft Fabric."
   },
   {
     q: "What is the default consistency level for a new Azure Cosmos DB account?",
@@ -237,9 +237,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO are features of Azure Cosmos DB? (Choose two.)",
-    o: ["Automatic indexing of all properties by default", "Turnkey global distribution with multi-region writes", "Mandatory fixed schema defined before inserting data", "Support for SQL Server Agent jobs"],
+    o: ["Automatic indexing of all properties by default", "Turnkey global distribution with multi-region writes", "Mandatory fixed schema defined before inserting data", "Support for SQL Server Agent jobs", "Joins across different containers"],
     a: [0, 1],
-    e: "Cosmos DB automatically indexes every property unless you customise the indexing policy, and you can add regions with a click, including enabling multi-region writes. It is schema-agnostic and does not have SQL Agent."
+    e: "Cosmos DB automatically indexes every property unless you customise the indexing policy, and you can add regions with a click, including enabling multi-region writes. It is schema-agnostic and does not have SQL Agent. Cosmos DB queries run against a single container; JOIN works only within an item's own arrays."
   },
   {
     q: "What availability SLA does Azure Cosmos DB offer for accounts configured with multiple write regions?",
@@ -273,9 +273,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO are common use cases for Azure Cosmos DB? (Choose two.)",
-    o: ["IoT telemetry ingestion at high volume", "Real-time personalisation and product catalogs for e-commerce", "Hosting SMB file shares for Windows clients", "Running SSIS packages"],
+    o: ["IoT telemetry ingestion at high volume", "Real-time personalisation and product catalogs for e-commerce", "Hosting SMB file shares for Windows clients", "Running SSIS packages", "An enterprise star-schema data warehouse for historical reporting"],
     a: [0, 1],
-    e: "Cosmos DB is widely used for IoT, retail catalogs, personalisation, gaming leaderboards and other high-scale, low-latency workloads. SMB shares are Azure Files, and SSIS packages run in Data Factory or on SQL Server."
+    e: "Cosmos DB is widely used for IoT, retail catalogs, personalisation, gaming leaderboards and other high-scale, low-latency workloads. SMB shares are Azure Files, and SSIS packages run in Data Factory or on SQL Server. Star-schema warehousing is better served by Fabric Warehouse or Synapse."
   },
   {
     q: "What happens in Azure Cosmos DB if your application consumes more Request Units per second than you have provisioned?",
@@ -297,9 +297,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO statements about Azure Blob Storage are correct? (Choose two.)",
-    o: ["Blobs can be accessed over HTTP/HTTPS using REST APIs", "A storage account can contain multiple containers", "Blobs must be smaller than 1 MB", "Blob Storage enforces a relational schema"],
+    o: ["Blobs can be accessed over HTTP/HTTPS using REST APIs", "A storage account can contain multiple containers", "Blobs must be smaller than 1 MB", "Blob Storage enforces a relational schema", "Blobs are stored as rows identified by a PartitionKey and RowKey"],
     a: [0, 1],
-    e: "Blob Storage exposes REST endpoints and SDKs, and an account can contain unlimited containers holding unlimited blobs. Block blobs can be up to about 190 TiB, and no relational schema is enforced."
+    e: "Blob Storage exposes REST endpoints and SDKs, and an account can contain unlimited containers holding unlimited blobs. Block blobs can be up to about 190 TiB, and no relational schema is enforced. PartitionKey and RowKey describe Azure Table storage entities, not blobs."
   },
   {
     q: "Which Azure service would you use to physically ship large amounts of data (many terabytes) to Azure when network transfer would be too slow?",
@@ -351,9 +351,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO factors make a good partition key in Azure Cosmos DB? (Choose two.)",
-    o: ["It has many distinct values (high cardinality)", "It spreads requests and storage evenly across partitions", "It has only two possible values", "It changes frequently on every update"],
+    o: ["It has many distinct values (high cardinality)", "It spreads requests and storage evenly across partitions", "It has only two possible values", "It changes frequently on every update", "It is the same constant value for every item"],
     a: [0, 1],
-    e: "A good partition key has high cardinality and distributes reads, writes and storage evenly, avoiding hot partitions. A key with very few values concentrates load, and a key's value cannot be updated in place on an item."
+    e: "A good partition key has high cardinality and distributes reads, writes and storage evenly, avoiding hot partitions. A key with very few values concentrates load, and a key's value cannot be updated in place on an item. A constant value puts every item in a single logical partition, which creates a hot partition and limits scale."
   },
   {
     q: "A storage account is configured with zone-redundant storage. What does this protect against?",
@@ -381,9 +381,9 @@ DP900.add(3, 'nrel-', [
   },
   {
     q: "Which TWO Azure Cosmos DB APIs are designed to help migrate existing workloads that use open-source NoSQL databases? (Choose two.)",
-    o: ["API for MongoDB", "API for Apache Cassandra", "API for NoSQL", "Azure SQL API"],
+    o: ["API for MongoDB", "API for Apache Cassandra", "API for NoSQL", "Azure SQL API", "API for Table"],
     a: [0, 1],
-    e: "The MongoDB and Apache Cassandra APIs are wire-compatible with those open-source databases, so apps can migrate with minimal changes. API for NoSQL is the native Cosmos DB API, and there is no 'Azure SQL API' in Cosmos DB."
+    e: "The MongoDB and Apache Cassandra APIs are wire-compatible with those open-source databases, so apps can migrate with minimal changes. API for NoSQL is the native Cosmos DB API, and there is no 'Azure SQL API' in Cosmos DB. API for Table targets apps written for Azure Table storage, which is an Azure service rather than an open-source database."
   },
   {
     q: "Which description best fits the Azure Cosmos DB for NoSQL query below?\n`SELECT c.name FROM c WHERE c.city = 'Seattle'`",
@@ -402,5 +402,85 @@ DP900.add(3, 'nrel-', [
     o: ["Standard general-purpose v2", "Premium page blobs only", "Blob storage (legacy)", "Azure SQL logical server"],
     a: [0],
     e: "Standard general-purpose v2 is the recommended account type, supporting all storage services and access tiers. Premium account types are specialised for low-latency block blobs, file shares or page blobs."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Blob Storage can store unstructured data such as images and videos.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Blob Storage is Azure's object store for unstructured data, including images, video, audio, backups and documents."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nData in the archive access tier can be read immediately without rehydration.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. The archive tier is offline. A blob must be rehydrated to the hot, cool or cold tier before it can be read, which can take up to 15 hours at standard priority."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Cosmos DB requires you to define a schema before inserting items.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Cosmos DB is schema-agnostic. Items are JSON documents that can have different shapes, and all properties are indexed automatically by default."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Files shares can be mounted by on-premises Windows computers using the SMB protocol.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Azure Files exposes SMB shares that Windows, Linux and macOS can mount, including from on-premises machines over the internet (port 445) or through a VPN or ExpressRoute."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nEach entity in Azure Table storage is uniquely identified by its PartitionKey and RowKey.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. The combination of PartitionKey and RowKey is the unique key for an entity. The partition key also controls how data is distributed."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nLocally redundant storage (LRS) protects your data if an entire Azure region becomes unavailable.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. LRS keeps three copies inside one datacenter in a single region. To survive a regional outage, use geo-redundant storage (GRS or GZRS)."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nSession is the default consistency level for a new Azure Cosmos DB account.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Session consistency is the default. It guarantees read-your-own-writes within a client session while keeping latency low."
+  },
+  {
+    q: "Which Blob Storage access tier is BEST for data that is read many times a day?",
+    o: ["Hot", "Cool", "Archive"],
+    a: [0],
+    k: 1,
+    e: "Hot has the lowest access cost and is designed for frequently accessed data. Cool suits infrequently accessed data stored at least 30 days, and archive is offline storage for rarely used data."
+  },
+  {
+    q: "Which Azure Cosmos DB API should you choose for a new application that stores JSON documents and is written specifically for Cosmos DB?",
+    o: ["API for NoSQL", "API for Apache Gremlin", "API for Table"],
+    a: [0],
+    e: "API for NoSQL is the native Cosmos DB API for JSON documents, with a SQL-like query language. Gremlin is for graph data, and Table is for applications built for Azure Table storage."
+  },
+  {
+    q: "Which Azure Storage service should you use to replace an on-premises Windows file server share?",
+    o: ["Azure Files", "Azure Blob Storage", "Azure Table storage"],
+    a: [0],
+    e: "Azure Files provides SMB/NFS file shares that clients can map as network drives. Blob Storage is object storage accessed over HTTP, and Table storage is a key-value store."
+  },
+  {
+    q: "Which Azure Storage redundancy option copies data across three availability zones in the primary region only?",
+    o: ["Zone-redundant storage (ZRS)", "Locally redundant storage (LRS)", "Geo-redundant storage (GRS)"],
+    a: [0],
+    e: "ZRS keeps copies in three availability zones within the primary region. LRS keeps three copies in one datacenter, and GRS also copies data to a secondary region (using LRS in each)."
+  },
+  {
+    q: "A social network needs to store people and the relationships between them, then query friends of friends. Which Cosmos DB API fits best?",
+    o: ["API for Apache Gremlin", "API for Table", "API for Apache Cassandra"],
+    a: [0],
+    e: "Gremlin is a graph API: people are vertices and relationships are edges, so multi-hop traversals are efficient. Table is key-value, and Cassandra is column-family."
   }
 ]);

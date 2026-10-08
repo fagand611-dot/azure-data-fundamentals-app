@@ -14,9 +14,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two types of data are considered unstructured? (Choose two.)",
-    o: ["Audio recordings of support calls", "Photos uploaded by users", "A CSV file of sales orders", "An XML product catalog"],
+    o: ["Audio recordings of support calls", "Photos uploaded by users", "A CSV file of sales orders", "An XML product catalog", "Rows in an Azure SQL Database table"],
     a: [0, 1],
-    e: "Unstructured data has no predefined field structure. Audio, video, images and free-form documents are unstructured. A CSV file is structured (delimited rows with consistent columns), and XML is semi-structured (tagged, self-describing)."
+    e: "Unstructured data has no predefined field structure. Audio, video, images and free-form documents are unstructured. A CSV file is structured (delimited rows with consistent columns), and XML is semi-structured (tagged, self-describing). Rows in a SQL table are structured data."
   },
   {
     q: "You need to store data in a format that uses tags to define elements, such as <customer><name>Ana</name></customer>. Which format is this?",
@@ -146,9 +146,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two statements are Data Manipulation Language (DML) statements? (Choose two.)",
-    o: ["INSERT", "UPDATE", "CREATE", "GRANT"],
+    o: ["INSERT", "UPDATE", "CREATE", "GRANT", "DROP"],
     a: [0, 1],
-    e: "DML statements work with data: SELECT, INSERT, UPDATE and DELETE (and MERGE). CREATE is a DDL statement that defines objects, and GRANT is a DCL statement that manages permissions."
+    e: "DML statements work with data: SELECT, INSERT, UPDATE and DELETE (and MERGE). CREATE is a DDL statement that defines objects, and GRANT is a DCL statement that manages permissions. DROP is also DDL, because it removes an object rather than working with rows."
   },
   {
     q: "You need to give a user permission to read data from a table. Which type of SQL statement should you use?",
@@ -266,9 +266,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two statements describe batch processing compared with stream processing? (Choose two.)",
-    o: ["It can process large volumes of data efficiently at a scheduled time", "There is a delay (latency) between when data is generated and when results are available", "It produces results within milliseconds of an event occurring", "It always works on a single record at a time"],
+    o: ["It can process large volumes of data efficiently at a scheduled time", "There is a delay (latency) between when data is generated and when results are available", "It produces results within milliseconds of an event occurring", "It always works on a single record at a time", "It requires data to be stored in a graph database"],
     a: [0, 1],
-    e: "Batch processing is efficient for large volumes and complex transformations, but results are only available after the batch runs, so latency is higher (minutes to hours). Millisecond results and per-record processing are characteristics of streaming."
+    e: "Batch processing is efficient for large volumes and complex transformations, but results are only available after the batch runs, so latency is higher (minutes to hours). Millisecond results and per-record processing are characteristics of streaming. Batch processing does not depend on any particular database type."
   },
   {
     q: "Which scenario is BEST suited to stream processing?",
@@ -386,9 +386,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two benefits are provided by using a relational database for an order processing system? (Choose two.)",
-    o: ["Support for ACID transactions", "Enforcement of relationships with foreign keys", "Storing each order as an unstructured video file", "Automatic schema-on-read for any file format"],
+    o: ["Support for ACID transactions", "Enforcement of relationships with foreign keys", "Storing each order as an unstructured video file", "Automatic schema-on-read for any file format", "Effortless horizontal scale-out with no schema to maintain"],
     a: [0, 1],
-    e: "Relational databases provide ACID transactions and enforce referential integrity with primary and foreign keys, both valuable for orders, customers and payments. Schema-on-read for arbitrary files is a data lake characteristic."
+    e: "Relational databases provide ACID transactions and enforce referential integrity with primary and foreign keys, both valuable for orders, customers and payments. Schema-on-read for arbitrary files is a data lake characteristic. Schema-free, effortless scale-out is usually a strength of NoSQL stores, not relational databases."
   },
   {
     q: "You need to store large amounts of JSON telemetry from millions of devices with very low-latency writes, and the schema will change frequently. Which type of data store is MOST appropriate?",
@@ -446,9 +446,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two are examples of data that would typically be processed by an analytical workload rather than a transactional one? (Choose two.)",
-    o: ["Five years of sales history used to identify seasonal trends", "A daily aggregate of website visits used in a management dashboard", "A customer placing an order on an e-commerce site", "An ATM withdrawal debiting an account"],
+    o: ["Five years of sales history used to identify seasonal trends", "A daily aggregate of website visits used in a management dashboard", "A customer placing an order on an e-commerce site", "An ATM withdrawal debiting an account", "Updating a customer's delivery address"],
     a: [0, 1],
-    e: "Trend analysis over historical data and aggregated dashboard metrics are analytical. Placing an order and withdrawing cash are individual business transactions handled by OLTP systems."
+    e: "Trend analysis over historical data and aggregated dashboard metrics are analytical. Placing an order and withdrawing cash are individual business transactions handled by OLTP systems. Updating an address is also a single transaction handled by an OLTP system."
   },
   {
     q: "Which language is used to query and manipulate data in relational databases?",
@@ -488,9 +488,9 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which TWO of the following are characteristics of semi-structured data? (Choose two.)",
-    o: ["It can contain nested and repeating elements", "Each entity is self-describing, with field names stored alongside values", "It must conform to a fixed schema defined before data is written", "It has no organisational properties at all"],
+    o: ["It can contain nested and repeating elements", "Each entity is self-describing, with field names stored alongside values", "It must conform to a fixed schema defined before data is written", "It has no organisational properties at all", "It can only be stored in relational tables"],
     a: [0, 1],
-    e: "Semi-structured formats like JSON and XML include field names with values (self-describing) and support nesting and arrays. A fixed predefined schema describes structured data, and no organisation at all describes unstructured data."
+    e: "Semi-structured formats like JSON and XML include field names with values (self-describing) and support nesting and arrays. A fixed predefined schema describes structured data, and no organisation at all describes unstructured data. Semi-structured data is usually kept in files or document databases; it is not limited to relational tables."
   },
   {
     q: "What is the purpose of the data visualisation stage in an analytics process?",
@@ -515,5 +515,87 @@ DP900.add(1, 'core-', [
     o: ["Data characterised by very high volume, velocity and/or variety that is hard to handle with traditional tools", "Any table with more than 100 rows", "Data stored only in Excel", "Data that is always structured"],
     a: [0],
     e: "Big data is commonly described by the 'three Vs': volume (very large amounts), velocity (high speed of arrival) and variety (many formats). Distributed processing platforms such as Spark were developed to handle it."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA relational database can enforce that every order references an existing customer.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Foreign key constraints enforce referential integrity, so an order cannot reference a CustomerID that does not exist in the Customers table."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nJSON documents in the same collection must all contain exactly the same fields.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. JSON is semi-structured, so documents in the same collection can contain different fields, nested objects and arrays. A fixed set of columns is a feature of structured, relational data."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nStream processing typically has lower latency than batch processing.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Stream processing handles each event or small time window as data arrives, giving results in seconds or less. Batch processing waits for a batch to be collected, so results arrive minutes or hours later."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA data analyst is primarily responsible for configuring database backups and high availability.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Backups, restores and high availability are database administrator responsibilities. Data analysts explore data and build models, reports and visualisations."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nParquet is a row-oriented text file format.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Parquet is a binary, column-oriented format. Storing each column's values together gives strong compression and lets queries read only the columns they need. CSV is an example of a row-oriented text format."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nThe DELETE statement is part of Data Manipulation Language (DML).",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. DML statements work with data inside tables: SELECT, INSERT, UPDATE and DELETE. DDL statements such as CREATE, ALTER and DROP define objects."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nNormalization in a transactional database reduces data duplication.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Normalization splits data into related tables so each fact is stored once. This reduces duplication and prevents update anomalies."
+  },
+  {
+    q: "An application log file contains free-form text messages written by developers. Which type of data is this?",
+    o: ["Structured", "Semi-structured", "Unstructured"],
+    a: [2],
+    k: 1,
+    e: "Free-form text with no consistent fields is unstructured. If the logs were written as JSON with named fields, they would be semi-structured, and a table of log rows would be structured."
+  },
+  {
+    q: "A product catalog is stored as XML, where each product can have a different set of elements. Which type of data is this?",
+    o: ["Structured", "Semi-structured", "Unstructured"],
+    a: [1],
+    k: 1,
+    e: "XML is semi-structured: it is self-describing through tags and can vary from record to record, but it does not follow a fixed relational schema."
+  },
+  {
+    q: "A spreadsheet export where every row has the columns Date, Store and Revenue is which type of data?",
+    o: ["Structured", "Semi-structured", "Unstructured"],
+    a: [0],
+    k: 1,
+    e: "Data with a fixed set of columns shared by every row is structured, and fits directly into a relational table."
+  },
+  {
+    q: "Which statement category does `GRANT SELECT ON Sales TO Analysts;` belong to?",
+    o: ["Data Control Language (DCL)", "Data Definition Language (DDL)", "Data Manipulation Language (DML)"],
+    a: [0],
+    e: "GRANT, REVOKE and DENY are DCL statements that manage permissions. DDL defines objects (CREATE, ALTER, DROP), and DML works with the data (SELECT, INSERT, UPDATE, DELETE)."
+  },
+  {
+    q: "A nightly job loads the previous day's orders into a reporting database. Which processing approach is this?",
+    o: ["Batch processing", "Stream processing", "Transaction processing"],
+    a: [0],
+    e: "Collecting a day's data and processing it together on a schedule is batch processing. Stream processing handles each event as it arrives, and transaction processing records the individual orders in the operational system."
   }
 ]);

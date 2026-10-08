@@ -68,9 +68,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO languages can data engineers use in Apache Spark notebooks in Azure Synapse Analytics, Azure Databricks or Microsoft Fabric? (Choose two.)",
-    o: ["Python (PySpark)", "Scala", "DAX", "KQL"],
+    o: ["Python (PySpark)", "Scala", "DAX", "KQL", "M"],
     a: [0, 1],
-    e: "Spark notebooks support Python (PySpark), Scala, Spark SQL and R. DAX is the Power BI modelling language, and KQL is the Kusto query language for Azure Data Explorer and Fabric Real-Time Intelligence."
+    e: "Spark notebooks support Python (PySpark), Scala, Spark SQL and R. DAX is the Power BI modelling language, and KQL is the Kusto query language for Azure Data Explorer and Fabric Real-Time Intelligence. M is the Power Query formula language."
   },
   {
     q: "What is Apache Spark?",
@@ -146,9 +146,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO statements describe a data warehouse compared with a data lake? (Choose two.)",
-    o: ["A data warehouse stores data in a relational schema optimised for querying", "A data warehouse usually holds cleaned, structured data", "A data warehouse stores raw files in any format", "A data warehouse cannot be queried with SQL"],
+    o: ["A data warehouse stores data in a relational schema optimised for querying", "A data warehouse usually holds cleaned, structured data", "A data warehouse stores raw files in any format", "A data warehouse cannot be queried with SQL", "A data warehouse is optimised for high-volume single-row transactional writes"],
     a: [0, 1],
-    e: "Data warehouses hold structured, cleansed data in relational schemas (often star schemas) and are queried with SQL. Raw files in any format describe a data lake."
+    e: "Data warehouses hold structured, cleansed data in relational schemas (often star schemas) and are queried with SQL. Raw files in any format describe a data lake. High-volume single-row writes describe an OLTP database."
   },
   {
     q: "Which Azure service is a fully managed, real-time analytics engine that uses SQL-like queries to process streaming data from sources like Event Hubs and IoT Hub?",
@@ -157,10 +157,10 @@ DP900.add(4, 'ana-', [
     e: "Azure Stream Analytics runs continuous queries, written in a SQL-like language, over streaming input and sends results to outputs such as Power BI, Azure SQL, Blob Storage or Cosmos DB."
   },
   {
-    q: "An Azure Stream Analytics job consists of which three main parts? (Choose three.)",
-    o: ["Input", "Query", "Output", "Linked service"],
-    a: [0, 1, 2],
-    e: "A Stream Analytics job reads from one or more inputs (such as Event Hubs, IoT Hub or Blob Storage), transforms data with a query, and writes to one or more outputs. Linked services are a Data Factory concept."
+    q: "Besides its query, which two components must every Azure Stream Analytics job define? (Choose two.)",
+    o: ["Input", "Output", "Linked service", "Integration runtime", "Apache Spark pool"],
+    a: [0, 1],
+    e: "A Stream Analytics job reads from one or more inputs (such as Event Hubs, IoT Hub or Blob Storage), transforms the data with a SQL-like query, and writes to one or more outputs. Linked services and integration runtimes are Data Factory concepts, and Stream Analytics does not use Spark pools."
   },
   {
     q: "Which Azure service is a big data streaming platform and event ingestion service that can receive millions of events per second?",
@@ -224,9 +224,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which Azure services can be used for real-time stream processing? (Choose two.)",
-    o: ["Azure Stream Analytics", "Spark Structured Streaming in Azure Databricks", "Azure Data Box", "Azure Files"],
+    o: ["Azure Stream Analytics", "Spark Structured Streaming in Azure Databricks", "Azure Data Box", "Azure Files", "Scheduled Azure Data Factory copy pipelines"],
     a: [0, 1],
-    e: "Stream Analytics and Spark Structured Streaming (in Databricks, Synapse or Fabric) both process data streams continuously. Data Box is offline data transfer, and Azure Files provides file shares."
+    e: "Stream Analytics and Spark Structured Streaming (in Databricks, Synapse or Fabric) both process data streams continuously. Data Box is offline data transfer, and Azure Files provides file shares. Scheduled Data Factory pipelines are batch processing."
   },
   {
     q: "Which describes the purpose of Power BI?",
@@ -338,9 +338,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO are features of Power BI reports? (Choose two.)",
-    o: ["Interactive visuals that cross-filter each other", "Multiple pages", "Support for writing data back to the source database by default", "They can only be viewed on Windows"],
+    o: ["Interactive visuals that cross-filter each other", "Multiple pages", "Support for writing data back to the source database by default", "They can only be viewed on Windows", "Tiles pinned from several different reports on one canvas"],
     a: [0, 1],
-    e: "Reports can have many pages, and selecting a data point in one visual cross-filters or cross-highlights others. Reports are read-only analytics by default and can be viewed in browsers and mobile apps."
+    e: "Reports can have many pages, and selecting a data point in one visual cross-filters or cross-highlights others. Reports are read-only analytics by default and can be viewed in browsers and mobile apps. Tiles pinned from several reports describe a dashboard."
   },
   {
     q: "Which Power BI feature lets users ask questions about their data in natural language, such as 'total sales by region last year'?",
@@ -386,21 +386,21 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO are typical steps a data analyst takes in Power BI? (Choose two.)",
-    o: ["Prepare and transform data with Power Query", "Model data and create DAX measures", "Configure database backups", "Install the operating system on a server"],
+    o: ["Prepare and transform data with Power Query", "Model data and create DAX measures", "Configure database backups", "Install the operating system on a server", "Patching the servers that run the Power BI service"],
     a: [0, 1],
-    e: "Analysts prepare, model, visualise and analyse data. Backups and OS installation are administrator tasks."
+    e: "Analysts prepare, model, visualise and analyse data. Backups and OS installation are administrator tasks. Microsoft runs and patches the Power BI service."
   },
   {
     q: "Which TWO elements are part of a typical large-scale analytics architecture on Azure? (Choose two.)",
-    o: ["Data ingestion and processing (for example, Data Factory pipelines and Spark)", "Analytical data store (for example, a data lake, lakehouse or data warehouse)", "A spreadsheet emailed between users as the only data store", "An OLTP database with no other components"],
+    o: ["Data ingestion and processing (for example, Data Factory pipelines and Spark)", "Analytical data store (for example, a data lake, lakehouse or data warehouse)", "A spreadsheet emailed between users as the only data store", "An OLTP database with no other components", "Manual copy-and-paste of data between systems"],
     a: [0, 1],
-    e: "Large-scale analytics usually includes ingestion/ETL, an analytical store (lake, lakehouse or warehouse), an optional modelling layer, and visualisation such as Power BI."
+    e: "Large-scale analytics usually includes ingestion/ETL, an analytical store (lake, lakehouse or warehouse), an optional modelling layer, and visualisation such as Power BI. Manual copying does not scale and is not part of a designed architecture."
   },
   {
     q: "Which TWO are valid ways to ingest data in Microsoft Fabric? (Choose two.)",
-    o: ["Data pipelines (Data Factory in Fabric)", "Dataflows Gen2 using Power Query", "Azure Data Box only", "Manually typing data into a Power BI dashboard"],
+    o: ["Data pipelines (Data Factory in Fabric)", "Dataflows Gen2 using Power Query", "Azure Data Box only", "Manually typing data into a Power BI dashboard", "Restoring a SQL Server .bak file directly into a Power BI report"],
     a: [0, 1],
-    e: "Fabric Data Factory includes pipelines for orchestration and copying, and Dataflows Gen2 for low-code Power Query transformations. Notebooks, eventstreams, mirroring and shortcuts are other ingestion options."
+    e: "Fabric Data Factory includes pipelines for orchestration and copying, and Dataflows Gen2 for low-code Power Query transformations. Notebooks, eventstreams, mirroring and shortcuts are other ingestion options. Power BI reports cannot restore database backups."
   },
   {
     q: "What is a Dataflow Gen2 in Microsoft Fabric?",
@@ -416,9 +416,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO tasks are typical of batch analytical processing? (Choose two.)",
-    o: ["Nightly loading of sales data into a data warehouse", "Recalculating monthly customer segments from historical data", "Triggering an alert within one second when a sensor exceeds a threshold", "Displaying stock prices that update every second"],
+    o: ["Nightly loading of sales data into a data warehouse", "Recalculating monthly customer segments from historical data", "Triggering an alert within one second when a sensor exceeds a threshold", "Displaying stock prices that update every second", "Showing live vehicle locations on a map as they move"],
     a: [0, 1],
-    e: "Nightly loads and monthly recalculations work on bounded datasets on a schedule, which makes them batch. Sub-second alerts and live tickers require stream processing."
+    e: "Nightly loads and monthly recalculations work on bounded datasets on a schedule, which makes them batch. Sub-second alerts and live tickers require stream processing. Live location tracking is a streaming scenario."
   },
   {
     q: "Which describes the 'lambda' or 'hot and cold path' approach to analytics?",
@@ -458,9 +458,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO statements about Azure Stream Analytics are correct? (Choose two.)",
-    o: ["It uses a SQL-like query language", "It can output results directly to Power BI for real-time dashboards", "It is primarily a tool for designing star schemas", "It requires you to manage your own Spark cluster"],
+    o: ["It uses a SQL-like query language", "It can output results directly to Power BI for real-time dashboards", "It is primarily a tool for designing star schemas", "It requires you to manage your own Spark cluster", "It stores data long term as its own data warehouse"],
     a: [0, 1],
-    e: "Stream Analytics jobs are written in a SQL-like language and can output to Power BI, SQL, storage, Cosmos DB and more. It's fully managed with no cluster management."
+    e: "Stream Analytics jobs are written in a SQL-like language and can output to Power BI, SQL, storage, Cosmos DB and more. It's fully managed with no cluster management. Stream Analytics processes data in motion; outputs such as storage or databases persist the results."
   },
   {
     q: "You need to calculate the average temperature reported by each sensor every 5 minutes, with each event counted in exactly one interval. Which Stream Analytics function is most appropriate?",
@@ -476,9 +476,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO are outputs commonly used for streaming data processed by Azure Stream Analytics? (Choose two.)",
-    o: ["Power BI (real-time dashboard)", "Azure Data Lake Storage (for later batch analysis)", "Azure Data Box", "On-premises tape backup"],
+    o: ["Power BI (real-time dashboard)", "Azure Data Lake Storage (for later batch analysis)", "Azure Data Box", "On-premises tape backup", "A paginated report printed every morning"],
     a: [0, 1],
-    e: "Stream Analytics can send results to Power BI for live visuals and to storage such as Data Lake Storage, SQL or Cosmos DB for persistence. Data Box is an offline transfer device."
+    e: "Stream Analytics can send results to Power BI for live visuals and to storage such as Data Lake Storage, SQL or Cosmos DB for persistence. Data Box is an offline transfer device. A printed paginated report is not a Stream Analytics output."
   },
   {
     q: "Which Microsoft Fabric experience is aimed at data scientists for building and training machine learning models with notebooks and MLflow experiment tracking?",
@@ -512,9 +512,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO statements about a Power BI dashboard are correct? (Choose two.)",
-    o: ["It can contain tiles pinned from multiple reports", "It is created in the Power BI service, not in Power BI Desktop", "It can have multiple pages", "It is the same as a Power BI semantic model"],
+    o: ["It can contain tiles pinned from multiple reports", "It is created in the Power BI service, not in Power BI Desktop", "It can have multiple pages", "It is the same as a Power BI semantic model", "It is where Power Query transformations are defined"],
     a: [0, 1],
-    e: "Dashboards are single-page canvases built in the Power BI service by pinning tiles from one or more reports. Multi-page content is a report, and the semantic model is the underlying data model."
+    e: "Dashboards are single-page canvases built in the Power BI service by pinning tiles from one or more reports. Multi-page content is a report, and the semantic model is the underlying data model. Power Query transformations are defined in Power BI Desktop or dataflows, not in dashboards."
   },
   {
     q: "Which Power BI visual best shows each category's contribution to a whole when there are only a few categories?",
@@ -530,9 +530,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO tasks are performed by a data engineer in an analytics solution? (Choose two.)",
-    o: ["Building pipelines that load data into a lakehouse", "Designing the bronze, silver and gold layers of a data lake", "Approving the company's annual budget", "Formatting visuals for executive presentations"],
+    o: ["Building pipelines that load data into a lakehouse", "Designing the bronze, silver and gold layers of a data lake", "Approving the company's annual budget", "Formatting visuals for executive presentations", "Negotiating Azure pricing with Microsoft sales"],
     a: [0, 1],
-    e: "Data engineers design and build ingestion pipelines and data architectures such as medallion layers. Visual formatting is typically a data analyst task."
+    e: "Data engineers design and build ingestion pipelines and data architectures such as medallion layers. Visual formatting is typically a data analyst task. Contract negotiation is not a data engineering task."
   },
   {
     q: "Which Azure service is primarily used for big data processing with Apache Spark, collaborative notebooks, and machine learning, and integrates natively with Microsoft Entra ID and Azure Data Lake Storage?",
@@ -566,9 +566,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO statements about Power BI on mobile devices are correct? (Choose two.)",
-    o: ["Power BI mobile apps let users view and interact with reports and dashboards on iOS and Android", "Report authors can create mobile-optimised layouts for report pages", "Reports must be completely rebuilt in a separate tool for mobile", "Mobile apps are only for editing DAX"],
+    o: ["Power BI mobile apps let users view and interact with reports and dashboards on iOS and Android", "Report authors can create mobile-optimised layouts for report pages", "Reports must be completely rebuilt in a separate tool for mobile", "Mobile apps are only for editing DAX", "Mobile apps can only display dashboards, not reports"],
     a: [0, 1],
-    e: "Power BI mobile apps display published content, and authors can design a mobile layout for each report page in Power BI Desktop. No separate tool is needed."
+    e: "Power BI mobile apps display published content, and authors can design a mobile layout for each report page in Power BI Desktop. No separate tool is needed. Mobile apps display both reports and dashboards."
   },
   {
     q: "Which Azure service acts as a fully managed Apache Kafka-compatible endpoint, so Kafka producers can send events without running a Kafka cluster?",
@@ -584,9 +584,9 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO are benefits of using Microsoft Fabric for analytics? (Choose two.)",
-    o: ["A single copy of data in OneLake can be used by Spark, SQL, KQL and Power BI engines", "Unified governance, security and capacity management across workloads", "Each workload requires its own separate data copy and billing model", "It only supports on-premises deployment"],
+    o: ["A single copy of data in OneLake can be used by Spark, SQL, KQL and Power BI engines", "Unified governance, security and capacity management across workloads", "Each workload requires its own separate data copy and billing model", "It only supports on-premises deployment", "Each user must create and manage their own Spark cluster"],
     a: [0, 1],
-    e: "Fabric's open Delta format in OneLake lets many engines read the same data, reducing duplication, and the SaaS platform centralises governance (with Purview integration) and capacity. It's a cloud SaaS service."
+    e: "Fabric's open Delta format in OneLake lets many engines read the same data, reducing duplication, and the SaaS platform centralises governance (with Purview integration) and capacity. It's a cloud SaaS service. Fabric provides managed Spark compute, so users do not build clusters."
   },
   {
     q: "A data analyst needs to combine data from an Excel file, a SharePoint list and an Azure SQL Database into one Power BI report. What does Power BI support?",
@@ -608,20 +608,100 @@ DP900.add(4, 'ana-', [
   },
   {
     q: "Which TWO statements describe Azure Data Explorer? (Choose two.)",
-    o: ["It is optimised for log and time-series analytics over large volumes of data", "It uses the Kusto Query Language (KQL)", "It is primarily used to store virtual machine disks", "It is a relational OLTP database for order processing"],
+    o: ["It is optimised for log and time-series analytics over large volumes of data", "It uses the Kusto Query Language (KQL)", "It is primarily used to store virtual machine disks", "It is a relational OLTP database for order processing", "It requires data to be converted to CSV before it can be queried"],
     a: [0, 1],
-    e: "Azure Data Explorer ingests large volumes of telemetry and logs and queries them quickly with KQL. It is not for VM disks or transactional order processing."
+    e: "Azure Data Explorer ingests large volumes of telemetry and logs and queries them quickly with KQL. It is not for VM disks or transactional order processing. Data Explorer ingests many formats (JSON, Parquet, Avro, CSV and more) into its own columnar store."
   },
   {
     q: "Which TWO are typical sources of streaming data? (Choose two.)",
-    o: ["IoT sensors sending readings every second", "Clickstream events from a website", "A yearly financial report in PDF", "A backup tape stored offsite"],
+    o: ["IoT sensors sending readings every second", "Clickstream events from a website", "A yearly financial report in PDF", "A backup tape stored offsite", "A product catalogue updated once a quarter"],
     a: [0, 1],
-    e: "Streaming data is continuous and time-ordered, such as sensor telemetry, clickstreams, application logs and financial ticks. PDFs and backup tapes are static data."
+    e: "Streaming data is continuous and time-ordered, such as sensor telemetry, clickstreams, application logs and financial ticks. PDFs and backup tapes are static data. A quarterly catalogue update is static data that suits batch loading."
   },
   {
     q: "Which Power BI feature lets you share a packaged collection of reports and dashboards with a large audience in a read-only, easy-to-navigate form?",
     o: ["Power BI app", "Power Query", "Power BI Desktop file (.pbix) via email", "Gateway"],
     a: [0],
     e: "Workspace content can be published as a Power BI app for consumers. Apps provide navigation, audience-based permissions and a stable published version separate from work in progress."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA Power BI dashboard can contain multiple pages.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. A dashboard is a single-page canvas of tiles in the Power BI service. Multi-page content is a report."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Stream Analytics can send query results directly to Power BI.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Power BI is a supported Stream Analytics output, which makes it easy to build real-time dashboards from streaming data."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nIn Microsoft Fabric, a lakehouse stores its tables in Delta format in OneLake.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Fabric lakehouse tables are Delta Lake tables (Parquet files plus a transaction log) stored in OneLake, so other Fabric engines can read them directly."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nThe Azure Synapse Analytics serverless SQL pool requires you to provision and pay for compute in advance.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. The serverless SQL pool needs no provisioning and is billed per TB of data processed. Dedicated SQL pools are the provisioned option."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA tumbling window in Azure Stream Analytics can assign the same event to more than one window.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Tumbling windows are fixed-size, non-overlapping and contiguous, so each event belongs to exactly one window. Hopping windows overlap and can include an event in several windows."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nPower Query is used in Power BI to clean and transform data before it is loaded into the model.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Power Query connects to sources and shapes data (removing columns, changing types, merging queries) using the M language. DAX is then used for calculations inside the model."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Data Factory can copy data from an on-premises SQL Server by using a self-hosted integration runtime.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. A self-hosted integration runtime installed inside the private network gives Data Factory secure access to on-premises sources without opening inbound firewall ports."
+  },
+  {
+    q: "Which Power BI storage mode keeps a copy of the data in memory and needs a refresh to show new data?",
+    o: ["Import", "DirectQuery", "Direct Lake"],
+    a: [0],
+    e: "Import caches data in memory for the fastest queries, but data is only as fresh as the last refresh. DirectQuery queries the source every time, and Direct Lake reads Delta tables from OneLake on demand."
+  },
+  {
+    q: "In Azure Data Factory, which component holds the connection information for a data store?",
+    o: ["Linked service", "Dataset", "Trigger"],
+    a: [0],
+    e: "A linked service is like a connection string. A dataset points to specific data within that store, and a trigger starts pipeline runs."
+  },
+  {
+    q: "Which medallion architecture layer holds aggregated, business-ready data used for reporting?",
+    o: ["Gold", "Silver", "Bronze"],
+    a: [0],
+    k: 1,
+    e: "Bronze holds raw ingested data, silver holds cleansed and conformed data, and gold holds curated, aggregated tables ready for reports."
+  },
+  {
+    q: "Which visual is BEST for showing a trend in monthly revenue over two years?",
+    o: ["Line chart", "Pie chart", "Card"],
+    a: [0],
+    e: "Line charts show change over a continuous time axis. Pie charts show parts of a whole, and cards show a single value."
+  },
+  {
+    q: "Which Azure service is designed to receive telemetry from millions of IoT devices and send commands back to individual devices?",
+    o: ["Azure IoT Hub", "Azure Event Hubs", "Azure Data Factory"],
+    a: [0],
+    e: "IoT Hub supports per-device identity and two-way (cloud-to-device) messaging. Event Hubs ingests events at scale but has no device management, and Data Factory orchestrates batch data movement."
   }
 ]);
