@@ -1040,5 +1040,60 @@ DP900.add(1, 'core-', [
     a: [1],
     k: 1,
     e: "No. Designing reports and dashboards is the data analyst's job. Data engineers prepare the data that those reports use."
+  },
+  {
+    t: "match",
+    q: "Match each type of storage to the Azure service that provides it.",
+    c: ["Azure Disk Storage", "Azure Files", "Azure Blob Storage"],
+    s: [
+      ["Block storage: a virtual hard disk attached to a VM", 0],
+      ["File storage: a share that colleagues and VMs mount", 1],
+      ["Object storage: upload and download objects through a REST API", 2]
+    ],
+    e: "Block storage behaves like a hard disk attached to one machine (Azure Disks). File storage is a shared folder that many clients mount (Azure Files). Object storage stores whole objects accessed over HTTP/REST without mounting (Blob Storage)."
+  },
+  {
+    q: "You want to upload and download files through a REST API without mounting any storage on a virtual machine. Which type of storage and Azure service should you use?",
+    o: ["Object storage: Azure Blob Storage", "Block storage: Azure Disk Storage", "File storage: Azure Files", "Key-value storage: Azure Table storage"],
+    a: [0],
+    e: "Object storage is accessed over HTTP/REST and needs no mounting, which is how Azure Blob Storage works. Disks are attached to VMs as block devices, Azure Files shares are mounted over SMB or NFS, and Table storage holds key-value entities rather than files."
+  },
+  {
+    q: "Which Azure data store is designed for analysing petabytes of historical, structured data with massively parallel processing?",
+    o: ["Azure Synapse Analytics (dedicated SQL pool)", "Azure SQL Database (General Purpose tier)", "Azure Cosmos DB for NoSQL", "Azure Table storage"],
+    a: [0],
+    e: "Synapse dedicated SQL pools are MPP data warehouses built for petabyte-scale analytics (Fabric Warehouse is the SaaS equivalent). Azure SQL Database is designed for transactional workloads, Cosmos DB for operational NoSQL data, and Table storage for simple key-value data."
+  },
+  {
+    q: "Why do analytical (OLAP) databases usually store data by column rather than by row?",
+    o: ["Column storage compresses well and lets aggregate queries read only the columns they need", "Column storage makes single-row inserts and updates faster for transactional apps", "Column storage is required for primary keys and foreign keys to work correctly", "Column storage allows each row in a table to have a different set of columns"],
+    a: [0],
+    e: "Storing each column together gives high compression and lets queries such as SUM(Revenue) scan just one column, which suits analytics. Row storage keeps whole rows together, which suits OLTP inserts and updates. Keys work in both layouts, and varying columns per row describes column-family NoSQL stores."
+  },
+  {
+    t: "complete",
+    q: "OLTP databases typically use {0} storage, while OLAP databases typically use {1} storage.",
+    b: [
+      { o: ["row", "columnar"], a: 0 },
+      { o: ["row", "columnar"], a: 1 }
+    ],
+    e: "Row storage keeps a whole record together, which is efficient for small transactions. Columnar storage keeps each column together, giving better compression and faster aggregations over large tables."
+  },
+  {
+    q: "In a typical OLTP workload, what is the usual balance of reads and writes?",
+    o: ["Heavy writes with moderate reads, processed quickly", "Rare writes with very large, complex reads", "Only reads, because data is loaded once a year", "Only writes, because the data is never queried"],
+    a: [0],
+    e: "OLTP systems, such as banking and e-commerce, record many small transactions (heavy writes) and also read current data, all with fast response times. Rare writes with large aggregate reads describe OLAP."
+  },
+  {
+    t: "match",
+    q: "Match each scaling approach to its description.",
+    c: ["Horizontal scaling (scale out)", "Vertical scaling (scale up)"],
+    s: [
+      ["Adding more servers or partitions to share the load", 0],
+      ["Adding CPU and memory to a single server", 1],
+      ["The main way Azure Cosmos DB grows to handle more data and throughput", 0]
+    ],
+    e: "Scaling out adds more nodes and spreads data across them, which is how Cosmos DB partitions data. Scaling up gives one server more resources, which is how relational databases have traditionally grown."
   }
 ]);

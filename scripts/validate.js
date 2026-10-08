@@ -20,7 +20,7 @@ for (const q of window.DP900.bank) {
     if (!Array.isArray(q.s) || q.s.length !== 3) fail(q, 'yesno needs exactly 3 statements');
     else if (q.s.some((x) => typeof x[0] !== 'string' || typeof x[1] !== 'boolean')) fail(q, 'yesno statements are [text, true|false]');
   } else if (q.t === 'match') {
-    if (!Array.isArray(q.c) || q.c.length < 3 || q.c.length > 6) fail(q, 'match needs 3-6 answer choices');
+    if (!Array.isArray(q.c) || q.c.length < 2 || q.c.length > 6) fail(q, 'match needs 2-6 answer choices');
     else if (new Set(q.c).size !== q.c.length) fail(q, 'duplicate match choices');
     if (!Array.isArray(q.s) || q.s.length < 3 || q.s.length > 5) fail(q, 'match needs 3-5 items');
     else if (q.s.some((x) => !Number.isInteger(x[1]) || x[1] < 0 || x[1] >= q.c.length)) fail(q, 'match answer index out of range');

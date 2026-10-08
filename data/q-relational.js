@@ -40,7 +40,7 @@ DP900.add(2, 'rel-', [
     q: "Which Azure SQL Database service tier supports databases of up to 128 TB and allows fast scaling of compute and near-instant backups?",
     o: ["Hyperscale", "General Purpose", "Basic", "Standard (DTU)"],
     a: [0],
-    e: "Hyperscale uses a distributed architecture with page servers and log service, so storage can grow to around 128 TB and backups are snapshot-based and almost instant regardless of size. General Purpose, Basic and Standard have much lower size limits."
+    e: "Hyperscale uses a distributed architecture with page servers and log service, so storage can grow to around 128 TB and backups are snapshot-based and almost instant regardless of size. General Purpose, Basic and Standard have much lower size limits. Older course material, including the in28minutes slides, quotes 100 TB; the current Hyperscale limit is about 128 TB."
   },
   {
     q: "Which two purchasing models are available for Azure SQL Database? (Choose two.)",
@@ -70,7 +70,7 @@ DP900.add(2, 'rel-', [
     q: "Which Azure services provide fully managed open-source relational database engines? (Choose two.)",
     o: ["Azure Database for PostgreSQL", "Azure Database for MySQL", "Azure Cosmos DB for NoSQL", "Azure Table storage", "Azure SQL Managed Instance"],
     a: [0, 1],
-    e: "Azure Database for PostgreSQL and Azure Database for MySQL (flexible server) are managed PaaS versions of these open-source relational engines. Cosmos DB for NoSQL and Table storage are non-relational services. Azure SQL Managed Instance is relational but runs Microsoft's SQL Server engine, which is not open source."
+    e: "Azure Database for PostgreSQL and Azure Database for MySQL (flexible server) are managed PaaS versions of these open-source relational engines. Cosmos DB for NoSQL and Table storage are non-relational services. Azure SQL Managed Instance is relational but runs Microsoft's SQL Server engine, which is not open source. Older material also lists Azure Database for MariaDB, a community fork of MySQL; that service was retired in September 2025."
   },
   {
     q: "A company runs a PHP web application that uses a LAMP stack with a MySQL database. They want to move it to Azure with minimal code changes and no server management. Which database service should they use?",
@@ -418,7 +418,7 @@ DP900.add(2, 'rel-', [
     q: "Which tool can be used from a command line to run T-SQL scripts against Azure SQL Database?",
     o: ["sqlcmd", "AzCopy", "kubectl", "Power Query"],
     a: [0],
-    e: "sqlcmd is a command-line utility for running T-SQL statements and scripts against SQL Server and Azure SQL. AzCopy copies data to and from Azure Storage, and kubectl manages Kubernetes."
+    e: "sqlcmd is a command-line utility for running T-SQL statements and scripts against SQL Server and Azure SQL. AzCopy copies data to and from Azure Storage, and kubectl manages Kubernetes. Your course also lists Azure Data Studio and SQL Server Data Tools (SSDT); Azure Data Studio was retired in February 2026, with Visual Studio Code and the MSSQL extension as its replacement."
   },
   {
     q: "Which description matches Azure SQL Database 'Hyperscale' named replicas?",
@@ -627,7 +627,7 @@ DP900.add(2, 'rel-', [
     o: ["Yes", "No"],
     a: [0],
     k: 1,
-    e: "Yes. Hyperscale supports databases up to about 128 TB. The General Purpose and Business Critical tiers have much smaller limits (around 4 TB for most configurations)."
+    e: "Yes. Hyperscale supports databases up to about 128 TB. The General Purpose and Business Critical tiers have much smaller limits (around 4 TB for most configurations). Course material may say 100 TB, which was the earlier limit."
   },
   {
     q: "Select Yes if the statement is true. Otherwise, select No.\n\nYou can stop an Azure Database for MySQL flexible server to stop paying for compute while it is not needed.",
@@ -854,5 +854,126 @@ DP900.add(2, 'rel-', [
     o: ["Transactional (OLTP)", "Analytical (OLAP)", "Reporting dashboard"],
     a: [0],
     e: "OLTP systems have many writes, and normalization keeps those writes simple and consistent. Analytical systems and reports usually prefer denormalized star schemas for faster reads."
+  },
+  {
+    t: "match",
+    q: "Match each SQL statement to its category, including query and transaction control statements.",
+    c: ["DDL", "DQL", "DML", "DCL", "TCL"],
+    s: [
+      ["SELECT * FROM Course", 1],
+      ["DROP TABLE Course", 0],
+      ["INSERT INTO Course VALUES (1, 'DP-900')", 2],
+      ["REVOKE SELECT ON Course FROM user1", 3],
+      ["ROLLBACK", 4]
+    ],
+    e: "DDL defines structure (CREATE, ALTER, DROP). DQL queries data (SELECT). DML changes data (INSERT, UPDATE, DELETE). DCL manages permissions (GRANT, REVOKE). TCL controls transactions (COMMIT, ROLLBACK). Some sources group SELECT under DML."
+  },
+  {
+    q: "Which category of SQL statements includes COMMIT and ROLLBACK?",
+    o: ["Transaction Control Language (TCL)", "Data Control Language (DCL)", "Data Definition Language (DDL)", "Data Query Language (DQL)"],
+    a: [0],
+    e: "TCL statements end transactions: COMMIT makes changes permanent, and ROLLBACK undoes them, for example when one step of a funds transfer fails. DCL is for permissions, DDL for structure, and DQL for queries."
+  },
+  {
+    t: "complete",
+    q: "A bank transfer debits one account and credits another. If both steps succeed, the application issues {0}; if either step fails, it issues {1}.",
+    b: [
+      { o: ["COMMIT", "ROLLBACK", "TRUNCATE"], a: 0 },
+      { o: ["COMMIT", "ROLLBACK", "DELETE"], a: 1 }
+    ],
+    e: "COMMIT makes all of a transaction's changes permanent, and ROLLBACK undoes all of them, which is how atomicity is achieved. TRUNCATE and DELETE remove rows and do not end a transaction."
+  },
+  {
+    q: "Queries against a relational table have become slow. What is usually the FIRST thing to check?",
+    o: ["Whether an index exists on the columns the queries filter on", "Whether the table can be converted into a JSON document", "Whether the database can be moved to the archive tier", "Whether a view can store a second copy of the table"],
+    a: [0],
+    e: "Without a suitable index, the database scans every row. Adding an index on frequently filtered columns is the classic first fix. JSON conversion and archive tiers don't apply, and a standard view does not store data."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about indexes.",
+    s: [
+      ["Creating a primary key automatically creates an index.", true],
+      ["A table can have more than one clustered index.", false],
+      ["A table can have many non-clustered indexes.", true]
+    ],
+    e: "1 Yes: a primary key is backed by an index (clustered by default in SQL Server). 2 No: rows can be physically sorted only one way, so there is one clustered index per table. 3 Yes: non-clustered indexes are separate structures with pointers to rows, and a table can have many."
+  },
+  {
+    t: "match",
+    q: "Match each normal form to the rule it adds.",
+    c: ["First normal form (1NF)", "Second normal form (2NF)", "Third normal form (3NF)"],
+    s: [
+      ["Each column holds a single, atomic value, with no repeating groups", 0],
+      ["Removes partial dependencies, so non-key columns depend on the whole key", 1],
+      ["Removes columns that don't depend directly on the primary key", 2]
+    ],
+    e: "1NF requires atomic values (an address squeezed into one column breaks it). 2NF removes data that depends on only part of a composite key. 3NF moves columns that depend on other non-key columns into their own table. 3NF is considered good enough for most designs."
+  },
+  {
+    q: "Which two are goals of database normalization? (Choose two.)",
+    o: ["Minimise data redundancy (duplication)", "Maximise data integrity and consistency", "Reduce the number of tables so reports need no joins", "Store every column in a compressed columnar format", "Allow each row to have a different set of columns"],
+    a: [0, 1],
+    e: "Normalization restructures tables to reduce duplication and keep data consistent. It usually increases the number of tables (so more joins), and columnar storage and flexible rows are unrelated features."
+  },
+  {
+    q: "Which purchasing model does Azure SQL Managed Instance support?",
+    o: ["vCore-based only", "DTU-based only", "Both DTU-based and vCore-based", "Request units (RU/s)"],
+    a: [0],
+    e: "SQL Managed Instance is sold only with the vCore model. Azure SQL Database offers both DTU and vCore models, and request units belong to Azure Cosmos DB."
+  },
+  {
+    q: "Which two features are available in Azure SQL Managed Instance but not in Azure SQL Database? (Choose two.)",
+    o: ["SQL Server Agent jobs", "Database Mail", "Transparent data encryption", "Automated backups", "Microsoft Entra authentication"],
+    a: [0, 1],
+    e: "Managed Instance adds instance-level features such as SQL Server Agent, Database Mail, cross-database queries and native virtual network support. TDE, automated backups and Entra authentication are available in both services."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure SQL Database and Azure SQL Managed Instance both support running SQL Server Reporting Services (SSRS) inside the service.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. SSRS, SQL Server Analysis Services (SSAS) and PolyBase are not provided by either PaaS service. If you need them on the same server as the database, use SQL Server on an Azure VM (or Power BI for reporting)."
+  },
+  {
+    q: "Before a user can query an Azure SQL database from their laptop, which two things must be in place? (Choose two.)",
+    o: ["The server firewall allows the laptop's public IP address", "A database user exists with permission to run the queries", "The database is placed in an elastic pool", "Read scale-out is enabled on the database", "The database uses the Hyperscale service tier"],
+    a: [0, 1],
+    e: "Connections are blocked until a firewall rule (or private access) allows them, and the user needs a login or database user with GRANTed permissions such as SELECT. Elastic pools, read scale-out and Hyperscale have nothing to do with connectivity."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about PaaS databases such as Azure SQL Database.",
+    s: [
+      ["You can choose how much compute and memory the database has.", true],
+      ["You can sign in to the virtual machine and install custom software.", false],
+      ["You are responsible for the availability of the database.", false]
+    ],
+    e: "1 Yes: you pick the service tier, vCores or DTUs, so you control the hardware sizing. 2 No: PaaS gives no access to the VM or operating system. 3 No: Microsoft provides built-in high availability; you remain responsible for your data, schema and access."
+  },
+  {
+    t: "match",
+    q: "Match each scenario to its cloud service model.",
+    c: ["IaaS", "PaaS", "SaaS"],
+    s: [
+      ["Installing SQL Server on an Azure virtual machine", 0],
+      ["Creating a database in Azure SQL Database", 1],
+      ["Using Microsoft 365 for email and documents", 2],
+      ["Storing JSON documents in Azure Cosmos DB", 1]
+    ],
+    e: "IaaS rents infrastructure and leaves the OS and database software to you. PaaS (Azure SQL Database, Cosmos DB) manages the platform while you manage data. SaaS (Microsoft 365, Gmail) delivers a complete application."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nWith IaaS, PaaS and SaaS alike, the customer remains responsible for their own data.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Under the shared responsibility model, Microsoft takes on more of the stack as you move from IaaS to PaaS to SaaS, but your data, user accounts and access always stay your responsibility."
+  },
+  {
+    q: "Which statement about Azure Database for MySQL is correct?",
+    o: ["It is a managed service for the community edition of MySQL, often used for WordPress and LAMP apps", "It is a managed service that runs Microsoft SQL Server with a MySQL-compatible query layer", "It is a NoSQL document database that understands the MySQL wire protocol", "It is a data warehouse service for petabyte-scale analytics using MySQL syntax"],
+    a: [0],
+    e: "Azure Database for MySQL runs the open-source community MySQL engine as PaaS, with automatic backups, patching and optional zone-redundant high availability. It is not SQL Server, a NoSQL store or a data warehouse."
   }
 ]);

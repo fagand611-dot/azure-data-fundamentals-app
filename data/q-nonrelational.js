@@ -190,7 +190,7 @@ DP900.add(3, 'nrel-', [
     q: "Which TWO capacity modes are available for Azure Cosmos DB throughput? (Choose two.)",
     o: ["Provisioned throughput (standard or autoscale)", "Serverless", "DTU-based", "Elastic pool", "Capacity units (F SKUs)"],
     a: [0, 1],
-    e: "Cosmos DB supports provisioned throughput (fixed RU/s or autoscale between a minimum and maximum) and serverless (pay per RU consumed). DTUs and elastic pools are Azure SQL Database concepts. Capacity units and F SKUs belong to Microsoft Fabric."
+    e: "Cosmos DB supports provisioned throughput (fixed RU/s or autoscale between a minimum and maximum) and serverless (pay per RU consumed). DTUs and elastic pools are Azure SQL Database concepts. Capacity units and F SKUs belong to Microsoft Fabric. Serverless runs in one region only, so it can't be used for multi-region accounts."
   },
   {
     q: "What is the default consistency level for a new Azure Cosmos DB account?",
@@ -335,7 +335,7 @@ DP900.add(3, 'nrel-', [
     q: "You want to minimise cost for a Cosmos DB database used by a small application with sporadic traffic and long idle periods. Which option is MOST appropriate?",
     o: ["Serverless capacity mode", "Provisioned throughput with a high fixed RU/s", "Multi-region writes in five regions", "Strong consistency"],
     a: [0],
-    e: "Serverless charges only for the RUs consumed and storage used, so intermittent workloads don't pay for idle provisioned throughput. Provisioned or multi-region setups cost more when traffic is low."
+    e: "Serverless charges only for the RUs consumed and storage used, so intermittent workloads don't pay for idle provisioned throughput. Provisioned or multi-region setups cost more when traffic is low. Serverless accounts run in a single Azure region. Older course material quotes a 50 GB per-container limit; Microsoft has since raised it, so expect questions on when to use serverless rather than on the exact number."
   },
   {
     q: "Which non-relational data store would you choose for simple, inexpensive storage of large volumes of structured, non-relational data looked up by key, such as user preferences?",
@@ -791,5 +791,105 @@ DP900.add(3, 'nrel-', [
       { o: ["Apache Gremlin", "Apache Cassandra", "Table", "MongoDB"], a: 0 }
     ],
     e: "The Gremlin API models data as vertices and edges and uses the Gremlin traversal language. Cassandra is column-family, Table is key-value, and MongoDB is document-based."
+  },
+  {
+    t: "match",
+    q: "In Azure Cosmos DB, a 'container' has a different name depending on the API. Match each API to its name for a container.",
+    c: ["Collection", "Table", "Graph", "Container"],
+    s: [
+      ["API for MongoDB", 0],
+      ["API for Apache Cassandra", 1],
+      ["API for Apache Gremlin", 2],
+      ["API for NoSQL", 3]
+    ],
+    e: "MongoDB calls containers collections, Cassandra calls them tables (inside keyspaces), Gremlin calls them graphs, and API for NoSQL uses containers. API for Table also calls them tables."
+  },
+  {
+    t: "match",
+    q: "Match each Azure Cosmos DB API to the name it uses for a single record.",
+    c: ["Item", "Document", "Row", "Node or edge"],
+    s: [
+      ["API for NoSQL", 0],
+      ["API for MongoDB", 1],
+      ["API for Apache Cassandra", 2],
+      ["API for Apache Gremlin", 3]
+    ],
+    e: "API for NoSQL (and API for Table) store items, MongoDB stores documents, Cassandra stores rows, and Gremlin stores vertices (nodes) and edges."
+  },
+  {
+    q: "In the API for Apache Cassandra, which term corresponds to a Cosmos DB database?",
+    o: ["Keyspace", "Collection", "Graph", "Partition"],
+    a: [0],
+    e: "Cassandra groups tables into keyspaces, which map to Cosmos DB databases. Collection is MongoDB's term for a container, graph is Gremlin's, and a partition is a unit of data distribution."
+  },
+  {
+    t: "match",
+    q: "Match each statement to the Azure Cosmos DB capacity mode it describes.",
+    c: ["Provisioned throughput", "Serverless"],
+    s: [
+      ["Billed for the RU/s you reserve, whether or not you use them", 0],
+      ["Billed only for the request units you actually consume", 1],
+      ["Best for continuous, predictable traffic", 0],
+      ["Best for intermittent or unpredictable traffic", 1],
+      ["Can replicate the account to multiple Azure regions", 0]
+    ],
+    e: "Provisioned throughput reserves RU/s (fixed or autoscale) and supports multi-region accounts. Serverless needs no capacity planning and bills per RU consumed, but runs in a single region and has lower per-container storage limits."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about partitioning in Azure Cosmos DB.",
+    s: [
+      ["Items with the same partition key value belong to the same logical partition.", true],
+      ["You must create and rebalance physical partitions yourself.", false],
+      ["Cosmos DB scales mainly by adding partitions across servers (horizontal scaling).", true]
+    ],
+    e: "1 Yes: a logical partition is the set of items sharing a partition key value. 2 No: Cosmos DB creates, manages and rebalances physical partitions automatically. 3 Yes: partitioning lets Cosmos DB scale out horizontally."
+  },
+  {
+    q: "Which feature of Azure Cosmos DB lets you add or remove Azure regions without pausing or redeploying your application?",
+    o: ["Turnkey global distribution", "Elastic pools", "Hierarchical namespace", "Read scale-out"],
+    a: [0],
+    e: "Cosmos DB replicates data to any Azure region you add, with a click and no downtime, and can enable multi-region writes. Elastic pools and read scale-out belong to Azure SQL Database, and the hierarchical namespace belongs to Data Lake Storage Gen2."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Storage accounts.",
+    s: [
+      ["You need a storage account before you can create blob containers, file shares, queues or tables.", true],
+      ["Azure managed disks are created inside a storage account that you manage.", false],
+      ["A single storage account can hold blob containers and file shares at the same time.", true]
+    ],
+    e: "1 Yes: the storage account is the top-level resource for Blob, Files, Queue and Table storage. 2 No: managed disks are managed by Azure without a storage account you look after (only legacy unmanaged disks used one). 3 Yes: a general-purpose v2 account holds all four services."
+  },
+  {
+    q: "How many copies of your data does geo-redundant storage (GRS) keep in total?",
+    o: ["Six: three in the primary region and three in the secondary region", "Three: all in a single datacenter in the primary region", "Three: one in each availability zone of the primary region", "Two: one in the primary region and one in the secondary region"],
+    a: [0],
+    e: "GRS keeps three copies with LRS in the primary region and asynchronously copies data to the paired secondary region, which keeps three more with LRS. LRS keeps three copies in one datacenter, and ZRS keeps three across zones."
+  },
+  {
+    q: "For a new application that needs a NoSQL key-value store with global distribution and guaranteed low latency, which service does Microsoft recommend over Azure Table storage?",
+    o: ["Azure Cosmos DB (for example, API for Table)", "Azure Files premium tier", "Azure SQL Database serverless", "Azure Queue storage"],
+    a: [0],
+    e: "Table storage is a very basic, low-cost NoSQL store. When you need global distribution, automatic indexing of all properties and latency SLAs, Cosmos DB (API for Table keeps the Table storage programming model) is preferred."
+  },
+  {
+    q: "Which type of Azure managed disk is recommended for I/O-intensive workloads such as SAP HANA and top-tier transactional databases?",
+    o: ["Ultra disk", "Standard HDD", "Standard SSD", "Premium SSD v1 for backups"],
+    a: [0],
+    e: "Ultra disks give the highest IOPS and throughput with sub-millisecond latency for the most demanding workloads. Premium SSD suits most production workloads, Standard SSD suits web servers and dev/test, and Standard HDD suits backups and infrequent access."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nMicrosoft recommends managed disks rather than unmanaged disks for Azure virtual machines.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. With managed disks Azure handles the underlying storage, scale and availability. Unmanaged disks are the older model, where you store VHDs as page blobs in a storage account you manage yourself."
+  },
+  {
+    q: "Which storage service lets a web application hand off order-processing work to a background service asynchronously, so the two are decoupled?",
+    o: ["Azure Queue Storage", "Azure Table storage", "Azure Files", "Azure Disk Storage"],
+    a: [0],
+    e: "Queue Storage holds messages that one component adds and another processes later, decoupling them and smoothing out spikes. Table storage holds key-value entities, Azure Files provides shares, and Disk Storage provides VM disks."
   }
 ]);

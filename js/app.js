@@ -29,6 +29,21 @@
     });
   });
   function inOutline(q) { return !!OBJ_NAME[q.sk]; }
+
+  // Memory aids from the course notes: each question gets the first matching rule in data/tips.js.
+  var TIPS = (window.DP900 && window.DP900.tips) || [];
+  TIPS.forEach(function (t) { t.rx = t.re ? new RegExp(t.re, 'i') : null; });
+  BANK.forEach(function (q) {
+    // Match on the question, statements and match items only, so a wrong answer option can't pick the aid.
+    var text = [q.q].concat(q.c || [], (q.s || []).map(function (x) { return x[0]; })).join(' ');
+    for (var i = 0; i < TIPS.length; i++) {
+      var t = TIPS[i];
+      if (t.sk && t.sk.indexOf(q.sk) === -1) continue;
+      if (t.rx && !t.rx.test(text)) continue;
+      q.tip = t.tip;
+      break;
+    }
+  });
   function objectiveHtml(q) {
     if (!q.sk) return '';
     return inOutline(q)
@@ -825,7 +840,9 @@
       : '<p class="answer-line">Correct answer: <b>' + letterList(q, order, q.a) + '</b>' +
         (!none && !ok ? ' · You chose: <b>' + letterList(q, order, chosen) + '</b>' : '') + '</p>';
     return '<section class="explain ' + cls + '"><header>' + head + '</header><div class="body">' + answerLine +
-      '<p class="e">' + fmt(q.e) + '</p></div></section>';
+      '<p class="e">' + fmt(q.e) + '</p>' +
+      (q.tip ? '<p class="tip"><span class="label">Memory aid</span>' + esc(q.tip) + '</p>' : '') +
+      '</div></section>';
   }
 
   function renderQuiz() {

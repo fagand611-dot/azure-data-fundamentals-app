@@ -100,7 +100,7 @@ DP900.add(4, 'ana-', [
     q: "What is Microsoft Fabric?",
     o: ["A SaaS analytics platform that unifies data engineering, warehousing, real-time and BI on OneLake", "A globally distributed NoSQL database for operational applications that need low latency", "A virtual network service that connects on-premises data sources to Azure analytics services", "A storage account type that replaces Blob Storage for virtual machine disks and file shares"],
     a: [0],
-    e: "Microsoft Fabric is a software-as-a-service analytics platform. All workloads (Data Factory, Data Engineering, Data Warehouse, Data Science, Real-Time Intelligence, Databases and Power BI) share one data lake, OneLake, and one capacity-based licensing model."
+    e: "Microsoft Fabric is a software-as-a-service analytics platform. All workloads (Data Factory, Data Engineering, Data Warehouse, Data Science, Real-Time Intelligence, Databases and Power BI) share one data lake, OneLake, and one capacity-based licensing model. Some course material lists Fabric as PaaS, but Microsoft describes it as software as a service (SaaS)."
   },
   {
     q: "What is OneLake in Microsoft Fabric?",
@@ -1069,5 +1069,173 @@ DP900.add(4, 'ana-', [
       { o: ["Azure HDInsight", "Azure Synapse Analytics", "Azure Cosmos DB"], a: 1 }
     ],
     e: "HDInsight provides managed open-source clusters. Synapse Analytics integrates dedicated and serverless SQL pools, Spark pools and pipelines in one workspace. Data Explorer is for log and telemetry analytics with KQL, and Cosmos DB is an operational database."
+  },
+  {
+    t: "match",
+    q: "Match each stage of the analytics lifecycle to an Azure service commonly used for it.",
+    c: ["Azure Event Hubs", "Azure Databricks", "Azure Data Lake Storage Gen2", "Power BI"],
+    s: [
+      ["Ingest: collect a stream of events from applications", 0],
+      ["Process: clean, transform and enrich data with Spark", 1],
+      ["Store: keep raw and curated files for later analysis", 2],
+      ["Visualize: present dashboards and reports", 3]
+    ],
+    e: "A typical flow is ingest → process → store → analyze → visualize. Event Hubs (or Data Factory for batch) ingests, Databricks, Synapse or Data Factory process, ADLS Gen2 stores, and Power BI visualises."
+  },
+  {
+    t: "complete",
+    q: "In the analytics lifecycle, data is first {0}, then processed and stored, then analysed, and finally {1} for decision makers.",
+    b: [
+      { o: ["ingested", "visualized", "archived"], a: 0 },
+      { o: ["ingested", "visualized", "normalized"], a: 1 }
+    ],
+    e: "The course's lifecycle is ingest → process → store → analyze → visualize: collect data from sources, clean and transform it, store it, query it, then present it in reports and dashboards."
+  },
+  {
+    t: "match",
+    q: "Match each characteristic of big data to its description.",
+    c: ["Volume", "Velocity", "Variety"],
+    s: [
+      ["Petabytes of data and billions of rows", 0],
+      ["Sensor readings and stock prices arriving every second", 1],
+      ["A mix of SQL tables, JSON, images and video", 2]
+    ],
+    e: "The three Vs: volume is the amount of data, velocity is the speed at which it arrives, and variety is the range of formats. Big data is data whose volume, velocity or variety is too much for traditional tools."
+  },
+  {
+    q: "A data team needs to clean, deduplicate and standardise records from several source systems before analysis. Which stage of the analytics lifecycle is this?",
+    o: ["Processing", "Ingestion", "Visualization", "Archiving"],
+    a: [0],
+    e: "Processing transforms data: removing duplicates, validating records, standardising formats and merging datasets. Ingestion only collects the data, and visualization presents results."
+  },
+  {
+    t: "match",
+    q: "Match each characteristic to the analytical store it describes.",
+    c: ["Data warehouse", "Data lake"],
+    s: [
+      ["Holds cleaned, curated, structured data for reporting", 0],
+      ["Holds raw data in its native format, structured or unstructured", 1],
+      ["Schema is applied before loading (schema-on-write)", 0],
+      ["Schema is applied when data is read (schema-on-read)", 1],
+      ["Mainly explored by data engineers and data scientists", 1]
+    ],
+    e: "Warehouses store refined, structured data designed for business reporting. Lakes store raw files of any type cheaply and apply structure when queried. A lakehouse combines both."
+  },
+  {
+    q: "Ten servers each process 100 million rows of a 1-billion-row query at the same time instead of one server processing all of it. What is this technique called?",
+    o: ["Massively parallel processing (MPP)", "Online transaction processing (OLTP)", "Vertical scaling (scale up)", "Extract, transform, load (ETL)"],
+    a: [0],
+    e: "MPP splits data and work across many compute nodes that run in parallel, as in Synapse dedicated SQL pools, Fabric Warehouse and Spark. OLTP describes transactional workloads, scaling up adds resources to one server, and ETL is a data integration pattern."
+  },
+  {
+    q: "Azure Synapse Analytics dedicated SQL pools were previously known by which name?",
+    o: ["Azure SQL Data Warehouse", "Azure SQL Managed Instance", "Azure Analysis Services", "Azure Data Lake Analytics"],
+    a: [0],
+    e: "Synapse dedicated SQL pools evolved from Azure SQL Data Warehouse, Microsoft's MPP cloud warehouse. Managed Instance is an OLTP service, Analysis Services hosts semantic models, and Data Lake Analytics was a separate (retired) U-SQL service."
+  },
+  {
+    t: "match",
+    q: "Match each Apache Hadoop ecosystem component to its role.",
+    c: ["HDFS", "MapReduce", "Hive"],
+    s: [
+      ["Distributed file storage across the cluster", 0],
+      ["Distributed batch processing framework", 1],
+      ["SQL-like query layer over data in Hadoop", 2]
+    ],
+    e: "HDFS stores data across many nodes, MapReduce processes it in parallel batches, and Hive lets you query it with SQL-like HiveQL. In Azure these run on HDInsight, and Spark is the faster, more modern engine."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Apache Spark and Azure Databricks.",
+    s: [
+      ["Spark is generally faster than MapReduce because it processes data in memory.", true],
+      ["Spark supports SQL, machine learning and streaming workloads.", true],
+      ["Azure Databricks requires you to install and patch Spark on your own virtual machines.", false]
+    ],
+    e: "1 Yes: in-memory processing avoids writing intermediate results to disk between steps. 2 Yes: Spark SQL, MLlib and Structured Streaming are part of Spark. 3 No: Databricks is a managed Spark platform with automatic cluster management."
+  },
+  {
+    q: "Which statement describes Microsoft Fabric's cloud service model?",
+    o: ["It is software as a service (SaaS): Microsoft runs the infrastructure and platform", "It is infrastructure as a service (IaaS): you manage the virtual machines", "It is platform as a service (PaaS) that you deploy into your own virtual network", "It is an on-premises product that you install on Windows servers"],
+    a: [0],
+    e: "Microsoft describes Fabric as a SaaS analytics platform: you work with workspaces and items on OneLake, and there are no clusters or servers to deploy. Some course material lists it as PaaS, but the official classification is SaaS."
+  },
+  {
+    t: "match",
+    q: "Match each streaming component to its role in a real-time architecture.",
+    c: ["Ingestion", "Processing"],
+    s: [
+      ["Azure Event Hubs", 0],
+      ["Azure IoT Hub", 0],
+      ["Azure Stream Analytics", 1],
+      ["Spark Structured Streaming", 1],
+      ["Apache Kafka", 0]
+    ],
+    e: "Event Hubs, IoT Hub and Kafka receive and buffer high-volume event streams. Stream Analytics and Spark Structured Streaming (and Fabric Real-Time Intelligence) process the events as they arrive."
+  },
+  {
+    t: "match",
+    q: "Match each scenario to the processing approach it needs.",
+    c: ["Batch processing", "Stream processing"],
+    s: [
+      ["Monthly billing run", 0],
+      ["Website clickstream analysed as users browse", 1],
+      ["Overnight sales reporting", 0],
+      ["Blocking a fraudulent card payment before it completes", 1]
+    ],
+    e: "Batch processing handles large, scheduled workloads where minutes or hours of latency are fine. Stream processing handles continuous events where results are needed in seconds or milliseconds."
+  },
+  {
+    q: "Which Azure service is MOST appropriate when a company wants to create interactive reports and dashboards from its data?",
+    o: ["Power BI", "Azure Data Factory", "Azure Synapse Analytics", "Azure Event Hubs"],
+    a: [0],
+    e: "Power BI is Microsoft's business intelligence and visualization service. Data Factory moves and transforms data, Synapse stores and processes it, and Event Hubs ingests events."
+  },
+  {
+    t: "match",
+    q: "Match each cloud benefit to its description.",
+    c: ["Elasticity", "Agility", "Economies of scale", "Global reach"],
+    s: [
+      ["Resources scale up and down automatically as demand changes", 0],
+      ["New resources are provisioned in minutes instead of weeks", 1],
+      ["Providers buy at huge volume, which lowers the cost per unit", 2],
+      ["Applications are deployed close to users around the world", 3]
+    ],
+    e: "Elasticity is scaling on demand, agility is speed of provisioning, economies of scale come from the provider's purchasing power, and global reach is deploying worldwide quickly. These cloud concepts are AZ-900 material and are not in the DP-900 outline."
+  },
+  {
+    q: "Moving from owning servers in a datacenter to paying for cloud resources as you use them shifts spending from which model to which?",
+    o: ["From capital expenditure (CapEx) to operational expenditure (OpEx)", "From operational expenditure (OpEx) to capital expenditure (CapEx)", "From pay-as-you-go pricing to reserved hardware purchases", "From variable costs to large fixed upfront investments"],
+    a: [0],
+    e: "Buying hardware is a large upfront capital expense. Cloud services are paid for as they are consumed, which is an operational expense with lower financial risk."
+  },
+  {
+    t: "match",
+    q: "Match each requirement to the Azure feature that addresses it.",
+    c: ["Availability zones", "Multiple Azure regions"],
+    s: [
+      ["Keep running if one datacenter in a region fails", 0],
+      ["Keep running if an entire region becomes unavailable", 1],
+      ["Serve users on different continents with low latency", 1]
+    ],
+    e: "Availability zones are separate datacenters within a region, with independent power, cooling and networking, so they protect against a datacenter failure. Deploying across regions protects against regional outages (disaster recovery) and puts apps closer to global users."
+  },
+  {
+    q: "Which two factors should you consider when choosing an Azure region for a new database? (Choose two.)",
+    o: ["Data residency and compliance rules", "Latency to the application's users", "The number of tables in the database schema", "Whether the database uses DDL or DML statements", "The colour scheme of the Azure portal"],
+    a: [0, 1],
+    e: "Region choice depends on compliance and data residency (for example GDPR), latency to users, which services and SKUs are available in the region, and price. Schema details are irrelevant to region choice."
+  },
+  {
+    t: "match",
+    q: "Arrange the Azure resource hierarchy by matching each level to its description.",
+    c: ["Management group", "Subscription", "Resource group", "Resource"],
+    s: [
+      ["Top level: groups subscriptions for governance", 0],
+      ["Billing and access boundary that contains resource groups", 1],
+      ["Logical container for related resources", 2],
+      ["An individual service instance, such as one SQL database", 3]
+    ],
+    e: "The hierarchy is management group > subscription > resource group > resource. Azure Resource Manager deploys and manages resources at every level. This is AZ-900 material rather than DP-900."
   }
 ]);
