@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 global.window = {};
 const dir = path.join(__dirname, '..', 'data');
-const files = ['bank.js', 'q-core.js', 'q-relational.js', 'q-nonrelational.js', 'q-analytics.js'];
+const files = ['bank.js', 'q-core.js', 'q-relational.js', 'q-nonrelational.js', 'q-analytics.js', 'outline.js'];
 const DP900 = (window.DP900 = { bank: [] });
 global.DP900 = DP900;
 for (const f of files) new Function('window', 'DP900', fs.readFileSync(path.join(dir, f), 'utf8'))(window, DP900);
@@ -45,6 +45,20 @@ for (const q of window.DP900.bank) {
   if (texts.has(q.q)) fail(q, 'duplicate question text');
   texts.add(q.q);
 }
+// Every question must map to exactly one outline objective (or X / D).
+const outline = window.DP900.outline;
+const codes = new Set(outline.objectives.map((o) => o[0]).concat(Object.keys(outline.extra)));
+const mapped = {};
+for (const [code, ids] of Object.entries(outline.byObjective)) {
+  if (!codes.has(code)) { problems++; console.error(`outline: unknown objective ${code}`); }
+  for (const id of ids) {
+    if (mapped[id]) { problems++; console.error(`outline: ${id} is listed under ${mapped[id]} and ${code}`); }
+    mapped[id] = code;
+  }
+}
+for (const q of window.DP900.bank) if (!mapped[q.id]) fail(q, 'not mapped to an outline objective in data/outline.js');
+for (const id of Object.keys(mapped)) if (!window.DP900.bank.some((q) => q.id === id)) { problems++; console.error(`outline: ${id} does not exist`); }
+
 const shapes = {};
 for (const q of window.DP900.bank) {
   const k = q.t ? q.t : q.a.length > 1 ? 'multiple (5 options, 2 correct)' : `single, ${q.o.length} options`;

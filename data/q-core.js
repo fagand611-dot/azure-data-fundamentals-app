@@ -844,5 +844,201 @@ DP900.add(1, 'core-', [
       { o: ["fact", "dimension", "staging"], a: 1 }
     ],
     e: "Fact tables hold measures such as SalesAmount and keys to dimensions. Dimension tables hold descriptive attributes such as product, customer and date, used to filter and group the facts."
+  },
+  {
+    q: "A retail website needs to store product images that are served to millions of visitors. Which Azure data store should you use?",
+    o: ["Azure Blob Storage", "Azure SQL Database", "Azure Table storage", "Azure Cosmos DB for Apache Gremlin"],
+    a: [0],
+    e: "Blob Storage is object storage designed for unstructured files such as images, and it serves them cheaply over HTTP (often behind a CDN). SQL Database is for relational data, Table storage for key-value entities, and Gremlin for graph data."
+  },
+  {
+    q: "An order-processing application needs ACID transactions, foreign keys and joins across customers, orders and products. Which Azure data store is MOST appropriate?",
+    o: ["Azure SQL Database", "Azure Cosmos DB for NoSQL", "Azure Blob Storage", "Azure Files"],
+    a: [0],
+    e: "Relational databases such as Azure SQL Database enforce relationships with foreign keys, support joins and provide ACID transactions. Cosmos DB favours flexible documents and scale, and Blob Storage and Azure Files store files."
+  },
+  {
+    q: "A mobile game stores player profiles as JSON and needs single-digit millisecond reads and writes for players worldwide. Which data store fits best?",
+    o: ["Azure Cosmos DB", "Azure SQL Managed Instance", "Azure Files", "Azure Synapse dedicated SQL pool"],
+    a: [0],
+    e: "Cosmos DB stores JSON documents, replicates them globally and guarantees low latency. Managed Instance is a relational engine, Azure Files provides file shares, and a dedicated SQL pool is an analytical data warehouse."
+  },
+  {
+    q: "Several virtual machines need to share configuration files through a mapped network drive. Which Azure data store should you use?",
+    o: ["Azure Files", "Azure Blob Storage", "Azure Table storage", "Azure Cosmos DB"],
+    a: [0],
+    e: "Azure Files provides SMB and NFS shares that many machines can mount at the same time. Blob Storage is accessed over HTTP rather than mounted as a drive, and Table storage and Cosmos DB are databases."
+  },
+  {
+    q: "A data engineering team needs to store raw CSV, JSON and Parquet files in folders for large-scale analytics with Spark. Which Azure data store should it use?",
+    o: ["Azure Data Lake Storage Gen2", "Azure SQL Database", "Azure Table storage", "Azure Files"],
+    a: [0],
+    e: "ADLS Gen2 (Blob Storage with a hierarchical namespace) is built for analytics: directories, POSIX-style ACLs and high throughput for Spark and SQL engines. The other options are not designed for big data file processing."
+  },
+  {
+    q: "Which two Azure data stores are designed for relational data? (Choose two.)",
+    o: ["Azure SQL Database", "Azure Database for PostgreSQL", "Azure Blob Storage", "Azure Cosmos DB for MongoDB", "Azure Table storage"],
+    a: [0, 1],
+    e: "Azure SQL Database and Azure Database for PostgreSQL are relational database services. Blob Storage holds objects, Cosmos DB for MongoDB holds documents, and Table storage holds key-value entities."
+  },
+  {
+    t: "match",
+    q: "Match each scenario to the most appropriate Azure data store.",
+    c: ["Azure SQL Database", "Azure Cosmos DB", "Azure Blob Storage", "Azure Files", "Microsoft Fabric lakehouse"],
+    s: [
+      ["An invoicing system that needs transactions and joins", 0],
+      ["A globally distributed shopping cart with millisecond latency", 1],
+      ["Backups and video files stored at low cost", 2],
+      ["A shared folder mapped as a network drive", 3],
+      ["Raw files and Delta tables for enterprise analytics", 4]
+    ],
+    e: "Transactional relational data belongs in Azure SQL Database. Global, low-latency operational data suits Cosmos DB. Blob Storage is cheap object storage for files. Azure Files provides shares. A Fabric lakehouse combines files and Delta tables for analytics."
+  },
+  {
+    t: "match",
+    q: "Match each type of data to the Azure service most often used to store it.",
+    c: ["Azure SQL Database", "Azure Cosmos DB for NoSQL", "Azure Blob Storage"],
+    s: [
+      ["Rows of customer orders with a fixed schema", 0],
+      ["JSON documents whose fields vary from item to item", 1],
+      ["Scanned PDF contracts and photos", 2]
+    ],
+    e: "Structured data maps naturally to a relational database, semi-structured JSON to a document database such as Cosmos DB for NoSQL, and unstructured files to Blob Storage."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about choosing Azure data stores.",
+    s: [
+      ["Azure Blob Storage is a good choice for unstructured data such as images and video.", true],
+      ["Azure Cosmos DB is the best choice when you need complex joins across many related tables.", false],
+      ["Azure SQL Database suits transactional workloads that need ACID guarantees.", true]
+    ],
+    e: "1 Yes: Blob Storage is designed for unstructured objects. 2 No: Cosmos DB queries run within one container and don't support joins across containers; complex relational joins suit a relational database. 3 Yes: Azure SQL Database provides full ACID transactions."
+  },
+  {
+    t: "complete",
+    q: "For JSON documents that must be replicated to several regions with low latency, use {0}; for structured data that needs transactions and joins, use {1}.",
+    b: [
+      { o: ["Azure Cosmos DB", "Azure SQL Database", "Azure Blob Storage"], a: 0 },
+      { o: ["Azure Cosmos DB", "Azure SQL Database", "Azure Files"], a: 1 }
+    ],
+    e: "Cosmos DB is a globally distributed document database with low-latency guarantees. Azure SQL Database is a relational database with joins, constraints and ACID transactions."
+  },
+  {
+    q: "A company wants one store for analytics where data engineers use Spark and analysts use SQL and Power BI over the same data. Which option fits best?",
+    o: ["A Microsoft Fabric lakehouse", "Azure Table storage", "Azure Files"],
+    a: [0],
+    e: "A Fabric lakehouse stores Delta tables in OneLake that Spark notebooks, the SQL analytics endpoint and Power BI (Direct Lake) can all use. Table storage is a key-value store and Azure Files is a file share."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Table storage is a good choice for large volumes of structured, non-relational data that is looked up by key.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Table storage is a low-cost key-attribute store designed for this pattern, such as device metadata or user preferences retrieved by PartitionKey and RowKey."
+  },
+  {
+    q: "Which statement describes structured data?",
+    o: ["Data follows a fixed schema, so every record has the same fields", "Each record describes itself with tags or key-value pairs that can vary", "Data has no internal organisation, such as images and audio files", "Data is always stored in a data lake as compressed Parquet files"],
+    a: [0],
+    e: "Structured data adheres to a fixed schema, typically as rows and columns in a table. Self-describing, varying records are semi-structured, and data with no internal organisation is unstructured."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nSemi-structured data must be converted to a relational schema before it can be stored.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Semi-structured data such as JSON can be stored as-is in document databases (for example Cosmos DB), in files in a data lake, or even in JSON columns in a relational database."
+  },
+  {
+    q: "Which two statements describe unstructured data? (Choose two.)",
+    o: ["It has no predefined data model or fields", "It includes documents, images, audio and video", "Every record has the same columns", "Each field is described by a key-value pair", "It can only be stored in relational tables"],
+    a: [0, 1],
+    e: "Unstructured data lacks a field structure and includes media and free-form documents. Identical columns describe structured data, key-value fields describe semi-structured data, and unstructured data is usually kept in object storage, not tables."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about ways to represent data.",
+    s: [
+      ["Structured data is usually stored in tables with a fixed schema.", true],
+      ["JSON is an example of unstructured data.", false],
+      ["Video files are an example of unstructured data.", true]
+    ],
+    e: "1 Yes: structured data fits rows and columns. 2 No: JSON is semi-structured because it carries field names and structure. 3 Yes: video has no field structure, so it is unstructured."
+  },
+  {
+    q: "What is the main difference between a file store and a database?",
+    o: ["A database manages data with a query engine, indexes and transactions; a file store keeps files as written", "A file store enforces a schema on every file, while a database stores files in their native format", "Databases can store only structured data, while file stores can store only plain text files", "There is no difference, because both terms describe exactly the same kind of data store"],
+    a: [0],
+    e: "File stores (such as Blob Storage or Azure Files) hold files without understanding their contents. Databases organise data so a query engine can search, update and protect it with indexes, constraints and transactions."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA relational database is the best type of data store for every kind of data.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Relational databases suit structured, related data that needs transactions. Media files belong in object storage, flexible documents in document databases, and highly connected data in graph databases."
+  },
+  {
+    t: "match",
+    q: "Match each type of data store to the data it suits best.",
+    c: ["Relational database", "Document database", "Graph database", "Object storage"],
+    s: [
+      ["Orders and customers with fixed schemas and relationships", 0],
+      ["Product catalog entries with varying attributes", 1],
+      ["A fraud-detection network of accounts and transfers", 2],
+      ["Images, video and backup files", 3]
+    ],
+    e: "Relational databases handle fixed schemas and relationships, document databases handle varying attributes, graph databases handle connected networks, and object storage handles large files."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about transactional workloads.",
+    s: [
+      ["OLTP systems typically use ACID transactions.", true],
+      ["Transactional workloads usually run long queries that scan years of history.", false],
+      ["Transactional systems often store data in normalized tables.", true]
+    ],
+    e: "1 Yes: ACID transactions keep business records accurate. 2 No: long historical scans are analytical; OLTP operations are short and touch few rows. 3 Yes: normalization avoids duplication and update anomalies."
+  },
+  {
+    t: "complete",
+    q: "A transactional workload is typically {0}-heavy, with many small inserts and updates, while an analytical workload is typically {1}-heavy.",
+    b: [
+      { o: ["write", "read"], a: 0 },
+      { o: ["write", "read"], a: 1 }
+    ],
+    e: "OLTP systems constantly record new transactions, so they handle a high volume of writes. Analytical systems are loaded periodically and then queried many times, so they are read-heavy."
+  },
+  {
+    q: "How does data usually get into an analytical store such as a data warehouse?",
+    o: ["It is copied from operational systems, cleaned and loaded in batches or streams", "Users type it directly into the warehouse through data entry forms", "It is created by the warehouse's own business transactions", "Database administrators enter it manually once a year"],
+    a: [0],
+    e: "Analytical stores are fed by ingestion pipelines (ETL/ELT or streaming) that extract data from operational systems, transform it and load it. They are not usually the system of record for transactions."
+  },
+  {
+    q: "Which two are characteristics of analytical workloads? (Choose two.)",
+    o: ["Data is mostly read rather than updated", "Queries aggregate large volumes of historical data", "Each operation inserts or updates a single row", "Data must be fully normalized to third normal form", "Every query must return within one millisecond"],
+    a: [0, 1],
+    e: "Analytical workloads read and aggregate large amounts of history. Single-row writes and strict normalization are transactional traits, and analytical queries can take seconds or longer."
+  },
+  {
+    q: "Users report timeouts because a production database is running slowly. Which role is MOST likely to investigate and tune the database?",
+    o: ["Database administrator", "Data analyst", "Data engineer", "Report consumer"],
+    a: [0],
+    e: "Database administrators monitor and optimise database performance, along with security, backups and availability. Data analysts build reports, and data engineers build pipelines."
+  },
+  {
+    q: "Which role makes sure data from many sources is integrated, cleaned and made available for analysis?",
+    o: ["Data engineer", "Database administrator", "Data analyst"],
+    a: [0],
+    e: "Data engineers design and run the ingestion and transformation pipelines and the analytical stores. Database administrators manage operational databases, and data analysts use the prepared data."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nData engineers are typically responsible for designing Power BI dashboards for executives.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Designing reports and dashboards is the data analyst's job. Data engineers prepare the data that those reports use."
   }
 ]);

@@ -984,5 +984,35 @@ DP900.add(4, 'ana-', [
       { o: ["ELT", "ETL", "OLTP"], a: 0 }
     ],
     e: "ELT (extract, load, transform) uses the target platform's compute to transform data after loading, which suits cloud lakehouses and warehouses. ETL transforms data before loading, and OLTP describes transactional workloads."
+  },
+  {
+    q: "Which visual is BEST for showing how sales opportunities drop off through stages, from leads to qualified to closed?",
+    o: ["Funnel chart", "Scatter chart", "Card", "Treemap"],
+    a: [0],
+    e: "Funnel charts show values decreasing through sequential stages of a process. Scatter charts show correlation, cards show a single value, and treemaps show parts of a whole."
+  },
+  {
+    q: "You need to show exact values for many products across several columns, such as price, stock and sales. Which visual is MOST appropriate?",
+    o: ["Table", "Pie chart", "Gauge"],
+    a: [0],
+    e: "Table visuals list detailed values in rows and columns. Pie charts show proportions of a whole, and gauges show a single value against a target."
+  },
+  {
+    q: "Which two visuals are good choices for comparing values across categories? (Choose two.)",
+    o: ["Bar chart", "Column chart", "Card", "Gauge", "Scatter chart"],
+    a: [0, 1],
+    e: "Bar and column charts compare categories side by side. Cards and gauges show a single value, and scatter charts show the relationship between two numeric measures."
+  },
+  {
+    q: "Which statement BEST describes Azure Databricks?",
+    o: ["A Spark-based analytics platform for data engineering, data science and machine learning", "A SaaS reporting service for building interactive dashboards and paginated reports", "A managed relational database service for transactional business applications", "A messaging service that ingests millions of events per second from applications"],
+    a: [0],
+    e: "Azure Databricks provides managed Spark clusters, notebooks, Delta Lake and Unity Catalog. Reporting is Power BI, relational databases are Azure SQL and the open-source services, and event ingestion is Event Hubs."
+  },
+  {
+    q: "Which Microsoft Fabric workload would a data engineer use to transform lakehouse data with Spark notebooks?",
+    o: ["Data Engineering", "Real-Time Intelligence", "Power BI"],
+    a: [0],
+    e: "The Data Engineering workload provides lakehouses, notebooks and Spark job definitions. Real-Time Intelligence handles streaming data, and Power BI handles reporting."
   }
 ]);

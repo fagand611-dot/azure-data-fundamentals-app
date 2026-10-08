@@ -252,6 +252,44 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .bar i.good { background: var(--good); }
 .bar i.bad { background: var(--bad); }
 
+.objectives { border-top: 1px solid var(--line); padding-top: .75rem; }
+.objectives summary {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .25rem .6rem;
+  font: 600 .95rem/1.4 var(--font-display);
+  min-height: 2.5rem;
+  padding-block: .4rem;
+}
+.objectives summary .nums { font: 500 .75rem/1.4 var(--font-mono); color: var(--muted); }
+.objectives .sub { margin: .25rem 0 .5rem; }
+.obj-area { font: 600 .72rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 1rem 0 .35rem; }
+.objrow {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr auto;
+  align-items: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .6rem .2rem;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  text-align: left;
+  font-size: .88rem;
+  line-height: 1.35;
+}
+.objrow:disabled { opacity: .5; cursor: default; }
+.objrow .code, .objective .code { font: 600 .78rem/1 var(--font-mono); color: var(--accent); }
+.objrow .name { min-width: 0; }
+.objrow .score { font: 600 .8rem/1 var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); padding: .3rem .45rem; border-radius: 4px; }
+.objrow .score.good { background: var(--good-soft); color: var(--good); }
+.objrow .score.mid { background: var(--warn-soft); color: var(--warn); }
+.objrow .score.bad { background: var(--bad-soft); color: var(--bad); }
+.objective { margin: .6rem 0 0; font-size: .8rem; line-height: 1.4; color: var(--muted); }
+.objective.off { color: var(--warn); }
+
 .history { list-style: none; margin: 0; padding: 0; display: grid; }
 .history li {
   display: grid;

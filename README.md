@@ -4,15 +4,18 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 
 ## Features
 
-- **513 exam-style questions** across all four skill areas, weighted like the real exam:
-  | Skill area | Exam weight | Questions |
+- **564 exam-style questions** mapped to the official skills outline (skills measured as of July 21, 2026). Every one of the 26 objectives has at least 10 questions:
+  | Skill area | Exam weight | Questions in the outline |
   |---|---|---|
-  | Describe core data concepts | 25–30% | 130 |
-  | Relational data on Azure | 20–25% | 123 |
-  | Non-relational data on Azure | 15–20% | 107 |
-  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 153 |
+  | Describe core data concepts | 25–30% | 108 |
+  | Identify considerations for relational data on Azure | 20–25% | 135 |
+  | Describe considerations for working with non-relational data on Azure | 15–20% | 106 |
+  | Describe an analytics workload on Azure | 25–30% | 158 |
+
+  A further 57 questions are kept for practice only: 14 on topics the outline doesn't list (types of analytics, data governance with Purview, Queue storage, the retired Azure SQL Edge) and 43 that go deeper than the outline asks (for example Stream Analytics window functions, Defender for SQL, Cosmos DB partition limits). Each question shows its objective, and exam simulations use only in-outline questions.
+- **Progress by exam objective**: see your score on each of the 26 objectives and tap one to practise it.
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
-- **Practice mode**: choose skill areas, question source (all, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
+- **Practice mode**: choose skill areas, question source (all, exam outline only, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
 - **Explanations for every question** cover why the right answer is right and why the distractors are wrong.
 - Question formats match the exam:
   - **Single answer:** 2, 3 or 4 options with one correct answer (2-option questions are Yes/No statements).
@@ -54,11 +57,13 @@ index.html              App shell
 css/styles.css          Styles (light/dark tokens)
 js/app.js               App logic: exam, practice, results, review, progress
 data/bank.js            Question registry
-data/q-*.js             Questions, one file per skill area
+data/q-*.js             Questions, grouped by skill area
+data/outline.js         Skills outline and the objective each question tests
 sw.js                   Service worker for offline use
 manifest.webmanifest    Install metadata and icons
 scripts/validate.js     Checks the question bank (run: node scripts/validate.js)
 scripts/check-cues.js   Checks that answer length doesn't give the correct option away
+scripts/coverage.js     Shows how many questions cover each outline objective
 scripts/load-bank.js    Loads the bank into Node for scripts
 ```
 
@@ -87,8 +92,8 @@ Append objects to the list in the matching `data/q-*.js` file. Single-answer que
 { t: "complete", q: "A {0} stores ... and a {1} ...", b: [{ o: ["fact", "dimension"], a: 0 }, { o: ["fact", "dimension"], a: 1 }], e: "..." }
 ```
 
-Append to the end of a list so existing progress stays linked to the right question. Run `node scripts/validate.js`, then bump `VERSION` in `sw.js` so installed copies pick up the change.
+Append to the end of a list so existing progress stays linked to the right question. Then add the new question's id (for example `core-157`) to its objective in `data/outline.js`, run `node scripts/validate.js` and `node scripts/coverage.js`, and bump `VERSION` in `sw.js` so installed copies pick up the change.
 
 ## Disclaimer
 
-This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. The bank follows the skills outline dated November 2024 (Microsoft Fabric and Azure Databricks for large-scale analytics, Fabric Real-Time Intelligence for streaming). Some questions still cover Azure Synapse Analytics, which the outline no longer names; they remain useful background. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.
+This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. The bank follows the skills outline as of July 21, 2026. Questions on Azure Synapse Analytics and Azure HDInsight are mapped to "Microsoft cloud services for large-scale analytics", although the outline names only Azure Databricks and Microsoft Fabric. If Microsoft updates the outline, update `data/outline.js` and check the result with `node scripts/coverage.js`. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.

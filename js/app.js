@@ -15,6 +15,28 @@
   var BY_ID = {};
   BANK.forEach(function (q) { BY_ID[q.id] = q; });
 
+  // Official skills outline: tag each question with its objective. In-outline questions take their
+  // skill area from the objective (e.g. SQL questions count toward relational data, area 2).
+  var OUTLINE = (window.DP900 && window.DP900.outline) || { objectives: [], extra: {}, byObjective: {} };
+  var OBJ_NAME = {};
+  OUTLINE.objectives.forEach(function (o) { OBJ_NAME[o[0]] = o[1]; });
+  Object.keys(OUTLINE.byObjective).forEach(function (code) {
+    OUTLINE.byObjective[code].forEach(function (id) {
+      var q = BY_ID[id];
+      if (!q) return;
+      q.sk = code;
+      if (OBJ_NAME[code]) q.d = +code.charAt(0);
+    });
+  });
+  function inOutline(q) { return !!OBJ_NAME[q.sk]; }
+  function objectiveHtml(q) {
+    if (!q.sk) return '';
+    return inOutline(q)
+      ? '<p class="objective"><span class="code">' + q.sk + '</span> ' + esc(OBJ_NAME[q.sk]) + '</p>'
+      : '<p class="objective off">' + esc(OUTLINE.extra[q.sk] || '') + ' · not used in exam simulations</p>';
+  }
+  var objectivesOpen = false;
+
   // ---------- storage ----------
   function loadStore() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
@@ -202,7 +224,7 @@
     counts[4] += count - assigned;
     var picked = [];
     ds.forEach(function (d) {
-      var pool = BANK.filter(function (q) { return q.d === d; });
+      var pool = BANK.filter(function (q) { return q.d === d && inOutline(q); });
       // Prefer questions answered least often so repeated exams cover the bank.
       shuffle(pool);
       pool.sort(function (a, b) { return ((store.stats[a.id] || {}).s || 0) - ((store.stats[b.id] || {}).s || 0); });
@@ -222,6 +244,7 @@
     if (p.practiceSource === 'unseen') pool = pool.filter(function (q) { return !store.stats[q.id]; });
     if (p.practiceSource === 'missed') pool = pool.filter(function (q) { return store.stats[q.id] && store.stats[q.id].l === 0; });
     if (p.practiceSource === 'saved') pool = pool.filter(function (q) { return isSaved(q.id); });
+    if (p.practiceSource === 'outline') pool = pool.filter(inOutline);
     return pool;
   }
 
@@ -407,7 +430,7 @@
       '</div></div>' +
       '<div class="field-row">' +
       '<div class="field"><label for="pr-source">Questions from</label><select id="pr-source" data-pref="practiceSource">' +
-      [['all', 'All questions'], ['unseen', 'Not seen yet'], ['missed', 'Last answered wrong'], ['saved', 'Saved']].map(function (o) { return '<option value="' + o[0] + '"' + (p.practiceSource === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
+      [['all', 'All questions'], ['outline', 'Exam outline only'], ['unseen', 'Not seen yet'], ['missed', 'Last answered wrong'], ['saved', 'Saved']].map(function (o) { return '<option value="' + o[0] + '"' + (p.practiceSource === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
       '</select></div>' +
       '<div class="field"><label for="pr-count">How many</label><select id="pr-count" data-pref="practiceCount">' +
       [[10, '10'], [20, '20'], [30, '30'], [50, '50'], [0, 'All matching']].map(function (o) { return '<option value="' + o[0] + '"' + (p.practiceCount === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
@@ -432,7 +455,7 @@
           '<div class="bar" title="Correct and incorrect on latest attempt"><i class="good" style="width:' + pct(x.right, x.total) + '%"></i><i class="bad" style="width:' + pct(x.seen - x.right, x.total) + '%"></i></div>' +
           '<div class="nums">Exam weight ' + DOMAINS[d].range + '</div></div>';
       }).join('') +
-      '</div></section>';
+      '</div>' + objectivesHtml() + '</section>';
 
     if (store.history.length) {
       h += '<section class="card"><h2>Exam history</h2><ul class="history">' +
@@ -455,6 +478,34 @@
 
     app.innerHTML = h;
   }
+
+  function objectivesHtml() {
+    if (!OUTLINE.objectives.length) return '';
+    var per = {};
+    BANK.forEach(function (q) {
+      if (!inOutline(q)) return;
+      var x = per[q.sk] || (per[q.sk] = { total: 0, seen: 0, right: 0 });
+      var st = store.stats[q.id];
+      x.total++;
+      if (st) { x.seen++; if (st.l) x.right++; }
+    });
+    var groups = [1, 2, 3, 4].map(function (d) {
+      return '<h3 class="obj-area">' + esc(DOMAINS[d].name) + '</h3>' + OUTLINE.objectives.filter(function (o) { return +o[0].charAt(0) === d; }).map(function (o) {
+        var x = per[o[0]] || { total: 0, seen: 0, right: 0 };
+        var p = x.seen ? pct(x.right, x.seen) : null;
+        var state = p === null ? '' : p >= 80 ? ' good' : p < 60 ? ' bad' : ' mid';
+        return '<button class="objrow" data-a="objective" data-obj="' + o[0] + '"' + (x.total ? '' : ' disabled') + '>' +
+          '<span class="code">' + o[0] + '</span><span class="name">' + esc(o[1]) + '</span>' +
+          '<span class="score' + state + '">' + (p === null ? x.total + ' q' : p + '%') + '</span></button>';
+      }).join('');
+    }).join('');
+    return '<details class="objectives"' + (objectivesOpen ? ' open' : '') + '><summary>By exam objective <span class="nums">skills measured as of ' + esc(OUTLINE.asOf) + '</span></summary>' +
+      '<p class="sub">Tap an objective to practise it. The score shows how many you got right on your latest attempt.</p>' + groups + '</details>';
+  }
+
+  app.addEventListener('toggle', function (e) {
+    if (e.target.classList && e.target.classList.contains('objectives')) objectivesOpen = e.target.open;
+  }, true);
 
   app.addEventListener('change', function (e) {
     var part = e.target.closest('[data-sel]');
@@ -535,6 +586,16 @@
       store.session ? modal({ title: 'Replace your current session?', center: true, body: 'Starting this discards the session in progress.', actions: [{ label: 'Cancel' }, { label: 'Continue', cls: 'primary', onClick: run }] }) : run();
     },
     last: function () { reviewFilter = 'all'; go('review'); },
+    objective: function (t) {
+      var code = t.getAttribute('data-obj');
+      var pool = BANK.filter(function (q) { return q.sk === code; });
+      var run = function () {
+        var keep = store.prefs.practiceCount; store.prefs.practiceCount = 0;
+        startPractice(pool, 'Objective ' + code);
+        store.prefs.practiceCount = keep; save();
+      };
+      store.session ? modal({ title: 'Replace your current session?', center: true, body: 'Starting this discards the session in progress.', actions: [{ label: 'Cancel' }, { label: 'Continue', cls: 'primary', onClick: run }] }) : run();
+    },
     reset: function () {
       modal({
         title: 'Reset all progress?', center: true,
@@ -791,6 +852,7 @@
       '<button class="icon-btn' + (isSaved(it.id) ? ' on' : '') + '" data-a="star" aria-pressed="' + isSaved(it.id) + '" aria-label="' + (isSaved(it.id) ? 'Remove from saved' : 'Save question') + '">' + (isSaved(it.id) ? ICON.starOn : ICON.star) + '</button>' +
       '</div>';
 
+    h += objectiveHtml(q);
     h += questionHtml(q, it.order, chosen, revealed);
     h += '<p class="hint">' + hintText(q) + '</p>';
     h += answersHtml(q, it.order, chosen, revealed);
@@ -933,6 +995,7 @@
         '<div class="qmeta"><span class="qnum">Q' + (x.i + 1) + '</span><span class="dtag">' + esc(DOMAINS[x.q.d].short) + '</span>' +
         '<span class="status-dot ' + (x.blank ? 'skip">Blank' : x.ok ? 'good">Correct' : 'bad">Incorrect') + '</span><span class="spacer"></span>' +
         '<button class="icon-btn' + (isSaved(x.q.id) ? ' on' : '') + '" data-a="star" data-id="' + x.q.id + '" aria-pressed="' + isSaved(x.q.id) + '" aria-label="' + (isSaved(x.q.id) ? 'Remove from saved' : 'Save question') + '">' + (isSaved(x.q.id) ? ICON.starOn : ICON.star) + '</button></div>' +
+        objectiveHtml(x.q) +
         questionHtml(x.q, x.it.order, x.a, true) +
         answersHtml(x.q, x.it.order, x.a, true) +
         explainHtml(x.q, x.it.order, x.a) +

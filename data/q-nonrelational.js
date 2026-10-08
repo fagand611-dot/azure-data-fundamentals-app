@@ -706,5 +706,90 @@ DP900.add(3, 'nrel-', [
       { o: ["geo-zone-redundant storage (GZRS)", "zone-redundant storage (ZRS)", "geo-redundant storage (GRS)", "locally redundant storage (LRS)"], a: 0 }
     ],
     e: "GZRS combines ZRS in the primary region with asynchronous replication to a secondary region. GRS uses LRS (one datacenter) in the primary region, ZRS stays in one region, and LRS stays in one datacenter."
+  },
+  {
+    q: "Which statement describes Azure Files?",
+    o: ["Managed cloud file shares that clients can mount over SMB or NFS", "Object storage for unstructured data that is accessed only over HTTP", "A NoSQL key-value store for structured, non-relational entities", "A relational database service for transactional application data"],
+    a: [0],
+    e: "Azure Files offers fully managed file shares that behave like a network file server. Object storage is Blob Storage, the key-value store is Table storage, and relational data belongs in Azure SQL or open-source database services."
+  },
+  {
+    q: "Which Azure Files tier uses SSD storage and is designed for workloads that need low latency and high IOPS?",
+    o: ["Premium", "Transaction optimized", "Hot", "Cool"],
+    a: [0],
+    e: "Premium file shares run on SSDs for consistent low latency. Transaction optimized, hot and cool are standard (HDD-based) tiers that trade performance for lower cost."
+  },
+  {
+    q: "Which two are common use cases for Azure Files? (Choose two.)",
+    o: ["Replacing or supplementing on-premises file servers", "Sharing application settings across several virtual machines", "Storing JSON documents with global low-latency writes", "Running analytical SQL queries over Parquet files", "Storing relational tables linked by foreign keys"],
+    a: [0, 1],
+    e: "Azure Files is used for lift-and-shift file shares and for shared configuration or tools across VMs. Global JSON storage suits Cosmos DB, Parquet analytics suits a data lake, and relational tables suit a database."
+  },
+  {
+    t: "complete",
+    q: "Windows clients mount Azure Files shares using the {0} protocol.",
+    b: [
+      { o: ["SMB", "MQTT", "AMQP", "ODBC"], a: 0 }
+    ],
+    e: "Server Message Block (SMB) is the Windows file sharing protocol. Linux and macOS can also use SMB, and premium shares support NFS. MQTT and AMQP are messaging protocols, and ODBC is a database connectivity standard."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAn Azure Files share can be mounted by several virtual machines at the same time.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. File shares are designed for shared access, so many clients can mount the same share concurrently, just like an on-premises file server."
+  },
+  {
+    q: "Which scenario is BEST suited to Azure Table storage?",
+    o: ["Storing large volumes of device metadata looked up by device ID at low cost", "Running complex queries that join customer, order and product tables", "Storing video files that are streamed to users around the world", "Hosting a file share that users map as a network drive"],
+    a: [0],
+    e: "Table storage is a cheap, scalable key-attribute store for structured, non-relational data retrieved by key. Joins need a relational database, video belongs in Blob Storage, and shares belong in Azure Files."
+  },
+  {
+    q: "Which property of an Azure Table storage entity determines which partition it is stored in?",
+    o: ["PartitionKey", "RowKey", "Timestamp"],
+    a: [0],
+    k: 1,
+    e: "Entities with the same PartitionKey are stored together in one partition. RowKey identifies the entity within its partition, and Timestamp is maintained by the service."
+  },
+  {
+    q: "Which two statements about Azure Table storage are correct? (Choose two.)",
+    o: ["Entities can have flexible sets of properties", "It is a low-cost option for large volumes of key-value data", "It enforces foreign key relationships between tables", "It supports SQL joins across multiple tables", "Clients mount it as a file share using SMB"],
+    a: [0, 1],
+    e: "Table storage is schemaless beyond its key properties and is inexpensive at scale. It has no foreign keys or joins, and it is not a file share."
+  },
+  {
+    t: "complete",
+    q: "In Azure Table storage, entities are grouped into partitions by their {0} and uniquely identified within a partition by their {1}.",
+    b: [
+      { o: ["PartitionKey", "RowKey", "Timestamp"], a: 0 },
+      { o: ["PartitionKey", "RowKey", "ETag"], a: 1 }
+    ],
+    e: "The PartitionKey decides placement and scale-out, and the RowKey is unique within that partition, so together they form the entity's unique key."
+  },
+  {
+    q: "Which Azure Cosmos DB API stores key-value entities and works with the Azure Table storage SDKs?",
+    o: ["API for Table", "API for NoSQL", "API for MongoDB", "API for Apache Gremlin"],
+    a: [0],
+    e: "API for Table lets applications written for Azure Table storage move to Cosmos DB with minimal changes. NoSQL and MongoDB are document APIs, and Gremlin is the graph API."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Cosmos DB APIs.",
+    s: [
+      ["The API for MongoDB lets existing MongoDB applications connect with their current drivers.", true],
+      ["The API for Apache Gremlin is used to query graph data.", true],
+      ["The API for NoSQL requires data to follow a fixed relational schema.", false]
+    ],
+    e: "1 Yes: the MongoDB API is wire-protocol compatible. 2 Yes: Gremlin traverses vertices and edges. 3 No: API for NoSQL stores schema-free JSON documents."
+  },
+  {
+    t: "complete",
+    q: "To store graph data and traverse relationships in Azure Cosmos DB, use the API for {0}.",
+    b: [
+      { o: ["Apache Gremlin", "Apache Cassandra", "Table", "MongoDB"], a: 0 }
+    ],
+    e: "The Gremlin API models data as vertices and edges and uses the Gremlin traversal language. Cassandra is column-family, Table is key-value, and MongoDB is document-based."
   }
 ]);

@@ -1,6 +1,6 @@
 /* Offline support: cache the app shell and question bank, serve cache-first.
    Bump VERSION whenever any file below changes so phones pick up the update. */
-var VERSION = 'dp900-v4';
+var VERSION = 'dp900-v5';
 var ASSETS = [
   './',
   'index.html',
@@ -11,6 +11,7 @@ var ASSETS = [
   'data/q-relational.js',
   'data/q-nonrelational.js',
   'data/q-analytics.js',
+  'data/outline.js',
   'manifest.webmanifest',
   'icons/icon.svg',
   'icons/icon-192.png',

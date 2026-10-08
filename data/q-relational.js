@@ -801,5 +801,58 @@ DP900.add(2, 'rel-', [
       { o: ["GROUP BY", "ORDER BY", "WHERE", "HAVING"], a: 0 }
     ],
     e: "GROUP BY creates one group per category so SUM is calculated per group. ORDER BY sorts, WHERE filters rows before grouping, and HAVING filters groups after aggregation."
+  },
+  {
+    q: "In a relational table, what does each row represent?",
+    o: ["One instance of an entity, such as a single customer", "One attribute that is shared by every entity in the table", "A relationship between two separate databases", "A file that is stored in a data lake folder"],
+    a: [0],
+    e: "Each row is one record of the entity the table describes, and each column is an attribute of that entity."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nEvery column in a relational table has a defined data type.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Columns are declared with types such as INT, DECIMAL, VARCHAR or DATE, and the database rejects values that don't match."
+  },
+  {
+    q: "Which two are features of relational data? (Choose two.)",
+    o: ["Data is organised into tables of rows and columns", "Tables can be related through primary and foreign keys", "Each row can have its own set of columns", "Data is stored as nodes connected by edges", "Data is stored as files in their native format"],
+    a: [0, 1],
+    e: "Relational data lives in tables with a fixed schema, linked by keys. Varying columns per row describe column-family or document stores, nodes and edges describe graph databases, and native-format files describe data lakes."
+  },
+  {
+    q: "Why is normalization used in transactional databases?",
+    o: ["To store each fact once, so data stays consistent when it changes", "To combine related data into one wide table so queries never need joins", "To compress data so that the database uses less memory for queries", "To encrypt sensitive columns so only authorised users can read them"],
+    a: [0],
+    e: "Normalization removes duplication, so an update happens in one place and insert, update and delete anomalies are avoided. Combining tables is denormalization, and compression and encryption are separate features."
+  },
+  {
+    q: "An Orders table stores OrderID, CustomerName, CustomerEmail and ProductName on every row. What would normalizing it typically involve?",
+    o: ["Moving customer and product details into their own tables and referencing them by key", "Adding more columns so each order row also stores the customer's full postal address", "Converting each order into a JSON document so orders can have different fields", "Creating an index on every column so that duplicated values can be found faster"],
+    a: [0],
+    e: "Normalizing creates Customers and Products tables, and the Orders table refers to them with CustomerID and ProductID foreign keys. That way a customer's email is stored once."
+  },
+  {
+    t: "complete",
+    q: "Normalization splits data into separate {0}, and the relationships between them are enforced with {1}.",
+    b: [
+      { o: ["tables", "files", "databases"], a: 0 },
+      { o: ["foreign keys", "indexes", "views"], a: 1 }
+    ],
+    e: "Normalized designs use several related tables, and foreign key constraints keep the references between them valid."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nIn a fully normalized design, each customer's address is stored in only one place.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Normalization stores each fact once, so the address lives in a single row of the customer (or address) table and other tables reference it by key."
+  },
+  {
+    q: "Which type of system usually benefits MOST from a highly normalized design?",
+    o: ["Transactional (OLTP)", "Analytical (OLAP)", "Reporting dashboard"],
+    a: [0],
+    e: "OLTP systems have many writes, and normalization keeps those writes simple and consistent. Analytical systems and reports usually prefer denormalized star schemas for faster reads."
   }
 ]);
