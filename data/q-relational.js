@@ -50,7 +50,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which statement about the vCore purchasing model for Azure SQL Database is correct?",
-    o: ["You choose compute and storage independently and can use Azure Hybrid Benefit to apply existing SQL Server licences", "It bundles CPU, memory and I/O into a single blended measure", "It is only available for Azure Database for MySQL", "It does not support high availability"],
+    o: ["You size compute and storage separately and can apply existing licences with Azure Hybrid Benefit", "It bundles CPU, memory and I/O into a single blended measure that you scale in fixed steps", "It is only available for Azure Database for MySQL and Azure Database for PostgreSQL", "It does not support zone-redundant high availability or readable secondary replicas"],
     a: [0],
     e: "The vCore model lets you size compute (cores and memory) and storage separately, select hardware generation, and use Azure Hybrid Benefit for licence savings. The DTU model is the bundled measure."
   },
@@ -62,7 +62,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which Azure SQL option is best when an application depends on a specific older version of SQL Server or on third-party software that must be installed on the database server?",
-    o: ["SQL Server on Azure Virtual Machines", "Azure SQL Database", "Azure SQL Managed Instance", "Azure Database for MariaDB"],
+    o: ["SQL Server on Azure Virtual Machines", "Azure SQL Database (single database)", "Azure SQL Managed Instance", "Azure Database for PostgreSQL flexible server"],
     a: [0],
     e: "Only an IaaS VM lets you choose the exact SQL Server version and install additional software on the same machine. PaaS services always run the latest engine version and do not allow host access."
   },
@@ -74,7 +74,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "A company runs a PHP web application that uses a LAMP stack with a MySQL database. They want to move it to Azure with minimal code changes and no server management. Which database service should they use?",
-    o: ["Azure Database for MySQL flexible server", "Azure SQL Database", "Azure Cosmos DB for MongoDB", "Azure Synapse Analytics"],
+    o: ["Azure Database for MySQL flexible server", "Azure SQL Database (General Purpose)", "Azure Cosmos DB for MongoDB vCore", "Azure Database for PostgreSQL flexible server"],
     a: [0],
     e: "Azure Database for MySQL is a managed MySQL service, so the application keeps the same engine and drivers. Moving to Azure SQL Database would require code changes because the SQL dialect and drivers differ."
   },
@@ -116,7 +116,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "What is the default network protection for a new Azure SQL Database logical server?",
-    o: ["The server-level firewall blocks all connections until you add rules or configure private access", "All internet traffic is allowed", "Only connections from on-premises networks are allowed", "Connections are only allowed from Power BI"],
+    o: ["The server-level firewall blocks all connections until you add rules or configure private access", "All internet traffic is allowed until you add deny rules for specific IP ranges", "Only connections from on-premises networks over ExpressRoute or VPN are allowed", "Only connections from other Azure services in the same subscription are allowed"],
     a: [0],
     e: "Azure SQL Database blocks all public access by default. You must create firewall rules for specific IP ranges, allow Azure services, or use virtual network rules or private endpoints to permit connections."
   },
@@ -134,13 +134,13 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "How long does Azure SQL Database keep automated backups for point-in-time restore by default?",
-    o: ["7 days (configurable from 1 to 35 days)", "1 day only", "90 days", "Backups are not kept automatically"],
+    o: ["7 days (configurable from 1 to 35)", "1 day (configurable up to 7)", "90 days (configurable up to 10 years)", "30 days (not configurable)"],
     a: [0],
     e: "Azure SQL Database takes automatic full, differential and log backups. The default point-in-time restore retention is 7 days, configurable up to 35 days. For longer retention (up to 10 years) you configure long-term retention (LTR)."
   },
   {
     q: "A developer accidentally deleted rows from an Azure SQL Database table 30 minutes ago. What is the simplest built-in way to recover the data?",
-    o: ["Use point-in-time restore to create a copy of the database from before the deletion", "Open a support ticket to recover the rows", "Recreate the database from scratch", "Use dynamic data masking to unhide the rows"],
+    o: ["Use point-in-time restore to create a copy of the database from before the deletion", "Open a support ticket and ask Microsoft to recover the deleted rows", "Restore the most recent long-term retention backup over the live database", "Use dynamic data masking to unhide the rows that were deleted"],
     a: [0],
     e: "Point-in-time restore uses automated backups to create a new database as of a specific moment within the retention period. You can then copy the missing rows back to the original database."
   },
@@ -158,31 +158,31 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "What does geo-replication provide for Azure SQL Database?",
-    o: ["Readable secondary copies of a database in other Azure regions for disaster recovery", "Automatic encryption of backups", "Compression of large tables", "A faster query optimizer"],
+    o: ["Readable secondary copies of a database in other Azure regions", "Automatic encryption of every backup with customer-managed keys", "Compression of large tables using columnstore indexes", "Copies of query plans that the optimizer shares across regions"],
     a: [0],
     e: "Active geo-replication continuously replicates a database to up to four readable secondaries in the same or different regions. If the primary region fails, you can fail over to a secondary. Secondaries can also serve read-only workloads."
   },
   {
     q: "Which tools can you use to connect to Azure SQL Database and run T-SQL queries? (Choose two.)",
-    o: ["SQL Server Management Studio (SSMS)", "The query editor in the Azure portal", "Azure Storage Explorer", "Power Automate", "AzCopy"],
+    o: ["SQL Server Management Studio (SSMS)", "The query editor in the Azure portal", "Azure Storage Explorer desktop app", "Power Automate cloud flows", "The AzCopy command-line utility"],
     a: [0, 1],
     e: "SSMS is the full-featured SQL Server management tool, and the Azure portal includes a browser-based query editor for quick queries. Visual Studio Code with the MSSQL extension and sqlcmd also work. Storage Explorer manages Azure Storage accounts, not SQL databases. AzCopy copies files to and from Azure Storage and cannot run queries."
   },
   {
     q: "Which tool would a database administrator typically use to manage Azure SQL Managed Instance, including configuring SQL Server Agent jobs?",
-    o: ["SQL Server Management Studio", "Azure Storage Explorer", "Power BI Desktop", "Azure Data Box"],
+    o: ["SQL Server Management Studio", "Azure Storage Explorer", "Power BI Desktop", "Azure Data Studio's Power BI extension"],
     a: [0],
     e: "SSMS provides a rich interface for administering SQL Server, Azure SQL Database and Managed Instance, including SQL Agent jobs, security and performance monitoring."
   },
   {
     q: "What is an Azure SQL logical server?",
-    o: ["An administrative container for Azure SQL databases that provides a connection endpoint, logins and firewall rules", "A virtual machine running SQL Server", "A physical server reserved for one customer", "A Power BI gateway"],
+    o: ["A management container for databases that provides an endpoint, logins and firewall rules", "A virtual machine running SQL Server that you can sign in to with Remote Desktop", "A physical server in an Azure datacenter that is reserved for a single customer", "A gateway that lets on-premises applications reach databases over a private network"],
     a: [0],
     e: "A logical server (yourserver.database.windows.net) is a management construct that groups databases and elastic pools and holds server-level settings such as logins, firewall rules and auditing. It is not a VM you can sign in to."
   },
   {
     q: "Which service helps migrate on-premises SQL Server databases to Azure SQL Managed Instance with minimal downtime?",
-    o: ["Azure Database Migration Service", "Azure Data Box", "Azure Monitor", "Azure Functions"],
+    o: ["Azure Database Migration Service", "Azure Data Box", "Azure Site Recovery", "Azure Storage Mover"],
     a: [0],
     e: "Azure Database Migration Service orchestrates online (minimal downtime) and offline migrations from SQL Server and other engines to Azure SQL targets. The Azure SQL migration extension can assess readiness and start migrations."
   },
@@ -194,7 +194,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which statement about Azure SQL Database high availability is correct?",
-    o: ["High availability is built in, with a 99.99% availability SLA or higher depending on tier", "You must configure a cluster of VMs yourself", "High availability is only available in the Hyperscale tier", "Azure SQL Database has no availability SLA"],
+    o: ["High availability is built in, with a 99.99% availability SLA or higher depending on tier", "You must configure a failover cluster of virtual machines yourself to get high availability", "High availability is only available when you choose the Hyperscale service tier", "High availability is only provided when you configure active geo-replication"],
     a: [0],
     e: "Every Azure SQL Database includes built-in high availability with replicas managed by the platform. The SLA is at least 99.99%, and zone-redundant Business Critical configurations offer up to 99.995%."
   },
@@ -206,25 +206,25 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which is a reason to choose SQL Server on Azure VMs instead of Azure SQL Managed Instance?",
-    o: ["You need SQL Server features that require OS-level access, such as SQL Server Reporting Services on the same machine", "You want Microsoft to patch the operating system", "You want automatic backups with no configuration", "You want to avoid managing the database engine"],
+    o: ["You need components that require OS access, such as SSRS on the same server", "You want Microsoft to patch the operating system and database engine for you", "You want automated backups and point-in-time restore with no configuration", "You want built-in high availability without managing a failover cluster"],
     a: [0],
     e: "VMs give OS-level access, so you can run components like SSRS, SSIS or third-party agents on the same server. Patching, automatic backups and not managing the engine are benefits of PaaS options."
   },
   {
     q: "In the shared responsibility model, who is responsible for applying operating system patches when you use SQL Server on an Azure VM?",
-    o: ["The customer (with optional automated patching features)", "Microsoft, always", "Nobody; VMs don't need patching", "The SQL Server community"],
+    o: ["The customer (automated patching tools are optional)", "Microsoft, as with Azure SQL Database", "Microsoft for the OS, the customer for SQL Server", "Nobody, because Azure VMs are patched in place automatically"],
     a: [0],
     e: "With IaaS the customer manages the guest OS and software. Azure offers tools such as the SQL IaaS Agent extension and Azure Update Manager to automate patching, but responsibility stays with the customer. In PaaS services Microsoft patches the OS and engine."
   },
   {
     q: "What does the following statement do?\n`CREATE TABLE Product (ProductID INT PRIMARY KEY, Name VARCHAR(50) NOT NULL, Price DECIMAL(10,2));`",
-    o: ["Creates a table where ProductID uniquely identifies each row and Name must always have a value", "Inserts a row into the Product table", "Creates a view that shows product names", "Deletes rows where Name is NULL"],
+    o: ["Creates a table in which ProductID uniquely identifies each row and Name is required", "Creates a table in which ProductID and Name together form the primary key of each row", "Creates a view that returns ProductID, Name and Price for every product in the table", "Creates a table and inserts one row with the ProductID, Name and Price values given"],
     a: [0],
     e: "CREATE TABLE is a DDL statement defining columns and constraints. PRIMARY KEY makes ProductID unique and not null; NOT NULL requires Name to always have a value. Price can be NULL and stores up to 10 digits with 2 after the decimal point."
   },
   {
     q: "Which SQL statement adds a new row to a table?",
-    o: ["INSERT INTO Customers (Name, City) VALUES ('Ana', 'Lisbon');", "UPDATE Customers SET Name = 'Ana';", "ALTER TABLE Customers ADD Name VARCHAR(50);", "SELECT * INTO Customers;"],
+    o: ["INSERT INTO Customers (Name, City) VALUES ('Ana', 'Lisbon');", "UPDATE Customers SET Name = 'Ana', City = 'Lisbon';", "ALTER TABLE Customers ADD Name VARCHAR(50), City VARCHAR(50);", "SELECT 'Ana' AS Name, 'Lisbon' AS City INTO Customers;"],
     a: [0],
     e: "INSERT INTO ... VALUES adds rows. UPDATE changes existing rows, ALTER TABLE changes the table structure, and SELECT INTO creates a new table from a query result."
   },
@@ -254,19 +254,19 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "A database stores customer address details in every order row, so the same address appears many times. What problem can this cause?",
-    o: ["Update anomalies, where changing an address requires updating many rows and some may be missed", "Faster inserts", "Better referential integrity", "Smaller database size"],
+    o: ["Update anomalies: changing an address means updating many rows, and some may be missed", "Slower SELECT queries, because each order row has to be joined to an address table", "Weaker referential integrity, because addresses can no longer be used as foreign keys", "Larger transaction log backups, because addresses are encrypted separately in each row"],
     a: [0],
     e: "Duplicated data leads to update, insert and delete anomalies. Normalizing into separate Customers and Orders tables stores the address once, keeping it consistent."
   },
   {
     q: "Which is a benefit of using stored procedures in Azure SQL Database?",
-    o: ["Users can be granted permission to execute the procedure without having direct access to the underlying tables", "They store data in columnar format", "They automatically replicate the database to other regions", "They remove the need for indexes"],
+    o: ["Users can be allowed to run the procedure without direct access to the underlying tables", "They store their results in a columnar format so later queries run faster", "They automatically replicate the database to a secondary region for recovery", "They remove the need for indexes because the query plan is compiled in advance"],
     a: [0],
     e: "Stored procedures encapsulate logic and can be secured separately: you can grant EXECUTE on the procedure without granting SELECT/UPDATE on tables. They also reduce network traffic and enable plan reuse."
   },
   {
     q: "Which statement about a clustered index is correct?",
-    o: ["It determines the physical order in which rows are stored, so a table can have only one", "A table can have unlimited clustered indexes", "It is stored separately from the table data, like a book's index", "It can only be created on text columns"],
+    o: ["It determines the physical order in which rows are stored, so a table can have only one", "A table can have many clustered indexes, one for each column that is searched", "It is stored separately from the table data and points to rows, like a book's index", "It can only be created on character columns such as VARCHAR and NVARCHAR"],
     a: [0],
     e: "A clustered index sorts and stores the table's rows by the index key, so there can be only one per table. Non-clustered indexes are separate structures that point to the rows, and a table can have many."
   },
@@ -284,19 +284,19 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which Microsoft Defender capability for Azure SQL detects anomalous activities such as SQL injection attempts and unusual access patterns?",
-    o: ["Advanced Threat Protection in Microsoft Defender for SQL", "Dynamic data masking", "Long-term retention", "Read scale-out"],
+    o: ["Advanced Threat Protection in Microsoft Defender for SQL", "Dynamic data masking", "Microsoft Purview data classification", "SQL auditing with Log Analytics"],
     a: [0],
     e: "Microsoft Defender for SQL includes vulnerability assessment and Advanced Threat Protection, which alerts on potential SQL injection, access from unusual locations and brute-force attacks."
   },
   {
     q: "Which TWO of the following are valid reasons to use Azure SQL Database elastic pools? (Choose two.)",
-    o: ["You host many databases with low average usage but occasional unpredictable spikes", "You want to manage cost across a set of databases by sharing resources", "You need a single database larger than 100 TB", "You need to install software on the database server", "You have a single database with constant, predictable high usage"],
+    o: ["You host many databases with low average usage but occasional unpredictable spikes", "You want to manage cost across a set of databases by sharing resources", "You need a single database that will grow larger than 100 TB of data", "You need to install monitoring software on the database server itself", "You have a single database with constant, predictable, high usage all day"],
     a: [0, 1],
     e: "Elastic pools are ideal for many databases with varied usage, sharing resources to reduce total cost. Very large single databases fit Hyperscale, and installing software requires a VM. A single database with steady load gains nothing from sharing a pool."
   },
   {
     q: "Which is a typical use of Azure SQL Database read scale-out?",
-    o: ["Directing read-only reporting queries to a secondary replica so they don't affect the primary's performance", "Splitting a database across multiple regions for writes", "Encrypting the database", "Increasing the maximum storage size"],
+    o: ["Sending read-only reporting queries to a replica so they don't slow down the primary", "Splitting one database across multiple regions so each region can accept writes", "Encrypting the database so that read-only users cannot see sensitive columns", "Increasing the maximum storage size by adding read-only data files to the database"],
     a: [0],
     e: "Read scale-out lets connections with `ApplicationIntent=ReadOnly` be routed to a read-only replica (available in Premium, Business Critical and Hyperscale), offloading reporting workloads from the primary."
   },
@@ -308,25 +308,25 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which TWO features are provided by Azure Database for PostgreSQL flexible server? (Choose two.)",
-    o: ["Automated backups with point-in-time restore", "Zone-redundant high availability", "SQL Server Agent jobs", "T-SQL compatibility", "Azure SQL Database elastic pools"],
+    o: ["Automated backups with point-in-time restore", "Zone-redundant high availability", "SQL Server Agent jobs for scheduled tasks", "Full T-SQL compatibility with SQL Server", "Azure SQL Database elastic pools"],
     a: [0, 1],
     e: "Azure Database for PostgreSQL flexible server includes automated backups, point-in-time restore and optional zone-redundant HA. SQL Server Agent and T-SQL belong to Microsoft SQL Server. Elastic pools are an Azure SQL Database feature."
   },
   {
     q: "What is Azure SQL Edge?",
-    o: ["A small-footprint SQL engine optimised for IoT and edge devices, with built-in streaming and time-series support", "A front-end web server for Azure SQL Database", "A tier of Azure SQL Database that runs at Azure edge locations only", "A Power BI connector"],
+    o: ["A small-footprint SQL engine for IoT and edge devices, with streaming and time-series support", "A front-end web server that caches Azure SQL Database queries for web applications", "A tier of Azure SQL Database that runs only at Azure edge locations near users", "A connector that lets Power BI query on-premises SQL Server through a gateway"],
     a: [0],
     e: "Azure SQL Edge is a lightweight SQL engine for edge devices, offering data streaming and time-series capabilities. Note that Microsoft has announced its retirement (September 2025), but the concept of SQL at the edge can still appear in study material."
   },
   {
     q: "Which service would you use to migrate a large on-premises MySQL database to Azure Database for MySQL flexible server with minimal downtime?",
-    o: ["Azure Database Migration Service", "Azure Data Box Disk", "Azure Monitor", "Azure Advisor"],
+    o: ["Azure Database Migration Service", "Azure Data Box Disk", "Azure Site Recovery", "Azure Storage Mover"],
     a: [0],
     e: "Azure Database Migration Service supports online migrations to Azure Database for MySQL and PostgreSQL, continuously replicating changes until cutover to minimise downtime."
   },
   {
     q: "In Azure SQL Database, which pricing model uses a blended measure of CPU, memory, reads and writes?",
-    o: ["DTU (Database Transaction Unit)", "vCore", "Request Unit", "Serverless"],
+    o: ["DTU (database transaction unit)", "vCore (virtual core)", "RU (request unit)", "CU (capacity unit)"],
     a: [0],
     e: "DTUs bundle compute, memory and I/O into one simple measure with preconfigured tiers (Basic, Standard, Premium). vCore lets you choose resources independently. Request Units are Cosmos DB's throughput measure."
   },
@@ -338,19 +338,19 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which statement about Azure SQL Database and SQL Server on-premises is correct?",
-    o: ["Azure SQL Database always runs the latest stable SQL Server engine, so new features arrive without upgrades", "Azure SQL Database requires you to install cumulative updates manually", "Azure SQL Database runs SQL Server 2008 for compatibility", "Azure SQL Database cannot run T-SQL"],
+    o: ["Azure SQL Database always runs the latest engine, so new features arrive without upgrades", "Azure SQL Database requires you to install cumulative updates during a maintenance window", "Azure SQL Database lets you choose and pin any SQL Server version, such as SQL Server 2012", "Azure SQL Database supports T-SQL but not features such as JSON functions or temporal tables"],
     a: [0],
     e: "Azure SQL Database is evergreen: Microsoft continually updates the engine, so you never perform version upgrades. You can still set database compatibility levels to preserve older behaviour."
   },
   {
     q: "You have a reporting workload and want to query relational data in Azure SQL Database from Power BI. Which connectivity requirement must be met?",
-    o: ["Power BI must be allowed through the database's network rules (for example, allowing Azure services or using a gateway for private endpoints)", "The database must be converted to Cosmos DB", "The database must be in the Hyperscale tier", "Power BI can only connect to Excel files"],
+    o: ["Power BI must be allowed through the database's network rules, or use a gateway", "The database must first be mirrored into Microsoft Fabric before Power BI can read it", "The database must use the Hyperscale service tier to support Power BI connections", "Power BI must connect through Azure Data Factory, which copies the data into Excel"],
     a: [0],
     e: "Azure SQL Database blocks connections by default, so you must permit access via firewall rules (such as 'Allow Azure services') or, for private networks, use a virtual network data gateway or on-premises data gateway."
   },
   {
     q: "Which Azure SQL Managed Instance characteristic is true?",
-    o: ["It is deployed into a subnet of your Azure virtual network", "It runs on a VM that you patch yourself", "It supports only a single database", "It does not support T-SQL"],
+    o: ["It is deployed into a subnet of your Azure virtual network", "It runs on a virtual machine whose operating system you patch yourself", "It supports only a single database, like Azure SQL Database", "It is reached only through a public endpoint with no VNet option"],
     a: [0],
     e: "Managed Instance is deployed inside a dedicated subnet of your virtual network, providing network isolation and private IP connectivity, which suits enterprises connecting from on-premises via VPN or ExpressRoute."
   },
@@ -374,7 +374,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which column data type is appropriate for storing monetary amounts precisely in Azure SQL Database?",
-    o: ["DECIMAL (or NUMERIC)", "FLOAT", "VARCHAR", "BIT"],
+    o: ["DECIMAL", "FLOAT", "REAL", "VARCHAR"],
     a: [0],
     e: "DECIMAL/NUMERIC store exact values with fixed precision and scale, avoiding rounding errors. FLOAT is approximate and can introduce small rounding differences, which is undesirable for money."
   },
@@ -398,7 +398,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which of the following is a benefit of using views?",
-    o: ["They can simplify complex queries and restrict access to specific columns or rows", "They always store a physical copy of data to speed up writes", "They replace the need for tables", "They encrypt data automatically"],
+    o: ["They can simplify complex queries and restrict access to specific columns or rows", "They always store a physical copy of the data so that writes run faster", "They replace the need for base tables in a normalized database design", "They automatically encrypt the columns that they return to users"],
     a: [0],
     e: "Views encapsulate a query, presenting a simpler virtual table to users, and can expose only certain columns or rows for security. Standard views store no data; the underlying tables hold it."
   },
@@ -422,7 +422,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which description matches Azure SQL Database 'Hyperscale' named replicas?",
-    o: ["Additional read-only replicas that can be scaled independently to serve read workloads", "Backups stored for 10 years", "Copies of the database in a different cloud provider", "Replicas that accept writes in multiple regions"],
+    o: ["Extra read-only replicas that you can size independently for read workloads", "Additional copies of the backups that are kept for up to 10 years", "Copies of the database that are hosted with a different cloud provider", "Replicas in other regions that accept writes and resolve conflicts automatically"],
     a: [0],
     e: "Hyperscale supports high-availability replicas and named replicas: read-only compute that shares the same storage and can be sized independently for read scale-out. Writes still go to the single primary."
   },
@@ -434,7 +434,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which statement about SQL Server on Azure VMs licensing is correct?",
-    o: ["You can use pay-as-you-go images that include the SQL licence, or bring your own licence", "SQL Server on Azure VMs is always free", "Licensing is only available through the DTU model", "You must purchase hardware from Microsoft"],
+    o: ["You can use pay-as-you-go images that include the licence, or bring your own", "The SQL Server licence is always included free with the virtual machine", "Licensing is only available through the DTU purchasing model", "You must buy dedicated hardware from Microsoft to license SQL Server"],
     a: [0],
     e: "Azure Marketplace provides SQL Server images with the licence included (billed per minute), or you can bring your own licence using Azure Hybrid Benefit. The DTU model applies only to Azure SQL Database."
   },
@@ -446,7 +446,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "What is a temporal table in Azure SQL Database?",
-    o: ["A table that automatically keeps a full history of data changes, so you can query data as it was at any point in time", "A table that is deleted automatically after a period", "A table stored only in memory", "A table that can only contain date columns"],
+    o: ["A table that keeps a full history of changes, so you can query data as it was at any time", "A table that is deleted automatically after a retention period that you configure", "A table that is stored only in memory and is cleared when the database restarts", "A table whose rows are partitioned by date so old data moves to cheaper storage"],
     a: [0],
     e: "System-versioned temporal tables keep a history table of every change with validity periods. You can query `FOR SYSTEM_TIME AS OF` a moment to see past values, which helps with auditing and recovering from accidental changes."
   },
@@ -458,19 +458,19 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "You need to store an entire order with its line items in a single relational table row for fast retrieval, but still query the line items with T-SQL. Which Azure SQL capability can help?",
-    o: ["Storing JSON in a column and querying it with JSON functions such as OPENJSON", "Converting the table to a graph database", "Using dynamic data masking", "Using Azure Data Box"],
+    o: ["Storing JSON in a column and querying it with functions such as OPENJSON", "Converting the table into a graph table with nodes for orders and edges for items", "Using dynamic data masking to hide line items until they are queried", "Storing each order as a separate blob in Azure Storage referenced by URL"],
     a: [0],
     e: "Azure SQL supports JSON functions (JSON_VALUE, OPENJSON, FOR JSON) and a native JSON data type, so semi-structured data can be stored in relational tables and still queried with T-SQL."
   },
   {
     q: "Which statement about relational data and Microsoft Fabric is correct?",
-    o: ["Fabric includes a SQL database (based on Azure SQL Database) for operational workloads, and its data is automatically replicated to OneLake for analytics", "Fabric cannot store relational data", "Fabric only supports MySQL databases", "Fabric SQL databases must be managed on virtual machines"],
+    o: ["Fabric includes a SQL database for operational workloads whose data is replicated to OneLake", "Fabric can store relational data only after it is converted to CSV files in OneLake", "Fabric includes only MySQL and PostgreSQL databases for operational workloads", "Fabric SQL databases run on virtual machines that you patch and back up yourself"],
     a: [0],
     e: "SQL database in Microsoft Fabric is a developer-friendly transactional database built on the Azure SQL Database engine. Its data is automatically mirrored into OneLake in Delta format, so it is ready for analytics without separate ETL."
   },
   {
     q: "Your company needs to move an on-premises SQL Server 2012 database to Azure quickly. It uses features not supported in PaaS and you must keep the exact engine version. What should you choose?",
-    o: ["SQL Server on Azure Virtual Machines", "Azure SQL Database serverless", "Azure SQL Managed Instance", "Azure Database for PostgreSQL"],
+    o: ["SQL Server on Azure Virtual Machines", "Azure SQL Database (serverless)", "Azure SQL Managed Instance", "Azure SQL Database Hyperscale"],
     a: [0],
     e: "When you must keep a specific engine version or use unsupported features, an Azure VM running SQL Server is the lift-and-shift option. PaaS options always run the current engine. Azure VMs can also get extended security updates for older SQL Server versions."
   },
@@ -593,19 +593,19 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which rule does a table in first normal form (1NF) follow?",
-    o: ["Each column holds a single, atomic value and there are no repeating groups", "Every table must have at least ten columns", "All data must be stored in one table", "Columns can contain comma-separated lists of values"],
+    o: ["Each column holds a single, atomic value and there are no repeating groups", "Every table has a composite primary key made of at least two columns", "All related data is stored together in one wide table to avoid joins", "Columns can contain comma-separated lists of values, such as phone numbers"],
     a: [0],
     e: "First normal form requires atomic values. For example, a PhoneNumbers column holding '555-1234, 555-9876' breaks 1NF; those values belong in a separate related table."
   },
   {
     q: "What does `SELECT DISTINCT City FROM Customers;` return?",
-    o: ["Each city that appears in the Customers table, listed once", "Every customer row, sorted by city", "The number of customers in each city", "Only cities with a single customer"],
+    o: ["Each city that appears in the Customers table, listed once", "Every customer row, sorted by city name", "The number of customers in each city", "Only the cities that have a single customer"],
     a: [0],
     e: "DISTINCT removes duplicate rows from the result, so each city appears once. Counting per city would need COUNT with GROUP BY."
   },
   {
     q: "What does `SELECT COUNT(*) FROM Orders WHERE Status = 'Open';` return?",
-    o: ["The number of orders whose status is Open", "All columns of open orders", "The total value of open orders", "The first open order"],
+    o: ["The number of orders whose status is Open", "All columns of the orders that are open", "The total value of the open orders", "The first open order in the table"],
     a: [0],
     e: "COUNT(*) is an aggregate function that returns the number of rows matching the WHERE clause. Totalling values would use SUM, and returning the rows would use SELECT with column names."
   },
@@ -651,7 +651,7 @@ DP900.add(2, 'rel-', [
   },
   {
     q: "Which two statements about views are correct? (Choose two.)",
-    o: ["A view can join several tables and present the result as a single virtual table", "A view can be queried with a SELECT statement just like a table", "A view automatically creates indexes on every column", "A view stores a backup of the table", "A view encrypts the columns it returns"],
+    o: ["A view can join several tables and present the result as a single virtual table", "A view can be queried with a SELECT statement just like a table", "A view automatically creates an index on every column that it returns", "A view stores a separate backup copy of the tables that it references", "A view encrypts the columns it returns so only its owner can read them"],
     a: [0, 1],
     e: "Views are saved queries that can combine tables and are queried like tables. They do not create indexes, back up data or encrypt columns."
   },

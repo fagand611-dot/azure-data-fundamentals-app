@@ -8,7 +8,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which of the following is an example of semi-structured data?",
-    o: ["A JSON document describing a customer and a variable list of addresses", "A table in an Azure SQL Database", "An MP4 video file", "A scanned PDF of a signed contract"],
+    o: ["A JSON document describing a customer and a variable list of addresses", "A table in an Azure SQL Database with fixed columns for each customer field", "An MP4 video file of a product demonstration recorded by marketing", "A scanned PDF image of a signed contract stored in Blob Storage"],
     a: [0],
     e: "Semi-structured data has some organisation (fields, tags or key-value pairs) but no rigid schema, so each document can contain different fields. JSON, XML and YAML are classic examples. A SQL table is structured; video files and scanned images are unstructured."
   },
@@ -38,13 +38,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which file format was originally developed by Hortonworks for Apache Hive and organises data into columns grouped in 'stripes'?",
-    o: ["ORC (Optimized Row Columnar)", "Avro", "CSV", "JSON"],
+    o: ["ORC (Optimized Row Columnar)", "Avro (Apache Avro)", "CSV (comma-separated values)", "JSON (JavaScript Object Notation)"],
     a: [0],
     e: "ORC (Optimized Row Columnar) stores data in stripes, each holding columnar data plus statistics. It was built to optimise Apache Hive reads and writes. Avro is row-based; CSV and JSON are text formats."
   },
   {
     q: "What is a BLOB?",
-    o: ["Binary Large Object: binary data such as an image or video stored as a single unit", "A table that stores large amounts of relational data", "A type of index used to speed up queries", "A JSON document stored in a document database"],
+    o: ["Binary Large Object: binary data such as an image or video stored as a single unit", "A table type that stores very large amounts of relational data in rows", "A type of index that speeds up queries by storing large column values separately on disk", "A JSON document stored in a document database such as Cosmos DB"],
     a: [0],
     e: "BLOB stands for Binary Large Object. It is a collection of binary data (images, video, audio, application files) stored as a single entity. In Azure, Blob Storage is the service designed to hold this kind of data at scale."
   },
@@ -74,13 +74,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "A document database is MOST suitable for which scenario?",
-    o: ["Storing product catalog entries where each product has different attributes", "Enforcing referential integrity between orders and customers", "Storing a social network of relationships between people", "Running complex multi-table joins for financial reporting"],
+    o: ["Storing product catalog entries where each product has different attributes", "Enforcing referential integrity between orders, customers and payments", "Storing a social network of relationships between people and groups", "Running complex multi-table joins for financial reporting"],
     a: [0],
     e: "Document databases store self-describing documents (usually JSON) whose structure can vary, which suits catalogs where a laptop and a shirt have very different attributes. Referential integrity and multi-table joins are strengths of relational databases, and relationship-heavy data suits graph databases."
   },
   {
     q: "What is the main characteristic of an online transaction processing (OLTP) system?",
-    o: ["It handles many small, fast reads and writes that record day-to-day business transactions", "It runs long, complex queries over historical data for reporting", "It stores data only in columnar files in a data lake", "It processes data once a day in large batches"],
+    o: ["It handles many small, fast reads and writes that record day-to-day business transactions", "It runs long, complex aggregate queries over many years of historical data for reporting", "It stores data only as compressed columnar files in a data lake", "It processes data once a day in large scheduled batches overnight"],
     a: [0],
     e: "OLTP systems capture business transactions (orders, payments, bookings) as they happen. They are optimised for many concurrent small inserts, updates and point reads, and they typically enforce ACID guarantees. Long-running aggregate queries over history describe analytical (OLAP) workloads."
   },
@@ -122,13 +122,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is normalization in a relational database?",
-    o: ["Organising data into separate related tables to reduce duplication and improve data integrity", "Combining all data into a single wide table to speed up reporting", "Converting data into a columnar file format", "Encrypting data so only authorised users can read it"],
+    o: ["Organising data into separate related tables to reduce duplication and improve data integrity", "Combining all data into a single wide table so reports can be produced without any joins", "Converting tables into a compressed columnar file format for faster analytical scans", "Encrypting data so only authorised users can read it"],
     a: [0],
     e: "Normalization splits data into multiple related tables, each describing one entity, linked by keys. This removes duplicated values, so an update happens in one place, and reduces anomalies. Analytical models often deliberately denormalize to make queries simpler and faster."
   },
   {
     q: "Which statement describes a primary key?",
-    o: ["A column or set of columns that uniquely identifies each row in a table", "A column that references a row in another table", "An index that stores data in columnar format", "A password required to read a table"],
+    o: ["A column or set of columns that uniquely identifies each row in a table", "A column that references the primary key of a row in another related table", "An index that stores the table's data in a compressed columnar format", "A password required to read a table"],
     a: [0],
     e: "A primary key uniquely identifies each row and cannot contain duplicate or NULL values. A column that references another table's primary key is a foreign key."
   },
@@ -164,7 +164,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What does the following statement do?\n`SELECT Name, Price FROM Products WHERE Price > 100 ORDER BY Price DESC;`",
-    o: ["Returns the name and price of products costing more than 100, most expensive first", "Deletes products costing more than 100", "Returns all columns for products costing exactly 100", "Updates the price of products to 100"],
+    o: ["Returns the name and price of products costing more than 100, most expensive first", "Deletes the products that cost more than 100 and returns the remaining rows", "Returns all columns for products costing exactly 100, sorted by name", "Updates the price of every product to 100 and returns the changed rows"],
     a: [0],
     e: "SELECT chooses the columns, FROM chooses the table, WHERE filters rows (Price > 100), and ORDER BY ... DESC sorts from highest to lowest. It is a read-only query and changes no data."
   },
@@ -176,25 +176,25 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is a view in a relational database?",
-    o: ["A virtual table based on the result set of a SELECT query", "A physical copy of a table stored on disk", "A stored set of permissions", "A backup of a database"],
+    o: ["A virtual table based on the result set of a SELECT query", "A physical copy of a table that is stored separately on disk", "A stored set of permissions", "A backup of a database"],
     a: [0],
     e: "A view is a saved query that you can select from as if it were a table. It stores no data itself (unless it is an indexed/materialized view). Views are used to simplify complex joins and to restrict which columns or rows users can see."
   },
   {
     q: "What is a stored procedure?",
-    o: ["A named set of SQL statements saved in the database that can be run with parameters", "A table that stores procedure documentation", "An index that speeds up joins", "A backup schedule for a database"],
+    o: ["A named set of SQL statements saved in the database that can be run with parameters", "A system table that stores documentation for each procedure in the database", "An index type that speeds up joins between tables by pre-sorting matching key columns", "A backup schedule for a database"],
     a: [0],
     e: "A stored procedure encapsulates SQL logic in the database. It can accept parameters, perform inserts, updates and other operations, and be reused by applications. This centralises business logic and can improve security and performance."
   },
   {
     q: "What is the main purpose of an index on a table?",
-    o: ["To help queries find rows faster, similar to an index at the back of a book", "To enforce that values in a column are unique", "To encrypt sensitive columns", "To store a copy of the table in another region"],
+    o: ["To help queries find rows faster, similar to an index at the back of a book", "To enforce that values in a column are unique across every row in the table", "To encrypt sensitive columns", "To store a copy of the table in another region"],
     a: [0],
     e: "An index is a structure that lets the database locate rows matching a search condition without scanning the whole table. Indexes speed up reads but add overhead to inserts, updates and deletes, because the index must also be maintained."
   },
   {
     q: "Which is a drawback of adding many indexes to a table?",
-    o: ["Inserts, updates and deletes become slower because each index must be maintained", "SELECT queries always become slower", "The table can no longer have a primary key", "The table must be stored in a data lake"],
+    o: ["Inserts, updates and deletes become slower because each index must be maintained", "SELECT queries always become slower because more data must be read", "The table can no longer have a primary key or any foreign key constraints", "The table must be moved into a data lake to store the extra index files"],
     a: [0],
     e: "Every index must be updated when data changes, so too many indexes slow down write operations and consume storage. The trade-off is faster reads for the queries the indexes support."
   },
@@ -218,7 +218,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "A data engineer most commonly uses which of the following tools?",
-    o: ["Azure Data Factory and Azure Synapse Analytics pipelines", "Power BI Desktop report themes", "Microsoft Entra ID user provisioning", "Microsoft Excel conditional formatting"],
+    o: ["Azure Data Factory and Azure Synapse Analytics pipelines", "Power BI Desktop report themes and custom visual formatting", "Microsoft Entra ID user provisioning and group membership rules", "Microsoft Excel conditional formatting"],
     a: [0],
     e: "Data engineers work with data integration and processing services such as Azure Data Factory, Synapse Analytics, Microsoft Fabric and Azure Databricks. Report design is mostly a data analyst task, and identity provisioning is an administrator task."
   },
@@ -260,13 +260,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is stream processing?",
-    o: ["Processing data continuously, in real time or near real time, as each new record arrives", "Processing large groups of data on a schedule", "Copying files between storage accounts", "Running the same query against many databases"],
+    o: ["Processing data continuously, in real time or near real time, as each new record arrives", "Processing large groups of collected data together on a fixed schedule", "Copying files between storage accounts as soon as each file is complete", "Running the same query against many databases at the same time to compare results"],
     a: [0],
     e: "Stream processing handles data as an unbounded, continuous flow and produces results within seconds or milliseconds. Typical uses are IoT telemetry monitoring, fraud detection and live dashboards."
   },
   {
     q: "Which two statements describe batch processing compared with stream processing? (Choose two.)",
-    o: ["It can process large volumes of data efficiently at a scheduled time", "There is a delay (latency) between when data is generated and when results are available", "It produces results within milliseconds of an event occurring", "It always works on a single record at a time", "It requires data to be stored in a graph database"],
+    o: ["It can process large volumes of data efficiently at a scheduled time", "There is a delay (latency) between when data is generated and when results are available", "It produces results within milliseconds of each event occurring at the source", "It always processes one record at a time as soon as that record arrives", "It requires the data to be stored in a graph database before it is processed"],
     a: [0, 1],
     e: "Batch processing is efficient for large volumes and complex transformations, but results are only available after the batch runs, so latency is higher (minutes to hours). Millisecond results and per-record processing are characteristics of streaming. Batch processing does not depend on any particular database type."
   },
@@ -278,31 +278,31 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which statement about stream processing is correct?",
-    o: ["It typically works on a rolling time window or individual events and requires low latency", "It requires all data to be available before processing starts", "It is mainly used for complex analysis of years of historical data", "It cannot be used with IoT devices"],
+    o: ["It typically works on a rolling time window or individual events and requires low latency", "It requires all data for the period to be available before processing can start", "It is mainly used for complex analysis of many years of historical data at once", "It cannot be used with IoT devices"],
     a: [0],
     e: "Streaming analyses data within small time windows (for example, the last 30 seconds) or event by event, with latency of seconds or less. Batch processing works on complete, bounded datasets and suits complex historical analysis."
   },
   {
     q: "What is a data warehouse?",
-    o: ["A relational store optimised for read-heavy analytical queries over integrated historical data", "A store for raw files in their native format", "A transactional database for a single application", "A messaging service for event data"],
+    o: ["A relational store optimised for analytical queries over integrated historical data", "A store that keeps raw files of any type in their native format for later use", "A transactional database that records day-to-day operations for one application", "A messaging service that buffers event data between producers and consumers"],
     a: [0],
     e: "A data warehouse integrates data from multiple sources into a schema (usually star or snowflake) designed for analytical queries and reporting. A data lake, by contrast, stores raw files of any format in their native form."
   },
   {
     q: "What is a data lake?",
-    o: ["A repository that stores large volumes of raw data as files in their native format", "A relational database optimised for OLTP", "A dashboard that combines visuals from many reports", "A table that stores only aggregated data"],
+    o: ["A repository that stores large volumes of raw data as files in their native format", "A relational database optimised for many small concurrent OLTP transactions", "A dashboard that combines pinned visuals from many different reports", "A table that stores only pre-aggregated summary data for reporting"],
     a: [0],
     e: "A data lake holds structured, semi-structured and unstructured data as files, often applying a schema only when the data is read (schema-on-read). In Azure, data lakes are typically built on Azure Data Lake Storage Gen2 or OneLake in Microsoft Fabric."
   },
   {
     q: "What does 'schema-on-read' mean?",
-    o: ["Data is stored raw and a structure is applied when the data is queried", "A schema must be defined before data can be written", "The schema is stored inside each row of a table", "Only users with read permissions can see the schema"],
+    o: ["Data is stored raw and a structure is applied when the data is queried", "A schema must be defined and enforced before any data can be written", "The schema is stored inside each row of a table", "Only users with read permissions can see the schema"],
     a: [0],
     e: "With schema-on-read, data is stored in its original form (common in data lakes) and the schema is projected onto it at query time. Relational databases and warehouses use schema-on-write, where data must match the table schema when it is inserted."
   },
   {
     q: "What is a data lakehouse?",
-    o: ["An architecture that combines data lake file storage with relational, warehouse-like querying and transactional table formats", "A relational database that is hosted on-premises", "A Power BI workspace that contains only dashboards", "A key-value store optimised for low-latency lookups"],
+    o: ["An architecture that combines data lake storage with warehouse-style SQL querying and ACID tables", "A relational database that is hosted on-premises and replicated to a data lake each night", "A Power BI workspace that holds only dashboards built on top of a data lake", "A key-value store optimised for low-latency lookups of files stored in a data lake"],
     a: [0],
     e: "A lakehouse stores data as files in a data lake but adds a table layer (for example Delta Lake) that supports schemas, ACID transactions and SQL querying. Microsoft Fabric lakehouses and Azure Databricks use this approach."
   },
@@ -314,7 +314,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "How does ELT differ from ETL?",
-    o: ["In ELT, data is loaded into the target store first and then transformed there", "In ELT, data is never transformed", "ELT can only be used for streaming data", "ELT encrypts data before loading it"],
+    o: ["In ELT, data is loaded into the target store first and then transformed there", "In ELT, data is never transformed and is always reported exactly as extracted", "ELT can only be used for streaming data, while ETL is only for batch data", "ELT encrypts data before loading it, while ETL loads data unencrypted"],
     a: [0],
     e: "In ELT (Extract, Load, Transform) raw data is loaded into a scalable target, such as a data lake or cloud data warehouse, and transformed using that platform's compute. This uses the power of modern analytical engines and keeps the raw data available."
   },
@@ -332,13 +332,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What distinguishes a snowflake schema from a star schema?",
-    o: ["Dimension tables are normalized into additional related tables", "There are multiple fact tables with no dimensions", "All data is stored in a single table", "It can only be used in non-relational databases"],
+    o: ["Dimension tables are normalized into additional related tables", "There are multiple fact tables and no dimension tables at all", "All data is stored in a single table", "It can only be used in non-relational databases"],
     a: [0],
     e: "In a snowflake schema, dimensions are normalized. For example, Product links to a separate Category table, which links to a Department table. In a star schema each dimension is a single denormalized table directly connected to the fact table."
   },
   {
     q: "Why are analytical data models often denormalized?",
-    o: ["To reduce the number of joins needed and make read queries faster and simpler", "To reduce the amount of storage used", "To make inserts and updates faster", "To enforce stricter data integrity"],
+    o: ["To reduce the number of joins needed and make read queries faster and simpler", "To reduce the total amount of storage used by removing duplicated values", "To make inserts and updates faster by writing each value in only one place", "To enforce stricter data integrity with more foreign key constraints"],
     a: [0],
     e: "Analytical workloads are read-heavy. Denormalized structures like star schemas reduce joins, which speeds up aggregation and makes models easier for analysts to understand. The cost is some redundancy, which matters less because data is loaded in controlled batches."
   },
@@ -350,7 +350,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is a 'dimension' of time in a data warehouse typically used for?",
-    o: ["Grouping and filtering facts by date attributes such as year, quarter, month and weekday", "Storing the time a user logged in", "Encrypting timestamps", "Scheduling pipeline runs"],
+    o: ["Grouping and filtering facts by date attributes such as year, quarter, month and weekday", "Storing the exact date and time each user signed in to the reporting system and app", "Encrypting timestamp columns so that dates cannot be read by analysts", "Scheduling the times at which data pipelines run each day or week"],
     a: [0],
     e: "A date (time) dimension contains one row per date with attributes such as year, quarter, month name and day of week. It lets analysts aggregate facts over time periods consistently."
   },
@@ -368,31 +368,31 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What does data lineage show?",
-    o: ["Where data originated and how it moved and was transformed on the way to its current location", "The number of users who queried a table", "The physical disk where data is stored", "The order in which rows were inserted"],
+    o: ["Where data came from and how it was moved and transformed to reach its current location", "The number of users who queried a table and how often they ran each query", "The physical disks, servers and datacenters where each copy of the data is currently stored", "The order in which rows were inserted into each table over time"],
     a: [0],
     e: "Lineage traces data from source through transformations to its destination (for example, from a SQL table through a pipeline to a Power BI report). It helps with impact analysis, troubleshooting and compliance."
   },
   {
     q: "Which category of data includes information captured as a by-product of devices, such as sensor readings sent every few seconds?",
-    o: ["Telemetry / streaming data", "Master data", "Reference data", "Archived data"],
+    o: ["Telemetry / streaming data", "Master / customer data", "Reference / lookup data", "Archived / historical data"],
     a: [0],
     e: "IoT devices emit telemetry continuously, producing a stream of time-stamped events. Such data is usually ingested via services such as Azure IoT Hub or Event Hubs and processed with stream analytics."
   },
   {
     q: "Which statement about relational databases is true?",
-    o: ["Data is stored in tables of rows and columns, and every row in a table has the same columns", "Each record can have a completely different set of fields", "Relationships are stored as edges between nodes", "Data is stored as files in their native format"],
+    o: ["Data is stored in tables of rows and columns, and every row in a table has the same columns", "Each record can have a completely different set of fields, stored as a JSON document", "Relationships are stored as edges between nodes, and entities are stored as vertices", "Data is stored as files in their native format and a schema is applied when read"],
     a: [0],
     e: "Relational databases model data as tables with a fixed schema. Varying fields per record describes document stores, edges between nodes describes graph databases, and native-format files describes data lakes."
   },
   {
     q: "Which two benefits are provided by using a relational database for an order processing system? (Choose two.)",
-    o: ["Support for ACID transactions", "Enforcement of relationships with foreign keys", "Storing each order as an unstructured video file", "Automatic schema-on-read for any file format", "Effortless horizontal scale-out with no schema to maintain"],
+    o: ["Support for ACID transactions", "Enforcement of relationships with foreign keys", "Flexible schemas so each order can store a different set of fields", "Schema-on-read queries over raw order files kept in a data lake", "Automatic horizontal scale-out of writes across many partitions"],
     a: [0, 1],
-    e: "Relational databases provide ACID transactions and enforce referential integrity with primary and foreign keys, both valuable for orders, customers and payments. Schema-on-read for arbitrary files is a data lake characteristic. Schema-free, effortless scale-out is usually a strength of NoSQL stores, not relational databases."
+    e: "Relational databases provide ACID transactions and enforce referential integrity with primary and foreign keys, both valuable for orders, customers and payments. Flexible per-record schemas and effortless scale-out across partitions are typical strengths of NoSQL stores, and schema-on-read over raw files describes a data lake."
   },
   {
     q: "You need to store large amounts of JSON telemetry from millions of devices with very low-latency writes, and the schema will change frequently. Which type of data store is MOST appropriate?",
-    o: ["A non-relational (NoSQL) database such as Azure Cosmos DB", "A normalized relational database", "A star schema in a data warehouse", "An Excel workbook in SharePoint"],
+    o: ["A non-relational (NoSQL) database such as Azure Cosmos DB", "A highly normalized relational database with a fixed schema", "A star schema in a dedicated data warehouse", "An Excel workbook stored in a SharePoint document library"],
     a: [0],
     e: "NoSQL databases like Cosmos DB scale horizontally, accept flexible schemas and deliver low-latency writes globally, which suits high-volume telemetry with evolving structure. A normalized relational database requires a fixed schema and is harder to scale out for this pattern."
   },
@@ -404,7 +404,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which describes 'eventual consistency' in a distributed database?",
-    o: ["Replicas may briefly return older data, but all copies converge to the same value over time", "All reads always return the latest committed write", "Data is never replicated", "Transactions are rolled back if replicas disagree"],
+    o: ["Replicas may briefly return older data, but all copies converge to the same value over time", "All reads always return the most recent committed write, no matter which replica serves them", "Data is never replicated, so there is only ever one copy of each item", "Transactions are rolled back automatically if any two replicas disagree"],
     a: [0],
     e: "Eventual consistency trades immediate consistency for higher availability and lower latency. Replicas update asynchronously, so a read might see stale data for a short time, but without new writes all replicas eventually agree. Strong consistency guarantees reads always see the latest write."
   },
@@ -416,7 +416,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which statement describes the difference between a data analyst and a data engineer?",
-    o: ["Data engineers build and manage the pipelines and stores that make data available; data analysts explore that data and create reports and insights", "Data analysts manage database backups; data engineers build dashboards", "There is no difference; the roles are identical", "Data engineers only work with unstructured data"],
+    o: ["Engineers build pipelines and data stores; analysts explore the data and create reports", "Analysts manage database backups and security; engineers build dashboards and reports", "There is no difference; the two job titles describe exactly the same role", "Engineers only work with unstructured data; analysts only work with structured data"],
     a: [0],
     e: "Data engineers prepare data: ingestion, transformation, storage and pipeline operations. Data analysts consume that prepared data to build models, visualisations and reports. Backups are a database administrator responsibility."
   },
@@ -428,7 +428,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is a composite key?",
-    o: ["A primary key made up of two or more columns", "A key used to encrypt a database", "A foreign key that references itself", "A key stored in Azure Key Vault"],
+    o: ["A primary key made up of two or more columns", "A key used to encrypt every column in a database", "A foreign key that references itself", "A key stored in Azure Key Vault"],
     a: [0],
     e: "A composite key uses a combination of columns to uniquely identify a row, for example OrderID plus LineNumber in an OrderLines table, where neither column alone is unique."
   },
@@ -440,13 +440,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is an OLAP model (cube) used for?",
-    o: ["Pre-aggregating data across dimensions so analytical queries such as 'sales by region by quarter' return quickly", "Capturing individual web orders in real time", "Storing binary images", "Managing user permissions"],
+    o: ["Pre-aggregating data across dimensions so queries like 'sales by region by quarter' are fast", "Capturing individual web orders in real time and committing each one as a single transaction", "Storing binary images and documents alongside the related relational rows", "Managing which users have permission to read each table and column"],
     a: [0],
     e: "An OLAP model stores data aggregated across hierarchies of dimensions (for example, Year > Quarter > Month), so business users can slice, dice and drill down quickly without scanning detailed transactional data."
   },
   {
     q: "Which two are examples of data that would typically be processed by an analytical workload rather than a transactional one? (Choose two.)",
-    o: ["Five years of sales history used to identify seasonal trends", "A daily aggregate of website visits used in a management dashboard", "A customer placing an order on an e-commerce site", "An ATM withdrawal debiting an account", "Updating a customer's delivery address"],
+    o: ["Five years of sales history used to identify seasonal trends", "A daily aggregate of website visits used in a management dashboard", "A customer placing an order on an e-commerce site during a sale", "An ATM withdrawal debiting a customer's current account balance", "Updating a customer's delivery address in the order system"],
     a: [0, 1],
     e: "Trend analysis over historical data and aggregated dashboard metrics are analytical. Placing an order and withdrawing cash are individual business transactions handled by OLTP systems. Updating an address is also a single transaction handled by an OLTP system."
   },
@@ -458,7 +458,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Transact-SQL (T-SQL) is the dialect of SQL used by which database engine?",
-    o: ["Microsoft SQL Server and Azure SQL", "PostgreSQL", "MySQL", "Oracle Database"],
+    o: ["Microsoft SQL Server and Azure SQL", "PostgreSQL and Azure Database for PostgreSQL", "MySQL and Azure Database for MySQL", "Oracle Database and Oracle Autonomous Database"],
     a: [0],
     e: "T-SQL is Microsoft's SQL dialect, used by SQL Server, Azure SQL Database, Azure SQL Managed Instance, and the SQL engines in Azure Synapse and Microsoft Fabric. PostgreSQL uses PL/pgSQL for procedural code, and Oracle uses PL/SQL."
   },
@@ -476,7 +476,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What happens if you run `DELETE FROM Customers;` without a WHERE clause?",
-    o: ["All rows in the Customers table are deleted, but the table remains", "The Customers table is dropped from the database", "Nothing happens because a WHERE clause is required", "Only the first row is deleted"],
+    o: ["All rows in the Customers table are deleted, but the table remains", "The Customers table is dropped from the database along with its data", "Nothing happens because a WHERE clause is required", "Only the first row is deleted"],
     a: [0],
     e: "DELETE without WHERE removes every row while keeping the table definition. To remove the table itself you would use DROP TABLE. Always double-check DELETE and UPDATE statements for a WHERE clause."
   },
@@ -488,19 +488,19 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which TWO of the following are characteristics of semi-structured data? (Choose two.)",
-    o: ["It can contain nested and repeating elements", "Each entity is self-describing, with field names stored alongside values", "It must conform to a fixed schema defined before data is written", "It has no organisational properties at all", "It can only be stored in relational tables"],
+    o: ["It can contain nested and repeating elements", "Each entity is self-describing, with field names stored alongside values", "It must conform to a fixed schema that is defined before data is written", "It has no field names or tags at all, like an image or audio file", "It can only be stored in relational tables with typed columns"],
     a: [0, 1],
     e: "Semi-structured formats like JSON and XML include field names with values (self-describing) and support nesting and arrays. A fixed predefined schema describes structured data, and no organisation at all describes unstructured data. Semi-structured data is usually kept in files or document databases; it is not limited to relational tables."
   },
   {
     q: "What is the purpose of the data visualisation stage in an analytics process?",
-    o: ["To present data in charts and reports so people can understand trends and make decisions", "To compress data for storage", "To copy data between regions", "To define primary keys"],
+    o: ["To present data in charts and reports so people can spot trends and make decisions", "To compress data so that it takes less space in long-term storage", "To copy data between Azure regions for disaster recovery purposes", "To define primary keys, foreign keys and relationships between all the tables in a database"],
     a: [0],
     e: "Visualisation turns processed data into charts, maps and dashboards that make patterns and outliers easy to see. In Azure, Power BI is the primary visualisation tool."
   },
   {
     q: "Which describes 'data ingestion'?",
-    o: ["Capturing raw data from sources and bringing it into a data store or processing system", "Deleting old data that is no longer needed", "Displaying data in a dashboard", "Granting access to a database"],
+    o: ["Capturing raw data from sources and bringing it into a data store or processing system", "Deleting old data that is no longer needed once its retention period has passed", "Displaying processed data in interactive dashboards and reports for business users to explore", "Granting users and applications permission to access a database"],
     a: [0],
     e: "Ingestion is the first step of a data pipeline: collecting data from operational systems, files, devices or APIs and landing it in a store such as a data lake, using batch or streaming methods."
   },
@@ -512,7 +512,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which describes the term 'big data'?",
-    o: ["Data characterised by very high volume, velocity and/or variety that is hard to handle with traditional tools", "Any table with more than 100 rows", "Data stored only in Excel", "Data that is always structured"],
+    o: ["Data with very high volume, velocity or variety that traditional tools struggle to handle", "Any table that contains more than a million rows, regardless of how the data is used or stored", "Data that is stored only in very large Excel workbooks on a file share", "Data that is always structured and stored in a single relational database"],
     a: [0],
     e: "Big data is commonly described by the 'three Vs': volume (very large amounts), velocity (high speed of arrival) and variety (many formats). Distributed processing platforms such as Spark were developed to handle it."
   },
@@ -600,7 +600,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "What is a data mart?",
-    o: ["A subset of a data warehouse focused on a single business area, such as sales or finance", "A marketplace for buying third-party datasets", "A transactional database for a single application", "A backup copy of a data lake"],
+    o: ["A subset of a data warehouse focused on a single business area, such as sales or finance", "A marketplace where organisations buy and sell third-party datasets for analytics", "A transactional database that records the day-to-day operations of a single business application", "A backup copy of a data lake that is kept in another Azure region"],
     a: [0],
     e: "A data mart is a smaller, subject-focused analytical store, often built from the enterprise data warehouse, that serves one department or business function. It is not a marketplace, an OLTP database or a backup."
   },
@@ -612,13 +612,13 @@ DP900.add(1, 'core-', [
   },
   {
     q: "In database terms, what is a transaction?",
-    o: ["A sequence of operations treated as a single logical unit of work that either fully succeeds or fully fails", "Any SELECT query that returns more than one row", "A file transferred between two storage accounts", "A scheduled report sent by email"],
+    o: ["A group of operations treated as one unit of work that either fully succeeds or fully fails", "Any SELECT query that reads rows from several tables at once and returns them in one result set", "A file copied between two storage accounts using a single AzCopy command", "A scheduled report that is generated and sent by email at the same time every day"],
     a: [0],
     e: "A transaction groups one or more operations so they are applied together or not at all, which is the basis of the ACID guarantees. Queries, file transfers and reports are not transactions in this sense."
   },
   {
     q: "What does denormalization mean?",
-    o: ["Deliberately combining data into fewer tables, accepting some duplication, to make read queries simpler and faster", "Splitting tables to eliminate all duplicate data", "Encrypting data so it cannot be read", "Removing all indexes from a database"],
+    o: ["Combining data into fewer tables, accepting some duplication, to make reads simpler and faster", "Splitting wide tables into smaller related tables linked by keys to eliminate duplicated data values", "Encrypting data at rest so that it cannot be read without the correct key", "Removing all indexes from a database so that bulk inserts and updates run faster"],
     a: [0],
     e: "Denormalization reverses some normalization, for example by copying category names into a product dimension, so analytical queries need fewer joins. Splitting tables to remove duplication is normalization."
   },
@@ -630,7 +630,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which kind of data store organises files in folders and subfolders, like the file system on a computer?",
-    o: ["A hierarchical file store, such as a data lake with a hierarchical namespace", "A key-value store", "A graph database", "A column-family database"],
+    o: ["A hierarchical file store, such as a data lake with a hierarchical namespace", "A key-value store, such as Azure Table storage", "A graph database, such as Cosmos DB for Apache Gremlin", "A column-family database that groups related columns into families, such as Apache Cassandra"],
     a: [0],
     e: "File stores arrange files in a hierarchy of directories. Azure Data Lake Storage Gen2 adds a true hierarchical namespace on top of Blob Storage. Key-value, graph and column-family stores organise data in other ways."
   },
@@ -642,7 +642,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "How does near real-time processing differ from real-time processing?",
-    o: ["Near real-time results arrive within seconds or minutes, while real-time results arrive within milliseconds", "Near real-time processing only runs once per day", "Real-time processing always uses batch jobs", "There is no difference in latency"],
+    o: ["Near real-time results arrive within seconds or minutes; real-time results within milliseconds", "Near real-time processing runs once per day, while real-time processing runs once per hour", "Real-time processing always uses scheduled batch jobs, while near real-time uses streams", "There is no difference in latency; the two terms describe exactly the same processing"],
     a: [0],
     e: "Real-time systems respond in milliseconds (for example, fraud blocking), while near real-time systems accept a short delay of seconds or minutes (for example, a dashboard refreshed every minute). Both are forms of stream processing, not daily batches."
   },
@@ -660,7 +660,7 @@ DP900.add(1, 'core-', [
   },
   {
     q: "Which two are examples of structured data? (Choose two.)",
-    o: ["An Employees table with EmployeeID, Name and HireDate columns", "A CSV export of invoices with the same columns in every row", "A recording of a team meeting", "A folder of scanned receipts", "A set of JSON documents with varying fields"],
+    o: ["An Employees table with EmployeeID, Name and HireDate columns", "A CSV export of invoices with the same columns in every row", "A video recording of a team meeting stored in OneDrive", "A folder of scanned paper receipts saved as JPEG images", "A set of JSON documents in which each one has different fields"],
     a: [0, 1],
     e: "Structured data has a fixed schema of rows and columns, like a relational table or a consistent CSV file. Recordings and scanned images are unstructured, and JSON with varying fields is semi-structured."
   },
