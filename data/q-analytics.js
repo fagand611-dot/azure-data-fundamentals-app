@@ -1014,5 +1014,60 @@ DP900.add(4, 'ana-', [
     o: ["Data Engineering", "Real-Time Intelligence", "Power BI"],
     a: [0],
     e: "The Data Engineering workload provides lakehouses, notebooks and Spark job definitions. Real-Time Intelligence handles streaming data, and Power BI handles reporting."
+  },
+  {
+    t: "match",
+    q: "Match each Azure HDInsight cluster type to its typical use.",
+    c: ["Apache Spark", "Apache Kafka", "Apache HBase", "Apache Hadoop"],
+    s: [
+      ["In-memory processing for large-scale data transformation and machine learning", 0],
+      ["Real-time streaming pipelines with publish-subscribe messaging", 1],
+      ["A NoSQL database with fast random reads and writes over very large tables", 2],
+      ["Batch processing with MapReduce over files in distributed storage", 3]
+    ],
+    e: "HDInsight offers managed clusters for open-source frameworks. Spark handles in-memory analytics and ML, Kafka handles event streaming, HBase is a NoSQL wide-column store, and Hadoop runs MapReduce batch jobs over HDFS-compatible storage."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure HDInsight.",
+    s: [
+      ["Azure HDInsight provides managed clusters for open-source frameworks such as Spark, Kafka and HBase.", true],
+      ["Azure HDInsight is a software as a service (SaaS) platform with no clusters to size or manage.", false],
+      ["Azure HDInsight clusters can use Azure Data Lake Storage Gen2 for storage.", true]
+    ],
+    e: "1 Yes: HDInsight runs managed open-source analytics clusters. 2 No: it is platform as a service; you choose the cluster type and size its nodes, while Azure handles provisioning and maintenance. 3 Yes: HDInsight can use ADLS Gen2 (or Blob Storage) as its storage layer."
+  },
+  {
+    q: "Which two statements about Azure HDInsight are correct? (Choose two.)",
+    o: ["It runs managed clusters for open-source frameworks such as Hadoop, Spark and Kafka", "You choose the cluster type and the size of the nodes it runs on", "It is a software as a service platform with no clusters for you to configure", "It can store data only in its own proprietary file format on local disks", "It is primarily a relational database for transactional business applications"],
+    a: [0, 1],
+    e: "HDInsight is a PaaS service for open-source analytics: you pick a cluster type (Hadoop, Spark, Kafka, HBase, Interactive Query) and its node sizes. It reads and writes open formats in Azure Storage or ADLS Gen2, and it is not an OLTP database."
+  },
+  {
+    t: "match",
+    q: "Match each Azure Synapse Analytics component to its description.",
+    c: ["Dedicated SQL pool", "Serverless SQL pool", "Apache Spark pool", "Synapse pipelines"],
+    s: [
+      ["A provisioned MPP data warehouse that is billed while it runs", 0],
+      ["Pay-per-query T-SQL over files in the data lake", 1],
+      ["Distributed big data processing in notebooks using Python or Scala", 2],
+      ["Orchestrating data movement and transformation, like Azure Data Factory", 3]
+    ],
+    e: "Dedicated SQL pools provide provisioned warehouse compute (DWUs) that you can pause. The serverless SQL pool queries lake files and bills per TB processed. Spark pools run notebooks and jobs. Synapse pipelines share Azure Data Factory's integration engine."
+  },
+  {
+    q: "Which tool is the web-based workspace for developing and managing Azure Synapse Analytics resources such as SQL scripts, notebooks and pipelines?",
+    o: ["Synapse Studio", "Azure Data Studio", "Power BI Desktop", "Azure Storage Explorer"],
+    a: [0],
+    e: "Synapse Studio is the browser-based workspace for Synapse: you write SQL scripts and notebooks, build pipelines, and monitor runs there. Power BI Desktop builds reports, and Storage Explorer manages storage accounts."
+  },
+  {
+    t: "complete",
+    q: "To run open-source frameworks such as Apache Hadoop and Kafka on managed clusters, use {0}; for one workspace that combines SQL data warehousing, Spark and pipelines, use {1}.",
+    b: [
+      { o: ["Azure HDInsight", "Azure Synapse Analytics", "Azure Data Explorer"], a: 0 },
+      { o: ["Azure HDInsight", "Azure Synapse Analytics", "Azure Cosmos DB"], a: 1 }
+    ],
+    e: "HDInsight provides managed open-source clusters. Synapse Analytics integrates dedicated and serverless SQL pools, Spark pools and pipelines in one workspace. Data Explorer is for log and telemetry analytics with KQL, and Cosmos DB is an operational database."
   }
 ]);

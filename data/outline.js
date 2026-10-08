@@ -97,12 +97,12 @@ window.DP900.outline = {
     '4.3': ("ana-009 ana-010 ana-011 ana-012 ana-014 ana-015 ana-017 ana-018 " +
       "ana-019 ana-020 ana-024 ana-069 ana-073 ana-075 ana-081 ana-084 " +
       "ana-090 ana-098 ana-108 ana-117 ana-141 ana-144 ana-145 ana-150 " +
-      "ana-157 ana-158").split(' '),
+      "ana-157 ana-158 ana-159 ana-160 ana-161 ana-162 ana-163 ana-164").split(' '),
     '4.4': ("core-043 core-044 core-045 core-046 core-047 core-063 core-089 core-098 " +
       "core-103 core-106 core-129 ana-070 ana-071 ana-097 ana-103 ana-142").split(' '),
     '4.5': ("ana-026 ana-027 ana-028 ana-029 ana-033 ana-034 ana-035 ana-036 " +
       "ana-037 ana-038 ana-077 ana-079 ana-080 ana-092 ana-096 ana-102 " +
-      "ana-106 ana-116 ana-132 ana-136 ana-140 ana-152").split(' '),
+      "ana-106 ana-116 ana-129 ana-132 ana-136 ana-140 ana-152").split(' '),
     '4.6': ("core-083 ana-039 ana-040 ana-041 ana-042 ana-043 ana-054 ana-057 " +
       "ana-058 ana-059 ana-063 ana-064 ana-076 ana-086 ana-095 ana-104 " +
       "ana-105 ana-110 ana-124 ana-130 ana-135 ana-149 ana-151").split(' '),
@@ -116,7 +116,7 @@ window.DP900.outline = {
       "rel-103 rel-110 nrel-036 nrel-041 nrel-047 nrel-051 nrel-052 nrel-053 " +
       "nrel-080 nrel-082 nrel-092 nrel-093 ana-005 ana-006 ana-007 ana-030 " +
       "ana-031 ana-032 ana-078 ana-109 ana-118 ana-126 ana-127 ana-128 " +
-      "ana-129 ana-138 ana-148").split(' '),
+      "ana-138 ana-148").split(' '),
     'X': ("core-038 core-039 core-040 core-041 core-042 core-060 core-061 core-062 " +
       "core-085 core-100 core-118 core-126 rel-053 nrel-058").split(' ')
   }

@@ -4,15 +4,15 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 
 ## Features
 
-- **564 exam-style questions** mapped to the official skills outline (skills measured as of July 21, 2026). Every one of the 26 objectives has at least 10 questions:
+- **570 exam-style questions** mapped to the official skills outline (skills measured as of July 21, 2026). Every one of the 26 objectives has at least 10 questions:
   | Skill area | Exam weight | Questions in the outline |
   |---|---|---|
   | Describe core data concepts | 25–30% | 108 |
   | Identify considerations for relational data on Azure | 20–25% | 135 |
   | Describe considerations for working with non-relational data on Azure | 15–20% | 106 |
-  | Describe an analytics workload on Azure | 25–30% | 158 |
+  | Describe an analytics workload on Azure | 25–30% | 165 |
 
-  A further 57 questions are kept for practice only: 14 on topics the outline doesn't list (types of analytics, data governance with Purview, Queue storage, the retired Azure SQL Edge) and 43 that go deeper than the outline asks (for example Stream Analytics window functions, Defender for SQL, Cosmos DB partition limits). Each question shows its objective, and exam simulations use only in-outline questions.
+  A further 56 questions are kept for practice only: 14 on topics the outline doesn't list (types of analytics, data governance with Purview, Queue storage, the retired Azure SQL Edge) and 42 that go deeper than the outline asks (for example Stream Analytics window functions, Defender for SQL, Cosmos DB partition limits). Each question shows its objective, and exam simulations use only in-outline questions.
 - **Progress by exam objective**: see your score on each of the 26 objectives and tap one to practise it.
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
 - **Practice mode**: choose skill areas, question source (all, exam outline only, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
@@ -96,4 +96,4 @@ Append to the end of a list so existing progress stays linked to the right quest
 
 ## Disclaimer
 
-This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. The bank follows the skills outline as of July 21, 2026. Questions on Azure Synapse Analytics and Azure HDInsight are mapped to "Microsoft cloud services for large-scale analytics", although the outline names only Azure Databricks and Microsoft Fabric. If Microsoft updates the outline, update `data/outline.js` and check the result with `node scripts/coverage.js`. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.
+This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. The bank follows the skills outline as of July 21, 2026. Azure Synapse Analytics and Azure HDInsight are included in exam simulations under "Microsoft cloud services for large-scale analytics" (the outline names Azure Databricks and Microsoft Fabric, but its wording is not exclusive), and HDInsight Kafka under real-time analytics. If Microsoft updates the outline, update `data/outline.js` and check the result with `node scripts/coverage.js`. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.
