@@ -1,8 +1,8 @@
 // Reports answer-length cues: how often the correct option is simply the longest one.
 // Run: node scripts/check-cues.js   (lower is better; chance is roughly 1 / number of options)
 const bank = require('./load-bank')();
-const single = bank.filter((q) => !q.type && q.a.length === 1 && q.o.length > 2);
-const multi = bank.filter((q) => !q.type && q.a.length === 2);
+const single = bank.filter((q) => !q.t && q.a.length === 1 && q.o.length > 2);
+const multi = bank.filter((q) => !q.t && q.a.length === 2);
 let longest = 0;
 let chance = 0;
 for (const q of single) {

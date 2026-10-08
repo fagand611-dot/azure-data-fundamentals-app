@@ -34,7 +34,7 @@
   store.saved = store.saved.filter(function (id) { return BY_ID[id]; });
   // Also drop sessions whose questions changed shape (e.g. an option was added) since they were started.
   function intact(sess) {
-    return sess.items.every(function (it) { return BY_ID[it.id] && it.order.length === BY_ID[it.id].o.length; });
+    return sess.items.every(function (it) { return BY_ID[it.id] && it.order.length === orderSize(BY_ID[it.id]); });
   }
   if (store.session && !intact(store.session)) store.session = null;
   if (store.last && !intact(store.last)) store.last = null;
@@ -64,6 +64,38 @@
     var x = a.slice().sort(), y = b.slice().sort();
     return x.every(function (v, i) { return v === y[i]; });
   }
+  // ---------- question types ----------
+  // Choice questions use q.o (options) and q.a (correct indexes). Multi-part questions set q.t:
+  //   yesno    q.s = [[statement, true|false], ...]             each statement is answered Yes or No
+  //   match    q.c = [choices], q.s = [[item, choiceIndex], ...] each item takes one choice; choices can repeat
+  //   complete q.q contains {0}, {1}...; q.b = [{o: [...], a: i}] each blank has its own options
+  function partsOf(q) {
+    if (q.t === 'yesno') return q.s.map(function (x) { return { label: x[0], opts: ['Yes', 'No'], a: x[1] ? 0 : 1 }; });
+    if (q.t === 'match') return q.s.map(function (x) { return { label: x[0], opts: q.c, a: x[1] }; });
+    if (q.t === 'complete') return q.b.map(function (x) { return { label: null, opts: x.o, a: x.a }; });
+    return null;
+  }
+  // Length of a session item's shuffled order: options, match choices, or one shuffled list per blank.
+  function orderSize(q) { return q.t === 'match' ? q.c.length : q.t === 'complete' ? q.b.length : q.t ? 0 : q.o.length; }
+  function given(v) { return v !== null && v !== undefined; }
+  function hasAnswer(q, a) { return !!a && a.some(given); }
+  function isComplete(q, a) {
+    var parts = partsOf(q);
+    if (!a) return false;
+    return parts ? parts.every(function (_, i) { return given(a[i]); }) : a.length === q.a.length;
+  }
+  function isCorrect(q, a) {
+    var parts = partsOf(q);
+    return parts ? !!a && parts.every(function (x, i) { return a[i] === x.a; }) : sameSet(a, q.a);
+  }
+  // Multi-part questions earn partial credit per part, as on the real exam; choice questions are all-or-nothing.
+  function points(q, a) {
+    var parts = partsOf(q);
+    if (!parts) return isCorrect(q, a) ? 1 : 0;
+    if (!a) return 0;
+    return parts.filter(function (x, i) { return a[i] === x.a; }).length / parts.length;
+  }
+
   function clock(sec) {
     sec = Math.max(0, Math.round(sec));
     var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
@@ -135,7 +167,9 @@
 
   // ---------- quiz creation ----------
   function makeItem(q) {
-    var order = q.o.map(function (_, i) { return i; });
+    function range(n) { var r = []; for (var i = 0; i < n; i++) r.push(i); return r; }
+    if (q.t === 'complete') return { id: q.id, order: q.b.map(function (b) { return shuffle(range(b.o.length)); }) };
+    var order = range(orderSize(q));
     if (!q.k) shuffle(order);
     return { id: q.id, order: order };
   }
@@ -201,17 +235,19 @@
 
   // ---------- grading ----------
   function grade(sess) {
-    var res = { correct: 0, total: sess.items.length, answered: 0, byDomain: {} };
-    [1, 2, 3, 4].forEach(function (d) { res.byDomain[d] = { c: 0, t: 0 }; });
+    var res = { correct: 0, points: 0, total: sess.items.length, answered: 0, byDomain: {} };
+    [1, 2, 3, 4].forEach(function (d) { res.byDomain[d] = { c: 0, p: 0, t: 0 }; });
     sess.items.forEach(function (it) {
       var q = BY_ID[it.id], a = sess.ans[it.id];
-      var ok = sameSet(a, q.a);
-      if (a && a.length) res.answered++;
+      var ok = isCorrect(q, a), pts = points(q, a);
+      if (hasAnswer(q, a)) res.answered++;
       if (ok) res.correct++;
+      res.points += pts;
       res.byDomain[q.d].t++;
+      res.byDomain[q.d].p += pts;
       if (ok) res.byDomain[q.d].c++;
     });
-    res.score = res.total ? Math.round((res.correct / res.total) * 1000) : 0;
+    res.score = res.total ? Math.round((res.points / res.total) * 1000) : 0;
     return res;
   }
 
@@ -228,7 +264,7 @@
     if (!sess) return;
     stopTimer();
     if (sess.mode === 'exam') {
-      sess.items.forEach(function (it) { recordStat(it.id, sameSet(sess.ans[it.id], BY_ID[it.id].a)); });
+      sess.items.forEach(function (it) { recordStat(it.id, isCorrect(BY_ID[it.id], sess.ans[it.id])); });
     } else {
       // Practice: only answered-and-submitted questions count; drop the rest from the summary.
       sess.items = sess.items.filter(function (it) { return sess.done[it.id]; });
@@ -334,7 +370,7 @@
     h += '<div class="stack">';
 
     if (sess) {
-      var answered = Object.keys(sess.ans).filter(function (k) { return sess.ans[k].length; }).length;
+      var answered = Object.keys(sess.ans).filter(function (k) { return hasAnswer(BY_ID[k], sess.ans[k]); }).length;
       h += '<section class="card resume">' +
         '<h2>Continue your ' + (sess.mode === 'exam' ? 'exam' : 'practice session') + '</h2>' +
         '<p class="sub">' + answered + ' of ' + sess.items.length + ' answered' +
@@ -356,7 +392,7 @@
       [[45, '45 minutes'], [60, '60 minutes'], [90, '90 minutes'], [0, 'Untimed']].map(function (o) { return '<option value="' + o[0] + '"' + (p.examTime === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') +
       '</select></div>' +
       '</div>' +
-      '<ul class="specs"><li>Pass mark 700 / 1000</li><li>Single &amp; multiple choice</li><li>No feedback until you submit</li></ul>' +
+      '<ul class="specs"><li>Pass mark 700 / 1000</li><li>All exam question types</li><li>Partial credit on multi-part</li><li>No feedback until you submit</li></ul>' +
       '<button class="btn primary block" data-a="exam">Start exam</button>' +
       '</section>';
 
@@ -421,6 +457,8 @@
   }
 
   app.addEventListener('change', function (e) {
+    var part = e.target.closest('[data-sel]');
+    if (part) { pickPart(+part.getAttribute('data-sel'), part.value === '' ? null : +part.value); return; }
     var sel = e.target.closest('[data-pref]');
     if (!sel) return;
     var k = sel.getAttribute('data-pref');
@@ -431,7 +469,7 @@
   });
 
   app.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-a],[data-domain],[data-opt],[data-filter],[data-jump]');
+    var t = e.target.closest('[data-a],[data-domain],[data-opt],[data-filter],[data-jump],[data-yn]');
     if (!t) return;
     if (t.hasAttribute('data-domain')) {
       var d = +t.getAttribute('data-domain');
@@ -443,6 +481,7 @@
       return;
     }
     if (t.hasAttribute('data-opt')) { pickOption(+t.getAttribute('data-opt')); return; }
+    if (t.hasAttribute('data-yn')) { pickPart(+t.getAttribute('data-yn'), +t.getAttribute('data-val')); return; }
     if (t.hasAttribute('data-filter')) { reviewFilter = t.getAttribute('data-filter'); renderReview(); return; }
     if (t.hasAttribute('data-jump')) { jumpTo(+t.getAttribute('data-jump')); return; }
     var a = t.getAttribute('data-a');
@@ -545,7 +584,7 @@
     },
     retrywrong: function () {
       var last = store.last;
-      var pool = last.items.filter(function (it) { return !sameSet(last.ans[it.id], BY_ID[it.id].a); }).map(function (it) { return BY_ID[it.id]; });
+      var pool = last.items.filter(function (it) { return !isCorrect(BY_ID[it.id], last.ans[it.id]); }).map(function (it) { return BY_ID[it.id]; });
       var keep = store.prefs.practiceCount; store.prefs.practiceCount = 0;
       startPractice(pool, 'Retry wrong answers');
       store.prefs.practiceCount = keep; save();
@@ -555,10 +594,10 @@
   function confirmFinish() {
     var sess = store.session;
     if (sess.mode === 'practice') { finishSession(); return; }
-    var unanswered = sess.items.filter(function (it) { return !(sess.ans[it.id] && sess.ans[it.id].length); }).length;
+    var unanswered = sess.items.filter(function (it) { return !isComplete(BY_ID[it.id], sess.ans[it.id]); }).length;
     var flagged = Object.keys(sess.flags).length;
     var bits = [];
-    if (unanswered) bits.push(unanswered + ' unanswered (scored as wrong)');
+    if (unanswered) bits.push(unanswered + ' not fully answered (missing parts score zero)');
     if (flagged) bits.push(flagged + ' marked for review');
     modal({
       title: 'End the exam?', center: true,
@@ -599,12 +638,27 @@
     renderQuiz();
   }
 
+  function pickPart(part, val) {
+    var sess = store.session;
+    if (!sess) return;
+    var it = sess.items[sess.idx], q = BY_ID[it.id];
+    if (sess.done[it.id] || !q.t) return;
+    var cur = (sess.ans[it.id] || []).slice();
+    while (cur.length < partsOf(q).length) cur.push(null);
+    cur[part] = val;
+    sess.ans[it.id] = cur;
+    save();
+    renderQuiz();
+    var el = document.getElementById('part-' + part) || document.querySelector('[data-yn="' + part + '"][data-val="' + val + '"]');
+    if (el) el.focus({ preventScroll: true });
+  }
+
   function submitPractice() {
     var sess = store.session, it = sess.items[sess.idx], q = BY_ID[it.id];
     var cur = sess.ans[it.id] || [];
-    if (cur.length !== q.a.length) return;
+    if (!isComplete(q, cur)) return;
     sess.done[it.id] = 1;
-    recordStat(it.id, sameSet(cur, q.a));
+    recordStat(it.id, isCorrect(q, cur));
     save();
     renderQuiz();
     var ex = document.querySelector('.explain');
@@ -627,18 +681,89 @@
     }).join('') + '</div>';
   }
 
+  function partSelect(i, opts, order, chosen, reveal, correct, label) {
+    var v = chosen[i];
+    var state = reveal ? (v === correct ? ' is-correct' : ' is-wrong') : '';
+    return '<select class="psel' + state + '" id="part-' + i + '" data-sel="' + i + '" aria-label="' + esc(label) + '"' + (reveal ? ' disabled' : '') + '>' +
+      '<option value=""' + (given(v) ? '' : ' selected') + '>Select…</option>' +
+      order.map(function (k) { return '<option value="' + k + '"' + (v === k ? ' selected' : '') + '>' + esc(opts[k]) + '</option>'; }).join('') +
+      '</select>';
+  }
+
+  function partsHtml(q, order, chosen, reveal) {
+    var parts = partsOf(q);
+    function state(i) { return reveal ? (chosen[i] === parts[i].a ? ' is-correct' : ' is-wrong') : ''; }
+    function mark(i) {
+      if (!reveal) return '';
+      return chosen[i] === parts[i].a
+        ? '<span class="mark good" aria-label="Correct">' + ICON.check + '</span>'
+        : '<span class="mark bad" aria-label="Incorrect">' + ICON.x + '</span>';
+    }
+    function fix(i) {
+      return reveal && chosen[i] !== parts[i].a ? '<span class="fix">Correct answer: <b>' + fmt(parts[i].opts[parts[i].a]) + '</b></span>' : '';
+    }
+    if (q.t === 'yesno') {
+      return '<div class="parts">' + parts.map(function (p, i) {
+        return '<div class="prow' + state(i) + '"><p class="ptxt">' + fmt(p.label) + '</p><div class="pctl">' +
+          '<div class="seg" role="radiogroup" aria-label="Statement ' + (i + 1) + '">' + [0, 1].map(function (v) {
+            return '<button class="segbtn" role="radio" aria-checked="' + (chosen[i] === v) + '"' +
+              (reveal ? ' disabled' : ' data-yn="' + i + '" data-val="' + v + '"') + '>' + p.opts[v] + '</button>';
+          }).join('') + '</div>' + mark(i) + '</div>' + fix(i) + '</div>';
+      }).join('') + '</div>';
+    }
+    if (q.t === 'match') {
+      return '<div class="choices"><span class="label">Answer choices</span><ul>' +
+        order.map(function (k) { return '<li>' + fmt(q.c[k]) + '</li>'; }).join('') + '</ul></div>' +
+        '<div class="parts">' + parts.map(function (p, i) {
+          return '<div class="prow' + state(i) + '"><label class="ptxt" for="part-' + i + '">' + fmt(p.label) + '</label>' +
+            '<div class="pctl">' + partSelect(i, q.c, order, chosen, reveal, p.a, p.label) + mark(i) + '</div>' + fix(i) + '</div>';
+        }).join('') + '</div>';
+    }
+    return '';
+  }
+
+  // Question text; for sentence completion the blanks become inline dropdowns.
+  function questionHtml(q, order, chosen, reveal) {
+    if (q.t !== 'complete') return '<h2 class="qtext">' + fmt(q.q) + '</h2>';
+    var parts = partsOf(q);
+    return '<div class="qtext sentence">' + fmt(q.q).replace(/\{(\d)\}/g, function (_, n) {
+      n = +n;
+      return partSelect(n, parts[n].opts, order[n], chosen, reveal, parts[n].a, parts.length > 1 ? 'Blank ' + (n + 1) : 'Answer');
+    }) + '</div>';
+  }
+
+  function hintText(q) {
+    if (q.t === 'yesno') return 'For each statement, select Yes if the statement is true. Otherwise, select No.';
+    if (q.t === 'match') return 'Select the correct answer for each item. Each answer may be used once, more than once, or not at all.';
+    if (q.t === 'complete') return q.b.length > 1 ? 'Select the answers that correctly complete the sentence.' : 'Select the answer that correctly completes the sentence.';
+    return q.a.length > 1 ? 'Select ' + q.a.length + ' answers.' : 'Select one answer.';
+  }
+
+  function answersHtml(q, order, chosen, reveal) {
+    return q.t ? partsHtml(q, order, chosen, reveal) : optionsHtml(q, order, chosen, reveal);
+  }
+
   function letterList(q, order, list) {
     return list.map(function (orig) { return LETTERS[order.indexOf(orig)]; }).sort().join(', ');
   }
 
   function explainHtml(q, order, chosen) {
-    var ok = sameSet(chosen, q.a);
-    var none = !chosen.length;
-    var cls = none ? 'neutral' : ok ? 'good' : 'bad';
-    var head = none ? ICON.dash + 'Not answered' : ok ? ICON.check + 'Correct' : ICON.x + 'Incorrect';
-    return '<section class="explain ' + cls + '"><header>' + head + '</header><div class="body">' +
-      '<p class="answer-line">Correct answer: <b>' + letterList(q, order, q.a) + '</b>' +
-      (!none && !ok ? ' · You chose: <b>' + letterList(q, order, chosen) + '</b>' : '') + '</p>' +
+    var parts = partsOf(q);
+    var ok = isCorrect(q, chosen);
+    var none = !hasAnswer(q, chosen);
+    var got = parts ? Math.round(points(q, chosen) * parts.length) : 0;
+    var partial = parts && !ok && got > 0;
+    var cls = none ? 'neutral' : ok ? 'good' : partial ? 'warn' : 'bad';
+    var head = none ? ICON.dash + 'Not answered' : ok ? ICON.check + 'Correct' :
+      partial ? ICON.dash + 'Partly correct: ' + got + ' of ' + parts.length : ICON.x + 'Incorrect';
+    var answerLine = parts
+      ? '<p class="answer-line">Correct answers:</p><ol class="answer-list">' + parts.map(function (p, i) {
+          var name = q.t === 'match' ? fmt(p.label) + ': ' : '';
+          return '<li>' + name + '<b>' + fmt(p.opts[p.a]) + '</b></li>';
+        }).join('') + '</ol>'
+      : '<p class="answer-line">Correct answer: <b>' + letterList(q, order, q.a) + '</b>' +
+        (!none && !ok ? ' · You chose: <b>' + letterList(q, order, chosen) + '</b>' : '') + '</p>';
+    return '<section class="explain ' + cls + '"><header>' + head + '</header><div class="body">' + answerLine +
       '<p class="e">' + fmt(q.e) + '</p></div></section>';
   }
 
@@ -648,9 +773,8 @@
     var chosen = sess.ans[it.id] || [];
     var practice = sess.mode === 'practice';
     var revealed = practice && sess.done[it.id];
-    var multi = q.a.length > 1;
     var n = sess.items.length;
-    var answeredCount = sess.items.filter(function (x) { return (sess.ans[x.id] || []).length; }).length;
+    var answeredCount = sess.items.filter(function (x) { return isComplete(BY_ID[x.id], sess.ans[x.id]); }).length;
 
     var timerText = sess.limit ? clock(sess.limit - sess.elapsed) : clock(sess.elapsed);
     var h = '<header class="topbar">' +
@@ -667,9 +791,9 @@
       '<button class="icon-btn' + (isSaved(it.id) ? ' on' : '') + '" data-a="star" aria-pressed="' + isSaved(it.id) + '" aria-label="' + (isSaved(it.id) ? 'Remove from saved' : 'Save question') + '">' + (isSaved(it.id) ? ICON.starOn : ICON.star) + '</button>' +
       '</div>';
 
-    h += '<h2 class="qtext">' + fmt(q.q) + '</h2>';
-    h += '<p class="hint">' + (multi ? 'Select ' + q.a.length + ' answers.' : 'Select one answer.') + '</p>';
-    h += optionsHtml(q, it.order, chosen, revealed);
+    h += questionHtml(q, it.order, chosen, revealed);
+    h += '<p class="hint">' + hintText(q) + '</p>';
+    h += answersHtml(q, it.order, chosen, revealed);
     if (revealed) h += explainHtml(q, it.order, chosen);
 
     // action bar
@@ -681,7 +805,7 @@
           ? '<button class="btn primary" data-a="next">Next question</button>'
           : '<button class="btn primary" data-a="finish">See summary</button>';
       } else {
-        bar += '<button class="btn primary" data-a="submit"' + (chosen.length === q.a.length ? '' : ' disabled') + '>Submit answer</button>';
+        bar += '<button class="btn primary" data-a="submit"' + (isComplete(q, chosen) ? '' : ' disabled') + '>Submit answer</button>';
       }
     } else {
       bar += sess.idx < n - 1
@@ -698,7 +822,7 @@
   function openNavigator(atEnd) {
     var sess = store.session;
     var practice = sess.mode === 'practice';
-    var unanswered = sess.items.filter(function (it) { return !(sess.ans[it.id] || []).length; }).length;
+    var unanswered = sess.items.filter(function (it) { return !isComplete(BY_ID[it.id], sess.ans[it.id]); }).length;
     var html = '<h2>' + (atEnd ? 'Review your answers' : 'All questions') + '</h2>' +
       '<p>' + (practice
         ? Object.keys(sess.done).length + ' of ' + sess.items.length + ' submitted.'
@@ -709,9 +833,9 @@
       '<div class="grid-nav">' + sess.items.map(function (it, i) {
         var cls = [];
         if (practice) {
-          if (sess.done[it.id]) cls.push(sameSet(sess.ans[it.id], BY_ID[it.id].a) ? 'right' : 'wrong');
+          if (sess.done[it.id]) cls.push(isCorrect(BY_ID[it.id], sess.ans[it.id]) ? 'right' : 'wrong');
         } else {
-          if ((sess.ans[it.id] || []).length) cls.push('answered');
+          if (isComplete(BY_ID[it.id], sess.ans[it.id])) cls.push('answered');
           if (sess.flags[it.id]) cls.push('flagged');
         }
         if (i === sess.idx) cls.push('current');
@@ -734,7 +858,9 @@
     var exam = s.mode === 'exam';
     var pass = r.score >= PASS;
     var C = 2 * Math.PI * 52;
-    var frac = r.total ? r.correct / r.total : 0;
+    var pts = r.points !== undefined ? r.points : r.correct;
+    var frac = r.total ? pts / r.total : 0;
+    var need = Math.max(1, Math.ceil(PASS / 1000 * r.total - pts - 1e-9));
     var color = exam ? (pass ? 'var(--good)' : 'var(--bad)') : 'var(--accent)';
 
     var h = '<header class="topbar"><button class="icon-btn" data-a="home" aria-label="Home">' + ICON.back + '</button>' +
@@ -745,12 +871,12 @@
       '<circle cx="60" cy="60" r="52" fill="none" stroke-width="10" style="stroke:var(--line)"/>' +
       (frac > 0 ? '<circle cx="60" cy="60" r="52" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="' + (C * frac) + ' ' + C + '" style="stroke:' + color + '"/>' : '') +
       '</svg><div class="val">' +
-      (exam ? '<strong>' + r.score + '</strong><span>of 1000 · pass 700</span>' : '<strong>' + pct(r.correct, r.total) + '%</strong><span>correct</span>') +
+      (exam ? '<strong>' + r.score + '</strong><span>of 1000 · pass 700</span>' : '<strong>' + pct(pts, r.total) + '%</strong><span>score</span>') +
       '</div></div>' +
       (exam ? '<span class="pill ' + (pass ? 'pass">Pass' : 'fail">Below passing') + '</span>' : '') +
       '<h1>' + (exam ? (pass ? 'You passed this practice exam' : 'Not quite there yet') : 'Session complete') + '</h1>' +
       '<p>' + (exam
-        ? (pass ? 'Strong result. Review the explanations for anything you missed or guessed.' : 'You need ' + Math.max(1, Math.ceil(PASS / 1000 * r.total) - r.correct) + ' more correct answer' + (Math.ceil(PASS / 1000 * r.total) - r.correct === 1 ? '' : 's') + ' to reach 700. Focus on your weakest skill area below.')
+        ? (pass ? 'Strong result. Review the explanations for anything you missed or guessed.' : 'You need about ' + need + ' more correct answer' + (need === 1 ? '' : 's') + ' to reach 700. Focus on your weakest skill area below.')
         : 'Every answer counts toward your progress on the home screen.') + '</p>' +
       '</section>';
 
@@ -762,7 +888,7 @@
 
     h += '<section class="card"><h2>By skill area</h2><div class="domain-list">' +
       [1, 2, 3, 4].filter(function (d) { return r.byDomain[d].t; }).map(function (d) {
-        var x = r.byDomain[d], p = pct(x.c, x.t);
+        var x = r.byDomain[d], p = pct(x.p !== undefined ? x.p : x.c, x.t);
         return '<div class="domain-row"><div class="top"><span>' + esc(DOMAINS[d].name) + '</span><span class="nums">' + x.c + '/' + x.t + ' · ' + p + '%</span></div>' +
           '<div class="bar"><i class="' + (p >= 70 ? 'good' : 'bad') + '" style="width:' + p + '%"></i></div></div>';
       }).join('') + '</div></section>';
@@ -782,7 +908,7 @@
     var s = store.last;
     var items = s.items.map(function (it, i) {
       var q = BY_ID[it.id], a = s.ans[it.id] || [];
-      return { it: it, q: q, a: a, i: i, ok: sameSet(a, q.a), blank: !a.length, flag: s.flags && s.flags[it.id] };
+      return { it: it, q: q, a: a, i: i, ok: isCorrect(q, a), blank: !hasAnswer(q, a), flag: s.flags && s.flags[it.id] };
     });
     var counts = {
       all: items.length,
@@ -807,8 +933,8 @@
         '<div class="qmeta"><span class="qnum">Q' + (x.i + 1) + '</span><span class="dtag">' + esc(DOMAINS[x.q.d].short) + '</span>' +
         '<span class="status-dot ' + (x.blank ? 'skip">Blank' : x.ok ? 'good">Correct' : 'bad">Incorrect') + '</span><span class="spacer"></span>' +
         '<button class="icon-btn' + (isSaved(x.q.id) ? ' on' : '') + '" data-a="star" data-id="' + x.q.id + '" aria-pressed="' + isSaved(x.q.id) + '" aria-label="' + (isSaved(x.q.id) ? 'Remove from saved' : 'Save question') + '">' + (isSaved(x.q.id) ? ICON.starOn : ICON.star) + '</button></div>' +
-        '<h2 class="qtext">' + fmt(x.q.q) + '</h2>' +
-        optionsHtml(x.q, x.it.order, x.a, true) +
+        questionHtml(x.q, x.it.order, x.a, true) +
+        answersHtml(x.q, x.it.order, x.a, true) +
         explainHtml(x.q, x.it.order, x.a) +
         '</article>';
     });
@@ -820,14 +946,15 @@
   document.addEventListener('keydown', function (e) {
     if (view !== 'quiz' || !store.session || modalRoot.firstChild) return;
     if (e.target.closest && e.target.closest('select,input,textarea')) return;
-    var sess = store.session, it = sess.items[sess.idx];
-    var k = e.key.toUpperCase();
-    var pos = LETTERS.indexOf(k);
+    var sess = store.session, it = sess.items[sess.idx], q = BY_ID[it.id];
+    var k = q.t ? '' : e.key.toUpperCase();
+    var pos = k ? LETTERS.indexOf(k) : -1;
     if (pos === -1 && /^[1-8]$/.test(k)) pos = +k - 1;
     if (pos !== -1 && pos < it.order.length) { pickOption(it.order[pos]); e.preventDefault(); return; }
     if (e.key === 'ArrowRight') { actions.next(); e.preventDefault(); }
     else if (e.key === 'ArrowLeft') { actions.prev(); e.preventDefault(); }
     else if (e.key === 'Enter') {
+      if (e.target.closest && e.target.closest('button')) return;
       if (sess.mode === 'practice' && !sess.done[it.id]) actions.submit();
       else actions.next();
       e.preventDefault();

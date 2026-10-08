@@ -4,20 +4,24 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 
 ## Features
 
-- **464 exam-style questions** across all four skill areas, weighted like the real exam:
+- **513 exam-style questions** across all four skill areas, weighted like the real exam:
   | Skill area | Exam weight | Questions |
   |---|---|---|
-  | Describe core data concepts | 25–30% | 118 |
-  | Relational data on Azure | 20–25% | 111 |
-  | Non-relational data on Azure | 15–20% | 95 |
-  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 140 |
+  | Describe core data concepts | 25–30% | 130 |
+  | Relational data on Azure | 20–25% | 123 |
+  | Non-relational data on Azure | 15–20% | 107 |
+  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 153 |
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
 - **Practice mode**: choose skill areas, question source (all, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
 - **Explanations for every question** cover why the right answer is right and why the distractors are wrong.
 - Question formats match the exam:
   - **Single answer:** 2, 3 or 4 options with one correct answer (2-option questions are Yes/No statements).
   - **Multiple answer:** 5 options with two correct answers ("Choose two"). You must pick both to get the mark.
-- Answer order is shuffled each time (Yes/No and ordered lists keep their order).
+  - **Yes/No statement sets:** three statements about one topic, each answered Yes or No.
+  - **Matching:** pair each item with an answer from a shared list (answers can be used once, more than once, or not at all). Shown as a dropdown per item, which works better than drag and drop on a phone.
+  - **Sentence completion:** choose the word or phrase for each blank from a dropdown.
+- Multi-part questions (statement sets, matching, sentence completion) earn partial credit per part in the exam score, like the real exam.
+- Answer order is shuffled each time (Yes/No and ordered lists keep their order). Options are written so the correct answer can't be spotted by length; `node scripts/check-cues.js` measures this.
 - Progress tracking per skill area, exam history, "retry missed", and saved questions. Everything is stored on your device.
 - Light and dark mode, large tap targets, works offline after the first visit.
 
@@ -54,11 +58,13 @@ data/q-*.js             Questions, one file per skill area
 sw.js                   Service worker for offline use
 manifest.webmanifest    Install metadata and icons
 scripts/validate.js     Checks the question bank (run: node scripts/validate.js)
+scripts/check-cues.js   Checks that answer length doesn't give the correct option away
+scripts/load-bank.js    Loads the bank into Node for scripts
 ```
 
 ## Adding questions
 
-Append objects to the list in the matching `data/q-*.js` file. Single-answer questions have 2–4 options and one answer; multiple-answer questions have exactly 5 options, two answers, and end with "(Choose two.)". The validator enforces this.
+Append objects to the list in the matching `data/q-*.js` file. Single-answer questions have 2–4 options and one answer; multiple-answer questions have exactly 5 options, two answers, and end with "(Choose two.)". Write wrong options that are plausible and about as long as the right one. The validator enforces the formats.
 
 ```js
 {
@@ -70,10 +76,19 @@ Append objects to the list in the matching `data/q-*.js` file. Single-answer que
 
 // Yes/No statement: keep option order fixed with k: 1
 { q: "Select Yes if the statement is true. Otherwise, select No.\n\n...", o: ["Yes", "No"], a: [1], k: 1, e: "..." }
+
+// Set of three Yes/No statements
+{ t: "yesno", q: "Consider these statements about ...", s: [["Statement", true], ["Statement", false], ["Statement", true]], e: "..." }
+
+// Matching: c = answer choices, s = [item, index of its answer in c]
+{ t: "match", q: "Match each ... to ...", c: ["Choice A", "Choice B", "Choice C"], s: [["Item 1", 0], ["Item 2", 2], ["Item 3", 0]], e: "..." }
+
+// Sentence completion: {0}, {1} mark the blanks; each blank has its own options and answer index
+{ t: "complete", q: "A {0} stores ... and a {1} ...", b: [{ o: ["fact", "dimension"], a: 0 }, { o: ["fact", "dimension"], a: 1 }], e: "..." }
 ```
 
 Append to the end of a list so existing progress stays linked to the right question. Run `node scripts/validate.js`, then bump `VERSION` in `sw.js` so installed copies pick up the change.
 
 ## Disclaimer
 
-This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.
+This is an independent study aid. It is not affiliated with or endorsed by Microsoft, and the questions are not real exam questions. Practice scores are a guide to your readiness and do not predict your exam result. The bank follows the skills outline dated November 2024 (Microsoft Fabric and Azure Databricks for large-scale analytics, Fabric Real-Time Intelligence for streaming). Some questions still cover Azure Synapse Analytics, which the outline no longer names; they remain useful background. Always check the official [DP-900 study guide](https://learn.microsoft.com/credentials/certifications/resources/study-guides/dp-900) for the current skills outline.

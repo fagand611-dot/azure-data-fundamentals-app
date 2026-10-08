@@ -1,6 +1,6 @@
 /* Offline support: cache the app shell and question bank, serve cache-first.
    Bump VERSION whenever any file below changes so phones pick up the update. */
-var VERSION = 'dp900-v3';
+var VERSION = 'dp900-v4';
 var ASSETS = [
   './',
   'index.html',

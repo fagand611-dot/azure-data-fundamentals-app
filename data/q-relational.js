@@ -679,5 +679,127 @@ DP900.add(2, 'rel-', [
     o: ["WHERE City IN ('London', 'Paris')", "WHERE City = 'London' AND City = 'Paris'", "WHERE City LIKE 'London, Paris'"],
     a: [0],
     e: "IN matches any value in the list. Using AND would require City to equal both values at once, which is impossible, and the LIKE pattern looks for the literal text 'London, Paris'."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about the Azure SQL family.",
+    s: [
+      ["Azure SQL Managed Instance supports SQL Server Agent.", true],
+      ["SQL Server on Azure Virtual Machines is a platform as a service (PaaS) offering.", false],
+      ["Azure SQL Database runs the latest stable version of the SQL Server engine.", true]
+    ],
+    e: "1 Yes: Managed Instance includes instance-level features such as SQL Server Agent. 2 No: SQL Server on Azure VMs is IaaS, because you manage the OS and SQL Server. 3 Yes: Azure SQL Database is evergreen, so Microsoft keeps the engine current."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about normalization.",
+    s: [
+      ["Normalization reduces duplicate data by splitting it into related tables.", true],
+      ["A normalized design usually requires joins to combine related data in queries.", true],
+      ["Normalization is mainly used to make analytical aggregate queries faster.", false]
+    ],
+    e: "1 Yes: each fact is stored once, in its own table. 2 Yes: because data is split across tables, queries join them back together. 3 No: normalization mainly improves integrity and write efficiency in transactional systems; analytical models are often denormalized for faster reads."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Database for PostgreSQL and Azure Database for MySQL.",
+    s: [
+      ["Azure Database for MySQL is a managed service for the open-source MySQL engine.", true],
+      ["With Azure Database for PostgreSQL, you are responsible for patching the server's operating system.", false],
+      ["Azure Database for PostgreSQL supports extensions such as PostGIS.", true]
+    ],
+    e: "1 Yes: it runs the community MySQL engine as a managed PaaS service. 2 No: these are PaaS services, so Microsoft patches the operating system. 3 Yes: Azure Database for PostgreSQL supports many popular extensions, including PostGIS for geospatial data."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about database objects.",
+    s: [
+      ["A standard view stores its own copy of the data returned by its query.", false],
+      ["A stored procedure can accept input parameters.", true],
+      ["An index can make SELECT queries faster but INSERT statements slower.", true]
+    ],
+    e: "1 No: a standard view is a saved query; data stays in the underlying tables. 2 Yes: stored procedures can take parameters. 3 Yes: indexes speed up lookups but must be updated on every insert, update and delete."
+  },
+  {
+    t: "match",
+    q: "Match each requirement to the most appropriate Azure SQL option.",
+    c: ["Azure SQL Database", "Azure SQL Managed Instance", "SQL Server on Azure Virtual Machines"],
+    s: [
+      ["A new cloud application that needs one database and minimal administration", 0],
+      ["Migrating databases that use SQL Server Agent and cross-database queries, without managing an OS", 1],
+      ["Running SQL Server Reporting Services on the same server as the database", 2],
+      ["A database that must stay on SQL Server 2014 for vendor support", 2]
+    ],
+    e: "Azure SQL Database is the most managed option for new apps. Managed Instance offers near-full SQL Server compatibility as PaaS. Only a VM gives OS access (for SSRS on the same machine) and lets you pin an older engine version."
+  },
+  {
+    t: "match",
+    q: "Match each SQL statement to its category.",
+    c: ["DDL", "DML", "DCL"],
+    s: [
+      ["CREATE TABLE", 0],
+      ["UPDATE", 1],
+      ["GRANT", 2],
+      ["ALTER TABLE", 0],
+      ["DELETE", 1]
+    ],
+    e: "DDL (Data Definition Language) defines objects: CREATE, ALTER, DROP. DML (Data Manipulation Language) works with data: SELECT, INSERT, UPDATE, DELETE. DCL (Data Control Language) manages permissions: GRANT, REVOKE, DENY."
+  },
+  {
+    t: "match",
+    q: "Match each database object to its description.",
+    c: ["Table", "View", "Stored procedure", "Index"],
+    s: [
+      ["Stores data in rows and columns", 0],
+      ["A saved SELECT query that you can query like a table", 1],
+      ["Named SQL code that can take parameters and perform actions", 2],
+      ["A structure that helps the database find rows faster", 3]
+    ],
+    e: "Tables hold the data. Views are virtual tables defined by a query. Stored procedures encapsulate reusable SQL logic. Indexes speed up searches at the cost of extra work on writes."
+  },
+  {
+    t: "match",
+    q: "Match each Azure SQL Database security feature to what it does.",
+    c: ["Transparent data encryption", "Always Encrypted", "Dynamic data masking", "Row-level security"],
+    s: [
+      ["Encrypts data files and backups at rest", 0],
+      ["Keeps sensitive columns encrypted so even administrators cannot read them", 1],
+      ["Hides part of a value in query results for non-privileged users", 2],
+      ["Restricts which rows each user can see", 3]
+    ],
+    e: "TDE encrypts storage at rest and is on by default. Always Encrypted encrypts in the client so the engine never sees plaintext. Dynamic data masking obscures values in results. Row-level security filters rows per user."
+  },
+  {
+    t: "complete",
+    q: "The managed open-source relational database service on Azure that is most often used with the LAMP stack is {0}.",
+    b: [
+      { o: ["Azure Database for MySQL", "Azure Database for PostgreSQL", "Azure SQL Database", "Azure Cosmos DB for MongoDB"], a: 0 }
+    ],
+    e: "LAMP stands for Linux, Apache, MySQL and PHP/Python, so Azure Database for MySQL is the natural fit. PostgreSQL is also open source but is not part of the LAMP stack."
+  },
+  {
+    t: "complete",
+    q: "In a relational database, a {0} uniquely identifies each row in a table, and a {1} references a row in another table.",
+    b: [
+      { o: ["primary key", "foreign key", "index"], a: 0 },
+      { o: ["primary key", "foreign key", "view"], a: 1 }
+    ],
+    e: "A primary key uniquely identifies rows and cannot be NULL. A foreign key holds values that must match a key in another table, which enforces referential integrity."
+  },
+  {
+    t: "complete",
+    q: "Azure SQL Database is an example of {0}, because Microsoft manages the operating system and the database engine.",
+    b: [
+      { o: ["platform as a service (PaaS)", "infrastructure as a service (IaaS)", "software as a service (SaaS)"], a: 0 }
+    ],
+    e: "PaaS services handle the OS, patching, backups and high availability while you manage your data and schema. IaaS (such as SQL Server on a VM) leaves the OS to you, and SaaS delivers a complete application."
+  },
+  {
+    t: "complete",
+    q: "To return one row per product category with the total sales for each category, use SUM together with a {0} clause.",
+    b: [
+      { o: ["GROUP BY", "ORDER BY", "WHERE", "HAVING"], a: 0 }
+    ],
+    e: "GROUP BY creates one group per category so SUM is calculated per group. ORDER BY sorts, WHERE filters rows before grouping, and HAVING filters groups after aggregation."
   }
 ]);

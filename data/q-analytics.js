@@ -853,5 +853,136 @@ DP900.add(4, 'ana-', [
     o: ["Eventhouse", "Warehouse", "Lakehouse"],
     a: [0],
     e: "An eventhouse hosts KQL databases optimised for time-series and event data. Warehouses are queried with T-SQL, and lakehouses are mainly used with Spark and Delta files."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Microsoft Fabric.",
+    s: [
+      ["All Microsoft Fabric workloads store their data in OneLake.", true],
+      ["A Fabric lakehouse can only be queried with Apache Spark.", false],
+      ["Microsoft Fabric is a software as a service (SaaS) platform.", true]
+    ],
+    e: "1 Yes: OneLake is the single data lake shared by every Fabric workload. 2 No: each lakehouse also has a SQL analytics endpoint for read-only T-SQL, and Power BI can read its tables with Direct Lake. 3 Yes: Fabric is SaaS, so there is no infrastructure to manage."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about real-time analytics.",
+    s: [
+      ["Stream processing typically aggregates events within time windows.", true],
+      ["Batch processing is better than stream processing for detecting fraud as it happens.", false],
+      ["Microsoft Fabric Real-Time Intelligence can store streaming data in an eventhouse.", true]
+    ],
+    e: "1 Yes: streaming queries usually aggregate over windows such as tumbling or hopping windows. 2 No: detecting fraud as it happens needs low latency, which is stream processing. 3 Yes: eventhouses host KQL databases for streaming and time-series data."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Power BI semantic models.",
+    s: [
+      ["Relationships let filters on one table affect related tables.", true],
+      ["Measures are calculated at query time based on the current filter context.", true],
+      ["A semantic model can only contain data from a single data source.", false]
+    ],
+    e: "1 Yes: filters flow across relationships, typically from dimension to fact tables. 2 Yes: measures are evaluated dynamically for each visual. 3 No: a model can combine many sources, related in the model view."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Databricks.",
+    s: [
+      ["Azure Databricks is based on Apache Spark.", true],
+      ["Azure Databricks notebooks support Python, SQL, Scala and R.", true],
+      ["Azure Databricks is a relational OLTP database service for applications.", false]
+    ],
+    e: "1 Yes: Databricks provides optimised Spark runtimes. 2 Yes: notebooks support all four languages. 3 No: Databricks is an analytics platform for data engineering, data science and ML, not an operational database."
+  },
+  {
+    t: "match",
+    q: "Match each requirement to the most appropriate service.",
+    c: ["Microsoft Fabric", "Azure Databricks", "Azure Data Factory", "Azure Stream Analytics"],
+    s: [
+      ["An end-to-end SaaS analytics platform with OneLake and built-in Power BI", 0],
+      ["A Spark-based platform with Unity Catalog for data engineering and machine learning", 1],
+      ["Orchestrating scheduled copy pipelines from many sources into Azure", 2],
+      ["Running SQL-like queries over events from Event Hubs in real time", 3]
+    ],
+    e: "Fabric is the unified SaaS analytics platform built on OneLake. Databricks is a Spark platform with Unity Catalog governance. Data Factory orchestrates data movement. Stream Analytics runs continuous SQL-like queries on streams."
+  },
+  {
+    t: "match",
+    q: "Match each Power BI visual to the scenario it suits best.",
+    c: ["Line chart", "Bar chart", "Card", "Scatter chart", "Filled map"],
+    s: [
+      ["Revenue trend over the last 24 months", 0],
+      ["Comparing total sales across product categories", 1],
+      ["Showing total revenue as a single number", 2],
+      ["The relationship between advertising spend and sales", 3],
+      ["Sales by country", 4]
+    ],
+    e: "Line charts show trends over time, bar charts compare categories, cards show a single value, scatter charts show correlation between two measures, and filled maps shade geographic areas by value."
+  },
+  {
+    t: "match",
+    q: "Match each Microsoft Fabric item to its description.",
+    c: ["Lakehouse", "Warehouse", "Eventhouse", "Semantic model"],
+    s: [
+      ["Stores files and Delta tables, and is mainly used with Spark", 0],
+      ["Supports full T-SQL inserts, updates and deletes", 1],
+      ["Stores streaming and time-series data in KQL databases", 2],
+      ["Defines the tables, relationships and measures that Power BI reports use", 3]
+    ],
+    e: "A lakehouse combines files and Delta tables (with a read-only SQL endpoint). A warehouse is a fully transactional T-SQL store. An eventhouse hosts KQL databases for real-time data. A semantic model is the Power BI layer of tables, relationships and measures."
+  },
+  {
+    t: "match",
+    q: "Match each Azure Stream Analytics window type to its description.",
+    c: ["Tumbling", "Hopping", "Sliding", "Session"],
+    s: [
+      ["Fixed-size, non-overlapping, back-to-back intervals", 0],
+      ["Fixed-size windows that overlap because they advance by a smaller interval", 1],
+      ["Windows that produce output only when an event enters or leaves the window", 2],
+      ["Groups events that arrive close together and ends after a period of inactivity", 3]
+    ],
+    e: "Tumbling windows never overlap. Hopping windows have a hop smaller than their size, so they overlap. Sliding windows emit output only when the window's contents change. Session windows group bursts of activity separated by a timeout."
+  },
+  {
+    t: "complete",
+    q: "In Power BI, you clean and shape data with {0}, and you write calculations such as measures with {1}.",
+    b: [
+      { o: ["Power Query", "DAX", "Q&A"], a: 0 },
+      { o: ["Power Query", "DAX", "KQL"], a: 1 }
+    ],
+    e: "Power Query (using the M language) connects to and transforms data before it is loaded. DAX defines measures, calculated columns and calculated tables in the model."
+  },
+  {
+    t: "complete",
+    q: "The single, organisation-wide data lake that every Microsoft Fabric workload uses is called {0}.",
+    b: [
+      { o: ["OneLake", "Delta Lake", "Azure Data Lake Storage Gen1", "the Real-Time hub"], a: 0 }
+    ],
+    e: "OneLake is Fabric's built-in data lake. Delta Lake is the table format used inside it, ADLS Gen1 is a retired service, and the Real-Time hub is where you discover streaming data."
+  },
+  {
+    t: "complete",
+    q: "A Power BI {0} can have many pages of interactive visuals, while a {1} is a single page of tiles pinned from one or more reports.",
+    b: [
+      { o: ["report", "dashboard", "semantic model"], a: 0 },
+      { o: ["report", "dashboard", "workspace"], a: 1 }
+    ],
+    e: "Reports are multi-page and built on one semantic model. Dashboards are single-page canvases in the Power BI service with tiles pinned from one or more reports."
+  },
+  {
+    t: "complete",
+    q: "In Microsoft Fabric, the {0} is the central place to discover, connect to and manage streaming data across the organisation.",
+    b: [
+      { o: ["Real-Time hub", "OneLake catalog", "lakehouse explorer", "deployment pipeline"], a: 0 }
+    ],
+    e: "The Real-Time hub lists streaming sources and eventstreams across the tenant, so you can connect to them and route data into Fabric. The OneLake catalog is for discovering Fabric items and data generally."
+  },
+  {
+    t: "complete",
+    q: "Loading raw data into the target analytical store first and transforming it there is called {0}.",
+    b: [
+      { o: ["ELT", "ETL", "OLTP"], a: 0 }
+    ],
+    e: "ELT (extract, load, transform) uses the target platform's compute to transform data after loading, which suits cloud lakehouses and warehouses. ETL transforms data before loading, and OLTP describes transactional workloads."
   }
 ]);

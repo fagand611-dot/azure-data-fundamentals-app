@@ -722,5 +722,127 @@ DP900.add(1, 'core-', [
     o: ["Descriptive", "Predictive", "Prescriptive"],
     a: [0],
     e: "Showing what has already happened is descriptive analytics. Predictive analytics forecasts future outcomes, and prescriptive analytics recommends actions."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about data file formats.",
+    s: [
+      ["Parquet stores data in a columnar format.", true],
+      ["Avro is a human-readable text format.", false],
+      ["JSON can represent nested objects and arrays.", true]
+    ],
+    e: "1 Yes: Parquet stores each column's values together, which suits analytical queries. 2 No: Avro is a binary, row-based format; its schema is JSON, but the data is binary. 3 Yes: JSON supports nested objects and arrays, which is why it is semi-structured."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about transactional and analytical workloads.",
+    s: [
+      ["Transactional systems are typically optimised for many small, concurrent reads and writes.", true],
+      ["Analytical systems usually store highly normalized data to speed up aggregate queries.", false],
+      ["Data warehouses are commonly loaded by scheduled batch processes.", true]
+    ],
+    e: "1 Yes: OLTP systems handle many short transactions. 2 No: analytical systems are usually denormalized (for example, star schemas) to reduce joins; normalization suits transactional systems. 3 Yes: warehouses are typically loaded by batch ETL/ELT jobs, although streaming loads are also possible."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about data job roles.",
+    s: [
+      ["Database administrators are responsible for backing up and restoring databases.", true],
+      ["Data engineers design and build data ingestion and transformation pipelines.", true],
+      ["Data analysts are responsible for patching the operating systems of database servers.", false]
+    ],
+    e: "1 Yes: backup, recovery, availability and security are core DBA tasks. 2 Yes: data engineers build pipelines and data stores. 3 No: data analysts model and visualise data; server patching is an administrator task (or Microsoft's, for PaaS services)."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about non-relational databases.",
+    s: [
+      ["A key-value store retrieves values by key without interpreting the value.", true],
+      ["A document database requires every document in a collection to have the same fields.", false],
+      ["A graph database stores relationships as edges between nodes.", true]
+    ],
+    e: "1 Yes: in a key-value store the value is opaque to the database. 2 No: document databases are schema-flexible, so documents can have different fields. 3 Yes: graph databases model entities as nodes and relationships as edges."
+  },
+  {
+    t: "match",
+    q: "Match each example to the type of data it represents.",
+    c: ["Structured", "Semi-structured", "Unstructured"],
+    s: [
+      ["A table of employees with the same columns in every row", 0],
+      ["A JSON document describing an order and its line items", 1],
+      ["A JPEG photo of a paper receipt", 2],
+      ["An XML configuration file", 1]
+    ],
+    e: "A table with fixed columns is structured. JSON and XML carry their own field names or tags and can vary in shape, so they are semi-structured. A photo has no field structure, so it is unstructured."
+  },
+  {
+    t: "match",
+    q: "Match each type of non-relational database to its description.",
+    c: ["Key-value", "Document", "Column-family", "Graph"],
+    s: [
+      ["Stores JSON documents that can be queried by their fields", 1],
+      ["Stores entities and the relationships between them", 3],
+      ["Looks up an opaque value by its unique key", 0],
+      ["Groups related columns, and each row can have different columns", 2]
+    ],
+    e: "Document databases (such as Cosmos DB for NoSQL or MongoDB) store queryable JSON. Graph databases (Cosmos DB for Apache Gremlin) store nodes and edges. Key-value stores (Table storage) look up values by key. Column-family databases (Cosmos DB for Apache Cassandra) group columns into families with sparse rows."
+  },
+  {
+    t: "match",
+    q: "Match each task to the job role that is primarily responsible for it.",
+    c: ["Database administrator", "Data engineer", "Data analyst"],
+    s: [
+      ["Restoring a database after a failure", 0],
+      ["Building a pipeline that loads sales data into a lakehouse", 1],
+      ["Creating a Power BI report for the sales team", 2],
+      ["Managing user permissions on a SQL database", 0]
+    ],
+    e: "Database administrators handle recovery, security and permissions. Data engineers build pipelines and data stores. Data analysts build reports and models. Each role can be used more than once."
+  },
+  {
+    t: "match",
+    q: "Match each scenario to the type of analytics it represents.",
+    c: ["Descriptive", "Diagnostic", "Predictive", "Prescriptive"],
+    s: [
+      ["A report of last month's revenue by region", 0],
+      ["Investigating why product returns increased in March", 1],
+      ["Forecasting next quarter's demand", 2],
+      ["Recommending the best price for each product", 3]
+    ],
+    e: "Descriptive analytics shows what happened, diagnostic explains why, predictive forecasts what will happen, and prescriptive recommends what to do."
+  },
+  {
+    t: "complete",
+    q: "{0} files store data by column, which makes them efficient for analytical queries that read only some columns.",
+    b: [
+      { o: ["Parquet", "CSV", "JSON", "XML"], a: 0 }
+    ],
+    e: "Parquet is a columnar format with strong compression, so analytical engines can read just the columns a query needs. CSV, JSON and XML are row-oriented text formats."
+  },
+  {
+    t: "complete",
+    q: "In a transaction, the ACID property of {0} ensures that committed changes survive a power failure or crash.",
+    b: [
+      { o: ["atomicity", "consistency", "isolation", "durability"], a: 3 }
+    ],
+    e: "Durability guarantees that committed changes are permanently recorded, usually in a transaction log on persistent storage. Atomicity is all-or-nothing, consistency keeps data valid, and isolation stops concurrent transactions interfering."
+  },
+  {
+    t: "complete",
+    q: "Processing each record as soon as it arrives is called {0} processing, while processing data collected over a period, on a schedule, is called {1} processing.",
+    b: [
+      { o: ["stream", "batch", "transactional"], a: 0 },
+      { o: ["stream", "batch", "transactional"], a: 1 }
+    ],
+    e: "Stream processing handles data continuously with low latency. Batch processing collects data and processes it together at scheduled intervals. Transactional processing describes recording business operations in an OLTP system."
+  },
+  {
+    t: "complete",
+    q: "A star schema has a central {0} table that stores numeric measures, surrounded by {1} tables that describe the context of those measures.",
+    b: [
+      { o: ["fact", "dimension", "bridge"], a: 0 },
+      { o: ["fact", "dimension", "staging"], a: 1 }
+    ],
+    e: "Fact tables hold measures such as SalesAmount and keys to dimensions. Dimension tables hold descriptive attributes such as product, customer and date, used to filter and group the facts."
   }
 ]);

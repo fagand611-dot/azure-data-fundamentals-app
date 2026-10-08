@@ -584,5 +584,127 @@ DP900.add(3, 'nrel-', [
     o: ["A single JSON document stored in a container", "A group of containers that share throughput", "The unit used to measure throughput"],
     a: [0],
     e: "Items are the individual JSON documents stored in a container. Databases group containers, and Request Units measure throughput."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Blob Storage.",
+    s: [
+      ["Block blobs are the best choice for storing images and documents.", true],
+      ["Blobs in the archive tier can be read immediately.", false],
+      ["A single container can hold an unlimited number of blobs.", true]
+    ],
+    e: "1 Yes: block blobs are designed for discrete files such as images and documents. 2 No: archived blobs must be rehydrated to an online tier first, which can take hours. 3 Yes: there is no limit on the number of blobs in a container."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Files.",
+    s: [
+      ["Azure Files shares can be accessed using the SMB protocol.", true],
+      ["Azure Files is a NoSQL database for key-value data.", false],
+      ["Azure File Sync can cache Azure file shares on on-premises Windows Servers.", true]
+    ],
+    e: "1 Yes: Azure Files provides SMB (and NFS) file shares. 2 No: it is a file share service; key-value data belongs in Table storage or Cosmos DB. 3 Yes: Azure File Sync keeps frequently used files cached on local Windows Servers."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Cosmos DB.",
+    s: [
+      ["Azure Cosmos DB supports several APIs, including MongoDB and Apache Cassandra.", true],
+      ["Azure Cosmos DB indexes every property of every item by default.", true],
+      ["Azure Cosmos DB offers its low-latency guarantees only for accounts in a single region.", false]
+    ],
+    e: "1 Yes: APIs include NoSQL, MongoDB, Apache Cassandra, Apache Gremlin, Table and PostgreSQL. 2 Yes: automatic indexing is on by default and can be tuned. 3 No: the latency SLA applies in every region of a globally distributed account."
+  },
+  {
+    t: "yesno",
+    q: "Consider these statements about Azure Table storage.",
+    s: [
+      ["Azure Table storage is a relational database that supports foreign keys.", false],
+      ["Each entity in a table has a PartitionKey and a RowKey.", true],
+      ["Entities in the same table can have different properties.", true]
+    ],
+    e: "1 No: Table storage is a NoSQL key-attribute store with no foreign keys or joins. 2 Yes: PartitionKey and RowKey together form the unique key. 3 Yes: tables are schemaless beyond the key and system properties."
+  },
+  {
+    t: "match",
+    q: "Match each requirement to the most appropriate Azure Storage service.",
+    c: ["Azure Blob Storage", "Azure Files", "Azure Table storage", "Azure Queue storage"],
+    s: [
+      ["Store product photos that a website serves", 0],
+      ["Replace an on-premises SMB file share", 1],
+      ["Store user preferences looked up by a key", 2],
+      ["Pass messages between application components asynchronously", 3]
+    ],
+    e: "Blob Storage is object storage for files such as images. Azure Files provides SMB/NFS shares. Table storage is a key-value store for structured, non-relational data. Queue storage holds messages for decoupled processing."
+  },
+  {
+    t: "match",
+    q: "Match each application to the Azure Cosmos DB API it should use.",
+    c: ["API for NoSQL", "API for MongoDB", "API for Apache Cassandra", "API for Apache Gremlin", "API for Table"],
+    s: [
+      ["A new app that stores JSON documents and queries them with SQL-like syntax", 0],
+      ["An existing app that uses MongoDB drivers", 1],
+      ["An existing app that uses CQL queries", 2],
+      ["A recommendation engine that traverses relationships between products and customers", 3],
+      ["An Azure Table storage app that now needs global distribution", 4]
+    ],
+    e: "API for NoSQL is the native document API. The MongoDB and Cassandra APIs are wire-compatible with those databases. Gremlin is for graph traversal, and API for Table upgrades Azure Table storage apps."
+  },
+  {
+    t: "match",
+    q: "Match each Blob Storage access tier to the data it suits best.",
+    c: ["Hot", "Cool", "Cold", "Archive"],
+    s: [
+      ["Website images read thousands of times a day", 0],
+      ["Monthly reports read occasionally and kept for at least 30 days", 1],
+      ["Rarely read data kept at least 90 days that must still be readable immediately", 2],
+      ["Compliance backups kept for years that can wait hours to be retrieved", 3]
+    ],
+    e: "Hot has the lowest access cost for frequent reads. Cool (30-day minimum) and cold (90-day minimum) are cheaper online tiers for less frequent access. Archive is offline, cheapest to store, and needs rehydration before reading."
+  },
+  {
+    t: "match",
+    q: "Match each Azure Cosmos DB consistency level to its description.",
+    c: ["Strong", "Bounded staleness", "Session", "Eventual"],
+    s: [
+      ["Reads always return the most recent committed write", 0],
+      ["Reads can lag writes by at most a configured number of versions or time", 1],
+      ["A client always reads its own writes; this is the default level", 2],
+      ["Reads may arrive out of order, with the lowest latency", 3]
+    ],
+    e: "Strong gives linearizable reads. Bounded staleness limits lag to K versions or T time. Session (the default) guarantees read-your-writes within a session. Eventual offers no ordering guarantee but the best performance."
+  },
+  {
+    t: "complete",
+    q: "To use an Azure Storage account as a data lake with real directories and POSIX ACLs, enable the {0} on the account.",
+    b: [
+      { o: ["hierarchical namespace", "static website", "large file shares", "blob versioning"], a: 0 }
+    ],
+    e: "Enabling the hierarchical namespace turns Blob Storage into Azure Data Lake Storage Gen2, with directories, atomic renames and POSIX-style ACLs."
+  },
+  {
+    t: "complete",
+    q: "In Azure Cosmos DB, throughput is provisioned and measured in {0}.",
+    b: [
+      { o: ["request units (RUs)", "DTUs", "vCores", "capacity units (CUs)"], a: 0 }
+    ],
+    e: "Request units normalise the CPU, memory and I/O cost of operations. DTUs and vCores are Azure SQL Database purchasing models, and capacity units measure Microsoft Fabric capacity."
+  },
+  {
+    t: "complete",
+    q: "An {0} blob is optimised for adding data to the end, such as logs, while a {1} blob is optimised for random reads and writes, such as virtual machine disks.",
+    b: [
+      { o: ["append", "block", "page"], a: 0 },
+      { o: ["append", "block", "page"], a: 2 }
+    ],
+    e: "Append blobs only allow adding blocks to the end, which suits logging. Page blobs are collections of 512-byte pages for random access, used for VM disks. Block blobs suit general files."
+  },
+  {
+    t: "complete",
+    q: "Storage that keeps copies in three availability zones in the primary region and also replicates to a secondary region is {0}.",
+    b: [
+      { o: ["geo-zone-redundant storage (GZRS)", "zone-redundant storage (ZRS)", "geo-redundant storage (GRS)", "locally redundant storage (LRS)"], a: 0 }
+    ],
+    e: "GZRS combines ZRS in the primary region with asynchronous replication to a secondary region. GRS uses LRS (one datacenter) in the primary region, ZRS stays in one region, and LRS stays in one datacenter."
   }
 ]);
