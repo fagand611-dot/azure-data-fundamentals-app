@@ -482,5 +482,107 @@ DP900.add(3, 'nrel-', [
     o: ["API for Apache Gremlin", "API for Table", "API for Apache Cassandra"],
     a: [0],
     e: "Gremlin is a graph API: people are vertices and relationships are edges, so multi-hop traversals are efficient. Table is key-value, and Cassandra is column-family."
+  },
+  {
+    q: "What is the maximum amount of data that a single logical partition (one partition key value) can hold in Azure Cosmos DB?",
+    o: ["20 GB", "1 GB", "10 TB", "Unlimited"],
+    a: [0],
+    e: "Each logical partition can store up to 20 GB. Choose a partition key with enough distinct values that no single value grows beyond this, or use a synthetic or hierarchical partition key."
+  },
+  {
+    q: "A company must store financial records so that they cannot be modified or deleted for seven years, to meet regulatory requirements. Which Blob Storage feature should it use?",
+    o: ["Immutable storage with a time-based retention policy (WORM)", "Soft delete", "The cool access tier", "Locally redundant storage"],
+    a: [0],
+    e: "Immutable storage makes blobs write once, read many (WORM) for a retention period, so nobody can modify or delete them. Soft delete only lets you recover deleted blobs, and access tiers and redundancy do not prevent changes."
+  },
+  {
+    q: "Which Azure Storage feature can serve HTML, CSS and JavaScript files directly from a container named $web?",
+    o: ["Static website hosting", "Azure File Sync", "Table storage", "Lifecycle management"],
+    a: [0],
+    e: "Static website hosting in Blob Storage serves static content from the $web container over a public web endpoint, with no web server to manage."
+  },
+  {
+    q: "Which Blob Storage feature automatically keeps previous versions of a blob whenever it is overwritten, so earlier content can be restored?",
+    o: ["Blob versioning", "Archive tier", "Shared access signatures", "Hierarchical namespace"],
+    a: [0],
+    e: "With blob versioning enabled, each write creates a new version and keeps the old ones, so you can restore content after accidental changes. The other features do not track previous content."
+  },
+  {
+    q: "In Azure Data Lake Storage Gen2, which mechanism lets you grant a user access to one specific directory rather than the whole storage account?",
+    o: ["POSIX-style access control lists (ACLs)", "Storage account access keys", "Blob access tiers", "Geo-redundant storage"],
+    a: [0],
+    e: "ADLS Gen2 supports ACLs on directories and files, which allow fine-grained permissions. Azure RBAC roles apply at the account or container level, and account keys grant full access to everything."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Table storage supports joins between tables.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Table storage is a NoSQL key-value store with no joins, foreign keys or stored procedures. Data that is often read together is usually denormalized into the same entity or partition."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Cosmos DB can replicate data automatically to any number of Azure regions you add to the account.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Global distribution is built in: you add regions to the account and Cosmos DB replicates data to them automatically, without downtime."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Data Lake Storage Gen2 is built on Azure Blob Storage.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. ADLS Gen2 is Blob Storage with the hierarchical namespace enabled, so it keeps Blob Storage features such as access tiers, redundancy options and lifecycle management."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nDifferent containers in the same Azure Cosmos DB account can use different APIs, such as MongoDB for one container and Gremlin for another.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. The API is chosen when the account is created and applies to the whole account. To use another API, create another Cosmos DB account."
+  },
+  {
+    q: "Which two Azure services store non-relational data? (Choose two.)",
+    o: ["Azure Blob Storage", "Azure Table storage", "Azure SQL Database", "Azure Database for PostgreSQL", "Azure SQL Managed Instance"],
+    a: [0, 1],
+    e: "Blob Storage (objects) and Table storage (key-value entities) are non-relational. Azure SQL Database, Azure Database for PostgreSQL and SQL Managed Instance are relational databases."
+  },
+  {
+    q: "Which two are consistency levels offered by Azure Cosmos DB? (Choose two.)",
+    o: ["Bounded staleness", "Consistent prefix", "Read committed", "Serializable", "Snapshot isolation"],
+    a: [0, 1],
+    e: "Cosmos DB offers five levels: Strong, Bounded staleness, Session, Consistent prefix and Eventual. Read committed, Serializable and Snapshot are transaction isolation levels in relational databases."
+  },
+  {
+    q: "Which two actions can reduce the cost of storing infrequently used data in Azure Blob Storage? (Choose two.)",
+    o: ["Move the blobs to the cool, cold or archive tier", "Create a lifecycle management rule that tiers blobs by age", "Change the account from LRS to GZRS", "Move the blobs into the premium performance tier", "Enable a public access level on the container"],
+    a: [0, 1],
+    e: "Cooler tiers cost less per GB, and lifecycle rules tier data automatically. GZRS and premium storage cost more, and public access affects security, not cost."
+  },
+  {
+    q: "Throughput that is dedicated to a single Azure Cosmos DB container is provisioned at which level?",
+    o: ["Container", "Database", "Item"],
+    a: [0],
+    k: 1,
+    e: "Throughput can be provisioned on a container (dedicated to it) or on a database (shared by its containers). It cannot be provisioned on individual items."
+  },
+  {
+    q: "Which Blob Storage access tier requires data to be stored for at least 90 days to avoid an early deletion charge?",
+    o: ["Cold", "Cool", "Archive"],
+    a: [0],
+    k: 1,
+    e: "Minimum storage durations are 30 days for cool, 90 days for cold and 180 days for archive. The hot tier has no minimum."
+  },
+  {
+    q: "Which Azure Files feature takes a read-only, point-in-time copy of a file share, so you can restore files after accidental changes?",
+    o: ["Share snapshots", "Blob versioning", "Lifecycle management"],
+    a: [0],
+    e: "Share snapshots capture the state of an Azure file share at a point in time. Blob versioning and lifecycle management apply to Blob Storage."
+  },
+  {
+    q: "In Azure Cosmos DB for NoSQL, what is an item?",
+    o: ["A single JSON document stored in a container", "A group of containers", "The unit used to measure throughput"],
+    a: [0],
+    e: "Items are the individual JSON documents stored in a container. Databases group containers, and Request Units measure throughput."
   }
 ]);

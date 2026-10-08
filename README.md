@@ -4,13 +4,13 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 
 ## Features
 
-- **385 exam-style questions** across all four skill areas, weighted like the real exam:
+- **464 exam-style questions** across all four skill areas, weighted like the real exam:
   | Skill area | Exam weight | Questions |
   |---|---|---|
-  | Describe core data concepts | 25–30% | 98 |
-  | Relational data on Azure | 20–25% | 92 |
-  | Non-relational data on Azure | 15–20% | 79 |
-  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 116 |
+  | Describe core data concepts | 25–30% | 118 |
+  | Relational data on Azure | 20–25% | 111 |
+  | Non-relational data on Azure | 15–20% | 95 |
+  | Analytics workloads on Azure (incl. Microsoft Fabric) | 25–30% | 140 |
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
 - **Practice mode**: choose skill areas, question source (all, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
 - **Explanations for every question** cover why the right answer is right and why the distractors are wrong.

@@ -703,5 +703,155 @@ DP900.add(4, 'ana-', [
     o: ["Azure IoT Hub", "Azure Event Hubs", "Azure Data Factory"],
     a: [0],
     e: "IoT Hub supports per-device identity and two-way (cloud-to-device) messaging. Event Hubs ingests events at scale but has no device management, and Data Factory orchestrates batch data movement."
+  },
+  {
+    q: "Which Microsoft Fabric feature groups workspaces by business area, such as Sales or Finance, so they can be governed together?",
+    o: ["Domains", "Shortcuts", "Mirroring", "Eventstreams"],
+    a: [0],
+    e: "Fabric domains organise workspaces into business areas so administrators can delegate governance and users can discover data by area. Shortcuts reference data, mirroring replicates databases, and eventstreams route events."
+  },
+  {
+    q: "Which Azure Data Factory activity runs a set of activities once for each item in a collection, such as each file name in a list?",
+    o: ["ForEach", "Copy data", "Lookup", "Wait"],
+    a: [0],
+    e: "ForEach is a control-flow activity that iterates over a collection and runs inner activities for each item. Copy data moves data, Lookup reads a value or dataset, and Wait pauses a pipeline."
+  },
+  {
+    q: "In Apache Spark, what is a DataFrame?",
+    o: ["A distributed collection of data organised into named columns, like a table", "A Power BI visual", "A storage account container", "A type of SQL Server index"],
+    a: [0],
+    e: "A DataFrame is Spark's main data structure: a table-like dataset partitioned across the cluster and processed in parallel with PySpark, Scala, R or Spark SQL."
+  },
+  {
+    q: "Which Delta Lake feature lets you query a table as it was at an earlier version or point in time?",
+    o: ["Time travel", "Partition pruning", "Z-ordering", "Schema-on-read"],
+    a: [0],
+    e: "Delta Lake keeps a transaction log of every change, so you can read older versions (for example `VERSION AS OF 3`) to audit changes or recover data."
+  },
+  {
+    q: "In a Power BI model, what is the difference between a calculated column and a measure?",
+    o: ["A calculated column is computed for each row and stored in the model; a measure is calculated at query time based on the current filters", "A measure is stored for each row; a calculated column is computed at query time", "Calculated columns can only contain text", "There is no difference"],
+    a: [0],
+    e: "Calculated columns are evaluated row by row during refresh and take up memory. Measures are evaluated on demand in the filter context of each visual, which makes them the right choice for aggregations like totals and ratios."
+  },
+  {
+    q: "Which data model design does Microsoft recommend for Power BI semantic models?",
+    o: ["Star schema", "A single flat table with every column", "Fully normalized third normal form", "A graph of nodes and edges"],
+    a: [0],
+    e: "Star schemas, with fact tables related to dimension tables, give the best performance and the most intuitive filtering in Power BI. Flat tables and highly normalized designs lead to larger models or complex relationships."
+  },
+  {
+    q: "In a Power BI model, what is the cardinality of the relationship between a Customer dimension table and a Sales fact table?",
+    o: ["One-to-many (one customer, many sales)", "Many-to-many", "One-to-one", "Zero-to-zero"],
+    a: [0],
+    e: "Each customer appears once in the dimension but can have many rows in the fact table, so the relationship is one-to-many, and filters flow from the dimension to the fact table."
+  },
+  {
+    q: "Which Power BI feature lets a user right-click a data point and go to a detail page that is automatically filtered to that item?",
+    o: ["Drillthrough", "Q&A", "Slicer sync", "Row-level security"],
+    a: [0],
+    e: "Drillthrough pages are filtered by the item the user selected, such as a specific product, to show detail. Q&A answers natural language questions, and row-level security restricts data."
+  },
+  {
+    q: "Which Power BI visual shows hierarchical data as nested rectangles sized by value?",
+    o: ["Treemap", "Line chart", "Card", "Gauge"],
+    a: [0],
+    e: "Treemaps display parts of a whole as nested rectangles whose size represents value, which helps spot the largest contributors among many categories."
+  },
+  {
+    q: "In Azure Stream Analytics, which input type lets you join a stream with slowly changing lookup data, such as device names stored in Blob Storage or SQL Database?",
+    o: ["Reference data input", "Stream input", "Output alias", "Tumbling window"],
+    a: [0],
+    e: "Reference data inputs hold static or slowly changing data that the query joins with events to enrich them. Stream inputs carry the events themselves."
+  },
+  {
+    q: "In Azure Event Hubs, what allows several applications to read the same event stream independently, each at its own pace?",
+    o: ["Consumer groups", "Access tiers", "Linked services", "Shortcuts"],
+    a: [0],
+    e: "Each consumer group is an independent view of the event stream with its own read positions, so a dashboard and an archiving job can read the same events separately."
+  },
+  {
+    q: "Which Kusto Query Language (KQL) operator aggregates rows, for example counting events per device?",
+    o: ["summarize", "where", "project", "take"],
+    a: [0],
+    e: "`summarize` groups rows and computes aggregates such as `count()` or `avg()`. `where` filters rows, `project` selects columns, and `take` returns a sample of rows."
+  },
+  {
+    q: "Which Azure HDInsight cluster type is designed for building real-time streaming data pipelines with a publish-subscribe model?",
+    o: ["Apache Kafka", "Apache HBase", "Interactive Query (Hive LLAP)", "ML Services"],
+    a: [0],
+    e: "Kafka clusters provide a distributed publish-subscribe log for streaming pipelines. HBase is a NoSQL store, and Interactive Query is for fast Hive SQL queries."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nReports created in Power BI Desktop can be published to the Power BI service.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Publishing uploads the report and its semantic model to a workspace in the Power BI service, where it can be shared and pinned to dashboards."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nThe SQL analytics endpoint of a Microsoft Fabric lakehouse supports INSERT and UPDATE statements.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. The lakehouse SQL analytics endpoint is read-only. You change lakehouse tables with Spark, pipelines or dataflows, or use a Fabric Warehouse for full T-SQL writes."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Event Hubs retains events for a configurable period, so consumers can read them after they arrive.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Event Hubs stores events for a retention period (for example 1 to 7 days on Standard, longer on Premium and Dedicated), so consumers can read and replay events."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure Data Factory mapping data flows require you to write Spark code.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. Mapping data flows are designed visually. Data Factory generates and runs the Spark code for you on managed clusters."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA Power BI semantic model can be used by more than one report.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Several reports can connect to the same shared semantic model, which keeps measures and definitions consistent across the organisation."
+  },
+  {
+    q: "Which two tools can you use to create and edit Power BI reports? (Choose two.)",
+    o: ["Power BI Desktop", "The Power BI service in a web browser", "SQL Server Management Studio", "Azure Storage Explorer", "Azure Data Box"],
+    a: [0, 1],
+    e: "Reports are authored in Power BI Desktop and can also be created and edited in the Power BI service. SSMS manages databases, Storage Explorer manages storage accounts, and Data Box is an offline transfer device."
+  },
+  {
+    q: "Which two Azure services are used to ingest streaming event data? (Choose two.)",
+    o: ["Azure Event Hubs", "Azure IoT Hub", "Azure Data Box", "Azure Files", "Azure Synapse dedicated SQL pool"],
+    a: [0, 1],
+    e: "Event Hubs and IoT Hub receive high volumes of events in real time. Data Box moves data offline, Azure Files provides file shares, and a dedicated SQL pool is a data warehouse."
+  },
+  {
+    q: "Which two statements about Delta Lake tables are correct? (Choose two.)",
+    o: ["They support ACID transactions on data lake files", "They store data as Parquet files with a transaction log", "They can only be read by Power BI", "They store data as CSV files", "They require a relational database server"],
+    a: [0, 1],
+    e: "Delta Lake adds a transaction log to Parquet files, enabling ACID transactions, updates, deletes and time travel. Many engines (Spark, SQL endpoints, Power BI Direct Lake) read Delta tables, and no database server is needed."
+  },
+  {
+    q: "Which Stream Analytics window counts events in 10-minute windows that start every 5 minutes, so the windows overlap?",
+    o: ["Hopping window", "Tumbling window", "Session window"],
+    a: [0],
+    e: "Hopping windows have a fixed size and a hop interval; when the hop is shorter than the size, windows overlap. Tumbling windows never overlap, and session windows depend on gaps between events."
+  },
+  {
+    q: "In the medallion architecture, which layer stores raw data exactly as it was ingested from source systems?",
+    o: ["Bronze", "Silver", "Gold"],
+    a: [0],
+    k: 1,
+    e: "Bronze holds raw ingested data, silver holds cleansed and conformed data, and gold holds aggregated, business-ready data."
+  },
+  {
+    q: "Which Microsoft Fabric item is designed to store and query large volumes of streaming telemetry using KQL?",
+    o: ["Eventhouse", "Warehouse", "Lakehouse"],
+    a: [0],
+    e: "An eventhouse hosts KQL databases optimised for time-series and event data. Warehouses are queried with T-SQL, and lakehouses are mainly used with Spark and Delta files."
   }
 ]);

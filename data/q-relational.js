@@ -560,5 +560,124 @@ DP900.add(2, 'rel-', [
     o: ["Dynamic data masking", "Transparent data encryption", "Row-level security"],
     a: [0],
     e: "Dynamic data masking hides values in query results for non-privileged users. TDE encrypts data at rest, and row-level security controls which rows a user can see."
+  },
+  {
+    q: "You need an Azure SQL database to keep running if one datacenter in its Azure region fails. Which option provides this protection?",
+    o: ["Zone-redundant configuration", "Long-term backup retention", "Dynamic data masking", "Elastic pool"],
+    a: [0],
+    e: "A zone-redundant database places replicas in different availability zones within the region, so it survives the loss of one zone (datacenter). Backup retention, masking and elastic pools do not provide high availability."
+  },
+  {
+    q: "Which TCP port do client applications use to connect to Azure SQL Database?",
+    o: ["1433", "443", "3306", "5432"],
+    a: [0],
+    e: "Azure SQL Database listens on TCP port 1433, so outbound access to 1433 must be allowed. 3306 is the MySQL default, 5432 the PostgreSQL default, and 443 is HTTPS."
+  },
+  {
+    q: "Which data type should you use in Azure SQL Database to store names that may contain characters from many languages, such as Japanese and Arabic?",
+    o: ["NVARCHAR", "VARCHAR with a Latin1 collation", "INT", "BIT"],
+    a: [0],
+    e: "NVARCHAR stores Unicode text, which supports characters from all languages. VARCHAR with a non-UTF-8 collation stores characters from a single code page, and INT and BIT store numbers."
+  },
+  {
+    q: "Which Azure Database for MySQL flexible server compute tier is the most cost-effective for development workloads that need full CPU only occasionally?",
+    o: ["Burstable", "General Purpose", "Business Critical", "Memory Optimized"],
+    a: [0],
+    e: "The Burstable tier provides a low baseline of CPU with the ability to burst when needed, which suits dev/test and low-traffic apps. General Purpose and Business Critical provide sustained performance at a higher cost."
+  },
+  {
+    q: "Which Azure Database for PostgreSQL feature creates read-only copies of the server to scale out read-heavy workloads?",
+    o: ["Read replicas", "Point-in-time restore", "Maintenance windows", "Firewall rules"],
+    a: [0],
+    e: "Read replicas asynchronously copy data from the primary server, and applications can send read queries to them. Point-in-time restore recovers data, and maintenance windows and firewall rules do not add read capacity."
+  },
+  {
+    q: "Which rule does a table in first normal form (1NF) follow?",
+    o: ["Each column holds a single, atomic value and there are no repeating groups", "Every table must have at least ten columns", "All data must be stored in one table", "Columns can contain comma-separated lists of values"],
+    a: [0],
+    e: "First normal form requires atomic values. For example, a PhoneNumbers column holding '555-1234, 555-9876' breaks 1NF; those values belong in a separate related table."
+  },
+  {
+    q: "What does `SELECT DISTINCT City FROM Customers;` return?",
+    o: ["Each city that appears in the Customers table, listed once", "Every customer row, sorted by city", "The number of customers in each city", "Only cities with a single customer"],
+    a: [0],
+    e: "DISTINCT removes duplicate rows from the result, so each city appears once. Counting per city would need COUNT with GROUP BY."
+  },
+  {
+    q: "What does `SELECT COUNT(*) FROM Orders WHERE Status = 'Open';` return?",
+    o: ["The number of orders whose status is Open", "All columns of open orders", "The total value of open orders", "The first open order"],
+    a: [0],
+    e: "COUNT(*) is an aggregate function that returns the number of rows matching the WHERE clause. Totalling values would use SUM, and returning the rows would use SELECT with column names."
+  },
+  {
+    q: "Which T-SQL query returns the five most expensive products?",
+    o: ["SELECT TOP 5 Name, Price FROM Products ORDER BY Price DESC;", "SELECT Name, Price FROM Products WHERE Price = 5;", "SELECT TOP 5 Name, Price FROM Products ORDER BY Price ASC;", "SELECT COUNT(5) FROM Products;"],
+    a: [0],
+    e: "TOP 5 limits the result to five rows, and ORDER BY Price DESC sorts from most to least expensive. Sorting ascending would return the cheapest products."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nAzure SQL Database supports cross-database queries using three-part names (database.schema.table) in the same way as on-premises SQL Server.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. A single Azure SQL Database is scoped to one database, so three-part names that reference other databases are not supported. Azure SQL Managed Instance supports cross-database queries."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nThe Azure SQL Database Hyperscale tier supports databases larger than 4 TB.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Hyperscale supports databases up to about 128 TB. The General Purpose and Business Critical tiers have much smaller limits (around 4 TB for most configurations)."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nYou can stop an Azure Database for MySQL flexible server to stop paying for compute while it is not needed.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Flexible server supports stop and start. While the server is stopped you pay only for storage, which helps reduce dev/test costs."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA view in Azure SQL Database always stores its own separate copy of the data.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. A standard view is a saved query. Data stays in the underlying tables and the view returns it when queried. Only indexed (materialised) views store results."
+  },
+  {
+    q: "Which two Azure services are platform as a service (PaaS) relational databases? (Choose two.)",
+    o: ["Azure SQL Database", "Azure Database for PostgreSQL", "SQL Server on Azure Virtual Machines", "Azure Cosmos DB for NoSQL", "Azure Table storage"],
+    a: [0, 1],
+    e: "Azure SQL Database and Azure Database for PostgreSQL are managed relational PaaS services. SQL Server on Azure VMs is IaaS, and Cosmos DB for NoSQL and Table storage are non-relational."
+  },
+  {
+    q: "Which two statements about views are correct? (Choose two.)",
+    o: ["A view can join several tables and present the result as a single virtual table", "A view can be queried with a SELECT statement just like a table", "A view automatically creates indexes on every column", "A view stores a backup of the table", "A view encrypts the columns it returns"],
+    a: [0, 1],
+    e: "Views are saved queries that can combine tables and are queried like tables. They do not create indexes, back up data or encrypt columns."
+  },
+  {
+    q: "Which two features are provided by Azure SQL Database without any additional configuration? (Choose two.)",
+    o: ["Automated backups", "Transparent data encryption", "Long-term retention of backups for 10 years", "Private endpoint connectivity", "Always Encrypted for all columns"],
+    a: [0, 1],
+    e: "New Azure SQL databases get automated backups (with point-in-time restore) and TDE by default. Long-term retention, private endpoints and Always Encrypted must be configured."
+  },
+  {
+    q: "Which category of SQL statement is `TRUNCATE TABLE Orders;` classified as in SQL Server and Azure SQL?",
+    o: ["DDL", "DML", "DCL"],
+    a: [0],
+    k: 1,
+    e: "Microsoft classifies TRUNCATE TABLE as a DDL statement. It removes all rows by deallocating data pages rather than deleting row by row, and it keeps the table structure. DELETE is the DML statement for removing rows."
+  },
+  {
+    q: "Which Azure SQL Database service tier is the budget-oriented choice for most business workloads, using remote storage?",
+    o: ["General Purpose", "Business Critical", "Hyperscale"],
+    a: [0],
+    e: "General Purpose offers balanced compute and storage at a lower cost using remote storage. Business Critical uses local SSD and extra replicas for low latency and resilience, and Hyperscale targets very large databases."
+  },
+  {
+    q: "You need to find all customers who live in either London or Paris. Which WHERE clause is correct?",
+    o: ["WHERE City IN ('London', 'Paris')", "WHERE City = 'London' AND City = 'Paris'", "WHERE City LIKE 'London, Paris'"],
+    a: [0],
+    e: "IN matches any value in the list. Using AND would require City to equal both values at once, which is impossible, and the LIKE pattern looks for the literal text 'London, Paris'."
   }
 ]);

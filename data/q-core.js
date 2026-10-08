@@ -597,5 +597,130 @@ DP900.add(1, 'core-', [
     o: ["Batch processing", "Stream processing", "Transaction processing"],
     a: [0],
     e: "Collecting a day's data and processing it together on a schedule is batch processing. Stream processing handles each event as it arrives, and transaction processing records the individual orders in the operational system."
+  },
+  {
+    q: "What is a data mart?",
+    o: ["A subset of a data warehouse focused on a single business area, such as sales or finance", "A marketplace for buying third-party datasets", "A transactional database for a single application", "A backup copy of a data lake"],
+    a: [0],
+    e: "A data mart is a smaller, subject-focused analytical store, often built from the enterprise data warehouse, that serves one department or business function. It is not a marketplace, an OLTP database or a backup."
+  },
+  {
+    q: "Which job role typically uses statistics and machine learning to build predictive models from data?",
+    o: ["Data scientist", "Database administrator", "Data analyst", "Network engineer"],
+    a: [0],
+    e: "Data scientists apply statistical techniques and machine learning to build predictive and prescriptive models. Data analysts focus on describing and visualising data, and database administrators manage database operations."
+  },
+  {
+    q: "In database terms, what is a transaction?",
+    o: ["A sequence of operations treated as a single logical unit of work that either fully succeeds or fully fails", "Any SELECT query that returns more than one row", "A file transferred between two storage accounts", "A scheduled report sent by email"],
+    a: [0],
+    e: "A transaction groups one or more operations so they are applied together or not at all, which is the basis of the ACID guarantees. Queries, file transfers and reports are not transactions in this sense."
+  },
+  {
+    q: "What does denormalization mean?",
+    o: ["Deliberately combining data into fewer tables, accepting some duplication, to make read queries simpler and faster", "Splitting tables to eliminate all duplicate data", "Encrypting data so it cannot be read", "Removing all indexes from a database"],
+    a: [0],
+    e: "Denormalization reverses some normalization, for example by copying category names into a product dimension, so analytical queries need fewer joins. Splitting tables to remove duplication is normalization."
+  },
+  {
+    q: "Temperature readings recorded with a timestamp every minute from a sensor are an example of which kind of data?",
+    o: ["Time-series data", "Master data", "Graph data", "Reference data"],
+    a: [0],
+    e: "Time-series data is a sequence of values indexed by time, such as telemetry, stock prices or metrics. It is common in IoT and is often analysed with tools such as Azure Data Explorer or Fabric Real-Time Intelligence."
+  },
+  {
+    q: "Which kind of data store organises files in folders and subfolders, like the file system on a computer?",
+    o: ["A hierarchical file store, such as a data lake with a hierarchical namespace", "A key-value store", "A graph database", "A column-family database"],
+    a: [0],
+    e: "File stores arrange files in a hierarchy of directories. Azure Data Lake Storage Gen2 adds a true hierarchical namespace on top of Blob Storage. Key-value, graph and column-family stores organise data in other ways."
+  },
+  {
+    q: "Which type of data store is best for keeping raw data of all types, including images, logs and CSV files, at low cost for later analysis?",
+    o: ["Data lake", "Data mart", "OLTP relational database", "Power BI semantic model"],
+    a: [0],
+    e: "A data lake holds raw structured, semi-structured and unstructured files cheaply until they are needed. Data marts and semantic models hold curated data, and an OLTP database is designed for transactions."
+  },
+  {
+    q: "How does near real-time processing differ from real-time processing?",
+    o: ["Near real-time results arrive within seconds or minutes, while real-time results arrive within milliseconds", "Near real-time processing only runs once per day", "Real-time processing always uses batch jobs", "There is no difference in latency"],
+    a: [0],
+    e: "Real-time systems respond in milliseconds (for example, fraud blocking), while near real-time systems accept a short delay of seconds or minutes (for example, a dashboard refreshed every minute). Both are forms of stream processing, not daily batches."
+  },
+  {
+    q: "Which two file formats store data in a columnar layout? (Choose two.)",
+    o: ["Parquet", "ORC", "Avro", "CSV", "JSON"],
+    a: [0, 1],
+    e: "Parquet and ORC are columnar formats designed for analytics. Avro is a row-based binary format, and CSV and JSON are row-oriented text formats."
+  },
+  {
+    q: "Which two are characteristics of an OLTP workload? (Choose two.)",
+    o: ["Many concurrent, small read and write operations", "Highly normalized tables", "Mostly large aggregate queries over years of history", "Data loaded once per night in bulk", "Star schema with fact and dimension tables"],
+    a: [0, 1],
+    e: "OLTP systems handle many short transactions on normalized tables. Large aggregate queries, nightly bulk loads and star schemas are characteristics of analytical (OLAP) workloads."
+  },
+  {
+    q: "Which two are examples of structured data? (Choose two.)",
+    o: ["An Employees table with EmployeeID, Name and HireDate columns", "A CSV export of invoices with the same columns in every row", "A recording of a team meeting", "A folder of scanned receipts", "A set of JSON documents with varying fields"],
+    a: [0, 1],
+    e: "Structured data has a fixed schema of rows and columns, like a relational table or a consistent CSV file. Recordings and scanned images are unstructured, and JSON with varying fields is semi-structured."
+  },
+  {
+    q: "Which two file formats are human-readable text formats? (Choose two.)",
+    o: ["CSV", "JSON", "Parquet", "Avro", "ORC"],
+    a: [0, 1],
+    e: "CSV and JSON (and XML) are plain text that you can open and read in any text editor. Parquet, Avro and ORC are binary formats optimised for storage and processing."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA primary key column can contain NULL values.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. A primary key must uniquely identify every row, so it cannot contain NULLs or duplicate values."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nData must be transformed into a fixed schema before it can be stored in a data lake.",
+    o: ["Yes", "No"],
+    a: [1],
+    k: 1,
+    e: "No. A data lake stores data in its raw, native format and applies a schema when the data is read (schema-on-read)."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA graph database is optimised for queries that traverse relationships between entities.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Graph databases store relationships as edges, so queries such as 'friends of friends' or 'shortest path' are efficient."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nIn ETL, data is transformed before it is loaded into the target data store.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. ETL extracts, then transforms in a processing engine, then loads. In ELT, data is loaded first and transformed inside the target store."
+  },
+  {
+    q: "Select Yes if the statement is true. Otherwise, select No.\n\nA data analyst is usually responsible for building interactive reports and dashboards.",
+    o: ["Yes", "No"],
+    a: [0],
+    k: 1,
+    e: "Yes. Data analysts model and visualise data to answer business questions, typically using Power BI. Pipelines are the data engineer's job, and database operations are the DBA's."
+  },
+  {
+    q: "Which role is MOST likely to create a Power BI semantic model and report for the sales team?",
+    o: ["Data analyst", "Database administrator", "Data engineer"],
+    a: [0],
+    e: "Data analysts build semantic models, measures and reports. Data engineers prepare the data that feeds them, and database administrators keep the databases secure and available."
+  },
+  {
+    q: "A company calculates the total revenue per region for each of the last five years. Which type of workload is this?",
+    o: ["Analytical", "Transactional", "Streaming"],
+    a: [0],
+    e: "Aggregating historical data to find patterns is an analytical workload. Transactional workloads record individual operations, and streaming workloads process events as they arrive."
+  },
+  {
+    q: "Which type of analytics is a dashboard showing last quarter's sales by product?",
+    o: ["Descriptive", "Predictive", "Prescriptive"],
+    a: [0],
+    e: "Showing what has already happened is descriptive analytics. Predictive analytics forecasts future outcomes, and prescriptive analytics recommends actions."
   }
 ]);
