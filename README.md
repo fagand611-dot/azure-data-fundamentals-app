@@ -16,7 +16,7 @@ A mobile study app for the **Microsoft Azure Data Fundamentals (DP-900)** exam. 
 - **Progress by exam objective**: see your score on each of the 26 objectives and tap one to practise it.
 - **Exam simulation**: 40/50/60 questions, 45/60/90 minute timer (or untimed), mark-for-review flags, a question navigator, and a score out of 1000 with a 700 pass mark. Explanations appear after you end the exam.
 - **Practice mode**: choose skill areas, question source (all, exam outline only, not seen yet, last answered wrong, saved) and set size. **Submit each answer to see right away whether you got it and why.**
-- **Explanations for every question** cover why the right answer is right and why the distractors are wrong, followed by a **memory aid** (for example "LRS = Local, ZRS = Zones, GRS = Geo, GZRS = Geo + Zones") adapted from the course notes for the in28minutes *DP-900: Microsoft Azure Data Fundamentals in a Weekend* course. Where the course material is out of date (Hyperscale size, Cosmos DB serverless limits, the old "Core (SQL) API" name, Fabric's service model, MariaDB and Azure Data Studio retirements), the explanation says so.
+- **Explanations for every question** cover why the right answer is right and why the distractors are wrong, followed by a **memory aid** (for example "LRS = Local, ZRS = Zones, GRS = Geo, GZRS = Geo + Zones") and a **key terms** list defining each term with an example (193 definitions across 37 topics, such as each ACID property, SQL statement category, normal form, Cosmos DB API and consistency level). Key terms start open while practising and collapsed in reviews. The memory aids are adapted from the course notes for the in28minutes *DP-900: Microsoft Azure Data Fundamentals in a Weekend* course. Where the course material is out of date (Hyperscale size, Cosmos DB serverless limits, the old "Core (SQL) API" name, Fabric's service model, MariaDB and Azure Data Studio retirements), the explanation says so.
 - Question formats match the exam:
   - **Single answer:** 2, 3 or 4 options with one correct answer (2-option questions are Yes/No statements).
   - **Multiple answer:** 5 options with two correct answers ("Choose two"). You must pick both to get the mark.
@@ -59,7 +59,7 @@ js/app.js               App logic: exam, practice, results, review, progress
 data/bank.js            Question registry
 data/q-*.js             Questions, grouped by skill area
 data/outline.js         Skills outline and the objective each question tests
-data/tips.js            Memory aids shown under explanations (matched by objective and wording)
+data/tips.js            Memory aids and the key-terms glossary shown under explanations
 sw.js                   Service worker for offline use
 manifest.webmanifest    Install metadata and icons
 scripts/validate.js     Checks the question bank (run: node scripts/validate.js)

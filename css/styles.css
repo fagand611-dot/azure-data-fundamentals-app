@@ -469,6 +469,23 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
   gap: .25rem;
 }
 .explain .tip .label { color: var(--accent); }
+.explain .tip p { margin: 0; }
+.terms { border-top: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); margin-top: .35rem; padding-top: .35rem; }
+.terms summary {
+  cursor: pointer;
+  min-height: 2.25rem;
+  display: flex;
+  align-items: center;
+  font: 600 .78rem/1 var(--font-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.terms dl { margin: .25rem 0 .2rem; }
+.terms dt { font-weight: 600; color: var(--ink); margin-top: .7rem; }
+.terms dt:first-child { margin-top: 0; }
+.terms dd { margin: .1rem 0 0; color: var(--ink); }
+.terms .eg { display: block; margin-top: .15rem; color: var(--muted); font-size: .84rem; overflow-wrap: anywhere; }
 .explain .answer-line { margin: 0; font-size: .9rem; color: var(--muted); }
 .explain .answer-line b { color: var(--ink); font-family: var(--font-mono); }
 .explain p.e { margin: 0; white-space: pre-line; }

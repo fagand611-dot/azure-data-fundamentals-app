@@ -32,6 +32,7 @@
 
   // Memory aids from the course notes: each question gets the first matching rule in data/tips.js.
   var TIPS = (window.DP900 && window.DP900.tips) || [];
+  var GLOSSARY = (window.DP900 && window.DP900.glossary) || {};
   TIPS.forEach(function (t) { t.rx = t.re ? new RegExp(t.re, 'i') : null; });
   BANK.forEach(function (q) {
     // Match on the question, statements and match items only, so a wrong answer option can't pick the aid.
@@ -41,6 +42,7 @@
       if (t.sk && t.sk.indexOf(q.sk) === -1) continue;
       if (t.rx && !t.rx.test(text)) continue;
       q.tip = t.tip;
+      q.terms = (t.defs || []).reduce(function (all, key) { return all.concat(GLOSSARY[key] || []); }, []);
       break;
     }
   });
@@ -823,7 +825,19 @@
     return list.map(function (orig) { return LETTERS[order.indexOf(orig)]; }).sort().join(', ');
   }
 
-  function explainHtml(q, order, chosen) {
+  // Memory aid plus key-term definitions; terms start open while practising, collapsed in reviews.
+  function tipHtml(q, openTerms) {
+    if (!q.tip) return '';
+    var terms = q.terms && q.terms.length
+      ? '<details class="terms"' + (openTerms ? ' open' : '') + '><summary>Key terms (' + q.terms.length + ')</summary><dl>' +
+        q.terms.map(function (t) {
+          return '<dt>' + esc(t[0]) + '</dt><dd>' + esc(t[1]) + (t[2] ? '<span class="eg">e.g. ' + esc(t[2]) + '</span>' : '') + '</dd>';
+        }).join('') + '</dl></details>'
+      : '';
+    return '<div class="tip"><span class="label">Memory aid</span><p>' + esc(q.tip) + '</p>' + terms + '</div>';
+  }
+
+  function explainHtml(q, order, chosen, compact) {
     var parts = partsOf(q);
     var ok = isCorrect(q, chosen);
     var none = !hasAnswer(q, chosen);
@@ -841,7 +855,7 @@
         (!none && !ok ? ' · You chose: <b>' + letterList(q, order, chosen) + '</b>' : '') + '</p>';
     return '<section class="explain ' + cls + '"><header>' + head + '</header><div class="body">' + answerLine +
       '<p class="e">' + fmt(q.e) + '</p>' +
-      (q.tip ? '<p class="tip"><span class="label">Memory aid</span>' + esc(q.tip) + '</p>' : '') +
+      tipHtml(q, !compact) +
       '</div></section>';
   }
 
@@ -1015,7 +1029,7 @@
         objectiveHtml(x.q) +
         questionHtml(x.q, x.it.order, x.a, true) +
         answersHtml(x.q, x.it.order, x.a, true) +
-        explainHtml(x.q, x.it.order, x.a) +
+        explainHtml(x.q, x.it.order, x.a, true) +
         '</article>';
     });
     h += '<div class="btn-row" style="padding-top:1rem"><button class="btn" data-a="results">Back to results</button><button class="btn ghost" data-a="home">Home</button></div>';
